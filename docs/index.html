@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>HeartSpeak • Home</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
-  <!-- floating hearts -->
+  <!-- floating hearts animation layer -->
   <div class="heart-animation"></div>
 
-  <!-- wrap everything in your centered container -->
-  <div class="container">
-    <!-- logo -->
-    <header class="site-header">
-      <img src="img/logo.png" alt="HeartSpeak logo" class="logo" />
-    </header>
+  <!-- logo header -->
+  <header class="site-header">
+    <img src="img/logo.png" alt="HeartSpeak" class="logo"/>
+  </header>
 
-    <!-- hero -->
+  <!-- main hero section -->
+  <main class="container">
     <section class="hero">
       <h1>Speak from the Heart</h1>
       <p>Create heartfelt digital greetings in seconds.</p>
-      <!-- correct link: no “docs/” prefix -->
-      <button
-        id="dedicateBtn"
-        class="primary-btn"
-        onclick="location.href='register.html'"
-      >
+      <button class="primary-btn"
+              onclick="location.href='register.html'">
         Dedicate
       </button>
     </section>
-  </div>
+  </main>
 
   <script src="js/scripts.js"></script>
 </body>
