@@ -1,269 +1,94 @@
-/* ==============================
-   Global Theme Variables
-   ============================== */
-:root {
-  --blush-pink: #F8CDE0;
-  --rose-red: #E91E63;
-  --deep-magenta: #C2185B;
-  --gold-accent: #FFD700;
-  --off-white: #FFF1F2;
-  --bg-body: linear-gradient(135deg, var(--blush-pink), var(--off-white));
-  --bg-panel: rgba(255,255,255,0.9);
-}
-
-/* ==============================
-   Reset & Base Styles
-   ============================== */
+/* Reset some default styles */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
+/* Body styling */
 body {
-  font-family: 'Montserrat', sans-serif;
-  color: var(--deep-magenta);
-  background: var(--bg-body);
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* ==============================
-   Floating Heart Animation
-   ============================== */
-.heart-animation {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: -1;
-}
-.heart-animation .heart {
-  position: absolute;
-  bottom: -20px;
-  width: 20px; height: 20px;
-  background: var(--rose-red);
-  transform: rotate(-45deg);
-  opacity: 0.8;
-  animation: rise 4s ease-in infinite;
-}
-.heart-animation .heart::before,
-.heart-animation .heart::after {
-  content: '';
-  position: absolute;
-  width: 20px; height: 20px;
-  background: var(--rose-red);
-  border-radius: 50%;
-}
-.heart-animation .heart::before { top: -10px; left: 0; }
-.heart-animation .heart::after  { left: 10px; top: 0; }
-
-@keyframes rise {
-  0%   { transform: translateY(0) scale(0.5) rotate(-45deg); opacity:1; }
-  100% { transform: translateY(-120vh) scale(1.2) rotate(-45deg); opacity:0; }
-}
-
-/* ==============================
-   Layout Helpers
-   ============================== */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-.site-header .logo {
-  display: block;
-  margin: 0 auto 1.5rem;
-  width: 180px;
-}
-
-/* ==============================
-   Buttons
-   ============================== */
-.primary-btn {
-  background: var(--rose-red);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 1.25rem;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.primary-btn:hover {
-  background: var(--deep-magenta);
-}
-.secondary-btn {
-  background: var(--off-white);
-  border: 2px solid var(--rose-red);
-  color: var(--rose-red);
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-}
-.secondary-btn:hover {
-  background: var(--rose-red);
-  color: white;
-}
-
-/* ==============================
-   Form & Card Helpers
-   ============================== */
-.form-group { margin-bottom: 1rem; }
-input[type="text"],
-input[type="tel"],
-input[type="color"],
-input[type="number"],
-input[type="datetime-local"],
-select,
-textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid var(--rose-red);
-  border-radius: 0.75rem;
-  margin-top: 0.25rem;
-  font-size: 1rem;
-  background: white;
-}
-textarea { resize: vertical; }
-
-/* ==============================
-   Page-specific tweaks
-   ============================== */
-/* Hero */
-.hero {
-  background: var(--bg-panel);
-  padding: 3rem 2rem;
-  border-radius: 1.5rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.hero h1 {
-  font-family: 'Dancing Script', cursive;
-  font-size: 3rem;
-  color: var(--rose-red);
-  margin-bottom: 1rem;
-}
-.hero p {
-  font-size: 1.125rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Login */
-.login-container {
-  background: var(--bg-panel);
-  padding: 2rem;
-  border-radius: 1.25rem;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-/* Dashboard */
-.dashboard-header {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffe8f1;
+  color: #661a4d;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-.creations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
-  gap: 1rem;
-}
-.card {
-  background: var(--off-white);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.card img {
-  width: 100%;
-}
-.card-body {
-  padding: 1rem;
-}
-.card-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-/* Card Creator */
-.card-creator-page {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-.creator-sidebar { }
-.creator-preview {
-  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
-}
-.preview-card {
-  background: var(--bg-panel);
-  padding: 1.5rem;
-  border-radius: 1rem;
-  text-align: center;
+  padding: 20px;
 }
 
-/* Gallery */
-.gallery-filter {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+/* Logo styling */
+header img.logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 20px;
 }
-.tab-btn {
-  flex: 1;
-  padding: 0.75rem;
+
+/* Main container */
+main.container {
+  background-color: #f9e7f1;
+  border-radius: 15px;
+  padding: 30px 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 15px rgba(102, 26, 77, 0.2);
+}
+
+/* Heading */
+main.container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+/* Paragraph */
+main.container p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: #991f68;
+}
+
+/* Button */
+button.primary-btn {
+  background-color: #a1337c;
   border: none;
-  background: var(--off-white);
+  border-radius: 25px;
+  padding: 12px 35px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
   cursor: pointer;
-  border-radius: 0.75rem;
-  transition: background 0.3s;
-}
-.tab-btn.active,
-.tab-btn:hover {
-  background: var(--rose-red);
-  color: white;
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
-  gap: 1rem;
-}
-.template-card {
-  background: var(--off-white);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.template-info {
-  padding: 0.75rem;
-  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-/* Preview, Share, Analytics, Mobile View share same panel style */
-.preview-card-full,
-.share-settings-panel,
-.analytics-overview,
-.notifications-settings,
-.mobile-mockup {
-  background: var(--bg-panel);
-  padding: 2rem;
-  border-radius: 1.5rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
+button.primary-btn:hover {
+  background-color: #6f1b54;
 }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
-  gap: 1rem;
-}
-.stat-card {
-  background: white;
-  padding: 1rem;
-  border-radius: 1rem;
-  text-align: center;
+
+/* Responsive: Smaller screens */
+@media (max-width: 600px) {
+  main.container {
+    padding: 25px 20px;
+    max-width: 90vw;
+  }
+
+  header img.logo {
+    width: 140px;
+    margin-bottom: 15px;
+  }
+
+  main.container h1 {
+    font-size: 1.8rem;
+  }
+
+  main.container p {
+    font-size: 1rem;
+  }
+
+  button.primary-btn {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
 }
