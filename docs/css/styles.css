@@ -1,115 +1,211 @@
-/* Register page styles */
-body {
-  background-color: #ffe6f0;
-  font-family: 'Poppins', sans-serif;
-  position: relative;
-  overflow-x: hidden;
+/* ============================
+   Global Theme Variables
+============================ */
+:root {
+  --blush-pink: #F8CDE0;
+  --rose-red: #E91E63;
+  --deep-magenta: #C2185B;
+  --gold-accent: #FFD700;
+  --off-white: #FFF1F2;
+  --bg-body: linear-gradient(135deg, var(--blush-pink), var(--off-white));
+  --bg-panel: rgba(255,255,255,0.9);
+  --text-dark: #333;
+}
+
+/* ============================
+   Reset & Base Styles
+============================ */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.register-container {
-  background-color: #fff0f6;
-  max-width: 400px;
-  margin: 60px auto;
-  padding: 30px 25px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.3);
-  text-align: center;
-  box-sizing: border-box;
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  color: var(--text-dark);
 }
 
-.register-container img {
-  width: 140px;
-  margin-bottom: 15px;
-}
-
-.register-container h2 {
-  color: #832c68;
-  font-weight: 700;
-  margin-bottom: 25px;
-}
-
-.register-container label {
+img {
+  max-width: 100%;
   display: block;
-  font-weight: 600;
-  margin: 10px 0 5px;
-  color: #832c68;
-  text-align: left;
 }
 
-.register-container input[type="text"],
-.register-container input[type="email"],
-.register-container input[type="password"] {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.8px solid #d9b5c2;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  box-sizing: border-box;
+a {
+  color: var(--deep-magenta);
+  text-decoration: none;
 }
-
-.register-container button {
-  width: 100%;
-  padding: 12px 0;
-  background-color: #932c6d;
-  border: none;
-  color: white;
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin-top: 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.register-container button:hover {
-  background-color: #aa4085;
-}
-
-.register-container .login-link {
-  margin-top: 15px;
-  font-size: 1rem;
-  color: #832c68;
-}
-
-.register-container .login-link a {
-  color: #6b1f52;
-  font-weight: 600;
+a:hover {
   text-decoration: underline;
 }
 
-/* Heart floating background animation */
-@keyframes floatHearts {
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ============================
+   Body + Hero Layout
+============================ */
+body {
+  background: var(--bg-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.site-header .logo {
+  margin: 0 auto 1rem;
+  max-width: 200px;
+  width: 60%;
+}
+
+.hero-panel {
+  background: var(--bg-panel);
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.hero-panel h1 {
+  margin-bottom: .75rem;
+  font-size: 1.75rem;
+}
+
+.hero-panel p {
+  margin-bottom: 1.5rem;
+  color: #555;
+  font-size: 1rem;
+}
+
+.primary-btn {
+  display: inline-block;
+  background: var(--rose-red);
+  color: #fff;
+  padding: .75rem 1.5rem;
+  border-radius: .5rem;
+  font-size: 1rem;
+  transition: background .2s;
+}
+.primary-btn:hover {
+  background: var(--deep-magenta);
+}
+
+/* ============================
+   Floating Hearts Animation
+============================ */
+.heart-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* JS will append <div class="heart-animation"><span class="heart">…</span></div> */
+.heart-animation .heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--rose-red);
+  transform: rotate(45deg);
+  opacity: .8;
+  animation: floatUp 5s ease-out forwards;
+}
+
+.heart-animation .heart:before,
+.heart-animation .heart:after {
+  content: "";
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background: inherit;
+  border-radius: 50%;
+}
+.heart-animation .heart:before { top: -50%; }
+.heart-animation .heart:after { left: 50%; }
+
+@keyframes floatUp {
   0% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 1;
+    transform: translateY(0) rotate(45deg);
+    opacity: .8;
   }
   100% {
-    transform: translateY(-200px) translateX(30px) rotate(360deg);
+    transform: translateY(-250px) rotate(45deg);
     opacity: 0;
   }
 }
 
-body::before {
-  content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
-  position: fixed;
-  top: 90%;
-  left: 0;
-  width: 100%;
-  font-size: 40px;
-  color: rgba(211, 101, 144, 0.3);
-  animation: floatHearts 8s linear infinite;
-  pointer-events: none;
-  user-select: none;
-  z-index: -1;
+/* ============================
+   Forms (Register & Login)
+============================ */
+form {
+  background: var(--bg-panel);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  max-width: 400px;
+  margin: 2rem auto;
 }
 
-/* Responsive adjustments */
+form h2 {
+  margin-bottom: 1.5rem;
+  color: var(--deep-magenta);
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: bold;
+  color: var(--deep-magenta);
+}
+
+.form-group input {
+  width: 100%;
+  padding: .75rem 1rem;
+  border: 1px solid var(--deep-magenta);
+  border-radius: .5rem;
+  font-size: 1rem;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.form-actions .primary-btn {
+  width: 100%;
+}
+
+/* ============================
+   Responsive Tweaks
+============================ */
 @media (max-width: 480px) {
-  .register-container {
-    margin: 40px 15px;
-    padding: 20px 15px;
+  .hero-panel {
+    padding: 1.5rem 1rem;
+  }
+  .hero-panel h1 {
+    font-size: 1.5rem;
   }
 }
