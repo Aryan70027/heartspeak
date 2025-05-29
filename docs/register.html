@@ -3,152 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Register - HeartSpeak</title>
+  <title>Register | HeartSpeak</title>
   <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    /* Heart floating animation background */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #fbe9f1;
-      position: relative;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-    /* Heart animation container */
-    .heart-animation {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      top: 0;
-      left: 0;
-      background-image:
-        radial-gradient(circle at 30% 40%, rgba(255, 105, 180, 0.2) 15%, transparent 16%),
-        radial-gradient(circle at 70% 60%, rgba(219, 112, 147, 0.2) 15%, transparent 16%);
-      background-size: 200px 200px;
-      animation: floatHearts 10s linear infinite;
-    }
-    @keyframes floatHearts {
-      0% {
-        background-position: 0 100%, 100% 0;
-      }
-      100% {
-        background-position: 200px 0, -100px 200px;
-      }
-    }
-    /* Main container for the form */
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 400px;
-      background: white;
-      margin: 80px auto;
-      padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(219, 112, 147, 0.3);
-      text-align: center;
-    }
-    .container img {
-      width: 120px;
-      margin-bottom: 20px;
-    }
-    .container h2 {
-      color: #9c3a77;
-      margin-bottom: 25px;
-      font-size: 1.8em;
-    }
-    form {
-      text-align: left;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #6d2d4a;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #d4a6b9;
-      margin-bottom: 18px;
-      font-size: 1em;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease;
-    }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="password"]:focus {
-      border-color: #9c3a77;
-      outline: none;
-    }
-    button {
-      width: 100%;
-      background-color: #9c3a77;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #7a2a5a;
-    }
-    .login-link {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #6d2d4a;
-    }
-    .login-link a {
-      color: #9c3a77;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .login-link a:hover {
-      text-decoration: underline;
-    }
-    @media(max-width: 480px) {
-      .container {
-        margin: 40px 20px;
-        padding: 20px 25px;
-      }
-      .container img {
-        width: 100px;
-      }
-      .container h2 {
-        font-size: 1.5em;
-      }
-    }
-  </style>
 </head>
 <body>
-  <div class="heart-animation"></div>
-  <div class="container">
+  <div class="register-container">
     <img src="img/logo.png" alt="HeartSpeak Logo" />
     <h2>Create an Account</h2>
     <form>
       <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Enter your username" required />
+      <input type="text" id="username" placeholder="Enter your username" />
 
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      <input type="email" id="email" placeholder="Enter your email" />
 
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      <input type="password" id="password" placeholder="Enter your password" />
 
       <button type="submit">Register</button>
     </form>
-    <p class="login-link">
-      Already have an account? <a href="login.html">Login here</a>
-    </p>
+    <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
   </div>
 </body>
 </html>
