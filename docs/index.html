@@ -2,30 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HeartSpeak | Home</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <!-- floating hearts -->
+  <!-- Heart animation canvas -->
   <div class="heart-animation"></div>
 
-  <!-- logo header -->
-  <header class="site-header">
-    <img src="img/logo.png" alt="HeartSpeak logo" class="logo" />
-  </header>
-
-  <!-- hero panel -->
-  <main class="container">
-    <section class="hero">
+  <!-- Hero section -->
+  <div class="hero-container">
+    <div class="hero-image">
+      <img src="img/logo.png" alt="HeartSpeak Logo">
+    </div>
+    <div class="hero-content">
       <h1>Speak from the Heart</h1>
       <p>Create heartfelt digital greetings in seconds.</p>
-      <button type="button" class="primary-btn"
-              onclick="location.href='register.html'">
-        Dedicate
-      </button>
-    </section>
-  </main>
+      <button class="primary-btn" onclick="location.href='register.html'">Dedicate</button>
+    </div>
+  </div>
 
   <script src="js/scripts.js"></script>
 </body>
