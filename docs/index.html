@@ -3,17 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HeartSpeak | Home</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>HeartSpeak</title>
+  <style>
+    /* Reset and base styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: #f7e6e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #4a2c2c;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Container for all content */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      box-sizing: border-box;
+      background: #fff0f0;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(150, 50, 50, 0.2);
+    }
+
+    /* HeartSpeak logo styling */
+    .logo {
+      font-size: 64px;
+      font-weight: 900;
+      font-family: 'Georgia', serif;
+      margin-bottom: 10px;
+      color: #7a2e2e;
+      user-select: none;
+    }
+
+    /* Subtitle and description */
+    h2 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-weight: 700;
+      font-size: 24px;
+      color: #5a1f1f;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #6e3a3a;
+    }
+
+    /* Dedicate button styling */
+    button {
+      background-color: #b85c5c;
+      border: none;
+      padding: 12px 30px;
+      color: white;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(184, 92, 92, 0.5);
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #8b4141;
+    }
+
+    /* Responsive text sizing */
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 40px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 10px 25px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
-  </header>
-  <main class="container">
-    <h1>Speak from the Heart</h1>
+  <div class="container">
+    <div class="logo">HeartSpeak</div>
+    <h2>Speak from the Heart</h2>
     <p>Create heartfelt digital greetings in seconds.</p>
-    <button onclick="location.href='register.html'" class="primary-btn">Dedicate</button>
-  </main>
+    <button onclick="location.href='dedicate.html'">Dedicate</button>
+  </div>
 </body>
 </html>
