@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Login • HeartSpeak</title>
-  <link rel="stylesheet" href="/css/styles.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - HeartSpeak</title>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <div class="heart-animation"></div>
-  <header class="site-header">
-    <img src="/img/logo.png" alt="HeartSpeak" class="logo"/>
+  <header>
+    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
   </header>
-  <main class="container login-page">
-    <section class="login-container">
-      <h2>Welcome Back</h2>
-      <button id="googleBtn" class="social-btn">Continue with Google</button>
-      <p class="or-text">Or login with your mobile number:</p>
-      <input type="tel" id="phoneInput" placeholder="Enter your phone number"/>
-      <button id="phoneLoginBtn" class="primary-btn">Login</button>
-    </section>
+  <main>
+    <h1>Login</h1>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+      
+      <button type="submit">Login</button>
+    </form>
+    <p>New user? <a href="register.html">Register here</a></p>
   </main>
-  <script src="/js/scripts.js"></script>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      // Add your login logic here (e.g., validation, authentication)
+      alert('Login successful! Redirecting to dashboard.');
+      window.location.href = 'dashboard.html';
+    });
+  </script>
 </body>
 </html>
