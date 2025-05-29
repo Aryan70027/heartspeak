@@ -6,68 +6,95 @@
   <title>Register - HeartSpeak</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
+    /* Heart floating animation background */
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f0f3;
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #fbe9f1;
+      position: relative;
+      overflow-x: hidden;
       min-height: 100vh;
     }
-    .container {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-      max-width: 600px;
-      width: 90%;
-      padding: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: center;
+    /* Heart animation container */
+    .heart-animation {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      background-image:
+        radial-gradient(circle at 30% 40%, rgba(255, 105, 180, 0.2) 15%, transparent 16%),
+        radial-gradient(circle at 70% 60%, rgba(219, 112, 147, 0.2) 15%, transparent 16%);
+      background-size: 200px 200px;
+      animation: floatHearts 10s linear infinite;
     }
-    .left, .right {
-      flex: 1 1 280px;
+    @keyframes floatHearts {
+      0% {
+        background-position: 0 100%, 100% 0;
+      }
+      100% {
+        background-position: 200px 0, -100px 200px;
+      }
+    }
+    /* Main container for the form */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      background: white;
+      margin: 80px auto;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(219, 112, 147, 0.3);
       text-align: center;
     }
-    .left img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 15px;
+    .container img {
+      width: 120px;
+      margin-bottom: 20px;
     }
-    .right h2 {
+    .container h2 {
       color: #9c3a77;
-      margin-bottom: 10px;
+      margin-bottom: 25px;
+      font-size: 1.8em;
     }
     form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
       text-align: left;
     }
     label {
+      display: block;
+      margin-bottom: 6px;
       font-weight: 600;
-      color: #555;
+      color: #6d2d4a;
     }
     input[type="text"],
     input[type="email"],
     input[type="password"] {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1em;
       width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d4a6b9;
+      margin-bottom: 18px;
+      font-size: 1em;
       box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #9c3a77;
+      outline: none;
     }
     button {
+      width: 100%;
       background-color: #9c3a77;
-      color: white;
       border: none;
-      padding: 12px;
+      padding: 14px;
       border-radius: 8px;
-      font-size: 1em;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1em;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -75,47 +102,53 @@
       background-color: #7a2a5a;
     }
     .login-link {
-      margin-top: 10px;
+      margin-top: 15px;
+      text-align: center;
       font-size: 0.9em;
+      color: #6d2d4a;
     }
     .login-link a {
       color: #9c3a77;
       text-decoration: none;
+      font-weight: 600;
     }
     .login-link a:hover {
       text-decoration: underline;
     }
-    @media (max-width: 600px) {
+    @media(max-width: 480px) {
       .container {
-        flex-direction: column;
+        margin: 40px 20px;
+        padding: 20px 25px;
       }
-      .left, .right {
-        flex: 1 1 100%;
+      .container img {
+        width: 100px;
+      }
+      .container h2 {
+        font-size: 1.5em;
       }
     }
   </style>
 </head>
 <body>
+  <div class="heart-animation"></div>
   <div class="container">
-    <div class="left">
-      <img src="img/logo.png" alt="HeartSpeak Logo" />
-    </div>
-    <div class="right">
-      <h2>Create an Account</h2>
-      <form>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+    <img src="img/logo.png" alt="HeartSpeak Logo" />
+    <h2>Create an Account</h2>
+    <form>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username" required />
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
-        <button type="submit">Register</button>
-      </form>
-      <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
-    </div>
+      <button type="submit">Register</button>
+    </form>
+    <p class="login-link">
+      Already have an account? <a href="login.html">Login here</a>
+    </p>
   </div>
 </body>
 </html>
