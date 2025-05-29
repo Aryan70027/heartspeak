@@ -5,7 +5,6 @@
   --blush-pink:    #F8CDE0;
   --rose-red:      #E91E63;
   --deep-magenta:  #C2185B;
-  --gold-accent:   #FFD700;
   --off-white:     #FFF1F2;
   --bg-body:       linear-gradient(135deg, var(--blush-pink), var(--off-white));
   --bg-panel:      rgba(255,255,255,0.9);
@@ -14,188 +13,101 @@
 }
 
 /* ============================
-   Reset & Base Styles
+   Reset
 ============================ */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0; box-sizing: border-box;
 }
 html, body {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background: var(--bg-body);
-  color: var(--text-dark);
+  height: 100%; font-family: Arial, sans-serif;
+  background: var(--bg-body); color: var(--text-dark);
   overflow-x: hidden;
 }
-img {
-  max-width: 100%;
-  display: block;
-}
-a {
-  color: var(--deep-magenta);
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-button {
-  font-family: inherit;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
+img { max-width: 100%; display: block; }
+a { color: var(--deep-magenta); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font-family: inherit; border: none; background: none; }
 
 /* ============================
-   Floating Hearts Animation
+   Heart Animation
 ============================ */
 .heart-animation {
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 0;
+  position: fixed; top:0; left:0;
+  width:100vw; height:100vh;
+  pointer-events:none; overflow:hidden; z-index:0;
 }
-/* JS will append lots of <span class="heart">…</span> inside here */
-.heart-animation .heart {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background: var(--rose-red);
-  transform: rotate(45deg);
-  opacity: .8;
-  animation: floatUp 4s ease-out forwards;
+.heart {
+  position:absolute; width:15px; height:15px;
+  background:var(--rose-red); transform:rotate(45deg);
+  opacity:.8; animation:floatUp 4s ease-out forwards;
 }
-.heart-animation .heart:before,
-.heart-animation .heart:after {
-  content: "";
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  background: inherit;
-  border-radius: 50%;
+.heart:before, .heart:after {
+  content:""; position:absolute;
+  width:inherit; height:inherit; background:inherit; border-radius:50%;
 }
-.heart-animation .heart:before { top: -50%; }
-.heart-animation .heart:after  { left: 50%; }
+.heart:before { top:-50%; }
+.heart:after  { left:50%; }
 
 @keyframes floatUp {
-  to {
-    transform: translateY(-250px) rotate(45deg);
-    opacity: 0;
-  }
+  to { transform: translateY(-250px) rotate(45deg); opacity:0; }
 }
 
 /* ============================
-   Hero / Home Layout
+   Hero Layout
 ============================ */
 .hero-container {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  min-height:100vh; position:relative; z-index:1;
 }
-.hero-image,
-.hero-content {
-  flex: 1;
-}
-.hero-image {
-  text-align: right;
-  padding-right: 2rem;
-}
-.hero-image img {
-  max-width: 80%;
-}
-.hero-content {
-  max-width: 400px;
-  padding-left: 2rem;
-}
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: .75rem;
-}
-.hero-content p {
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
-  font-size: 1.1rem;
-}
+.hero-image { flex:1; text-align:right; padding-right:2rem; }
+.hero-image img { max-width:80%; }
+.hero-content { flex:1; max-width:400px; padding-left:2rem; }
+.hero-content h1 { font-size:2.5rem; margin-bottom:.75rem; }
+.hero-content p  { color:var(--text-light); margin-bottom:1.5rem; font-size:1.1rem; }
 .primary-btn {
-  display: inline-block;
-  background: var(--rose-red);
-  color: #fff;
-  padding: .75rem 1.5rem;
-  border-radius: .5rem;
-  font-size: 1rem;
-  transition: background .2s;
+  background: var(--rose-red); color:#fff;
+  padding:.75rem 1.5rem; border-radius:.5rem;
+  font-size:1rem; transition:background .2s;
 }
-.primary-btn:hover {
-  background: var(--deep-magenta);
-}
+.primary-btn:hover { background: var(--deep-magenta); }
 
-/* Stack on mobile */
-@media (max-width: 768px) {
-  .hero-container { flex-direction: column; text-align: center; }
-  .hero-image { padding: 0; }
-  .hero-content { padding: 1rem 0; }
+/* mobile stack */
+@media (max-width:768px) {
+  .hero-container { flex-direction:column; text-align:center; }
+  .hero-image, .hero-content { padding:0; }
 }
 
 /* ============================
-   Forms (Register & Login)
+   Forms
 ============================ */
 .form-container {
-  position: relative;
-  z-index: 1;
-  max-width: 400px;
-  margin: 2rem auto;
-  background: var(--bg-panel);
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  position:relative; z-index:1;
+  max-width:400px; margin:2rem auto;
+  background: var(--bg-panel); padding:2rem;
+  border-radius:1rem; box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 .form-container h2 {
-  text-align: center;
-  color: var(--deep-magenta);
-  margin-bottom: 1.5rem;
+  text-align:center; color:var(--deep-magenta);
+  margin-bottom:1.5rem;
 }
-.form-group {
-  margin-bottom: 1.25rem;
-}
+.form-group { margin-bottom:1.25rem; }
 .form-group label {
-  display: block;
-  margin-bottom: .5rem;
-  font-weight: bold;
-  color: var(--deep-magenta);
+  display:block; margin-bottom:.5rem;
+  font-weight:bold; color:var(--deep-magenta);
 }
 .form-group input {
-  width: 100%;
-  padding: .6rem .8rem;
-  border: 1px solid var(--deep-magenta);
-  border-radius: .4rem;
-  font-size: 1rem;
+  width:100%; padding:.6rem .8rem;
+  border:1px solid var(--deep-magenta);
+  border-radius:.4rem; font-size:1rem;
 }
-.form-actions {
-  text-align: center;
-  margin-top: 1.5rem;
-}
-.form-actions .primary-btn {
-  width: 100%;
+.form-actions { text-align:center; margin-top:1.5rem; }
+.form-actions .primary-btn { width:100%; }
+
+/* small mobile tweaks */
+@media (max-width:480px) {
+  .form-container { margin:1rem; padding:1.5rem; }
 }
 
-/* smaller on mobile */
-@media (max-width: 480px) {
-  .form-container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-}
-
-/* ============================
-   Utility
-============================ */
-.text-center { text-align: center; }
-.mt-2 { margin-top: 2rem; }
+/* Utilities */
+.text-center { text-align:center; }
+.mt-2 { margin-top:2rem; }
