@@ -1,4 +1,4 @@
-// simple floating hearts generator
+// Floating hearts animation (keep your existing if you want)
 const container = document.querySelector('.heart-animation');
 function spawnHeart() {
   const heart = document.createElement('span');
@@ -10,6 +10,7 @@ function spawnHeart() {
 }
 setInterval(spawnHeart, 300);
 
+// Preview button logic
 document.getElementById('preview-btn').addEventListener('click', function() {
   // Get form values
   const occasion = document.getElementById('eventType').value;
@@ -17,47 +18,48 @@ document.getElementById('preview-btn').addEventListener('click', function() {
   const font = document.getElementById('fontSelect').value;
   const color = document.getElementById('colorPicker').value;
 
-  // Compose card HTML
+  // Compose HTML with IDs for typing effect
   const previewHTML = `
     <h2 id="occasion-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${occasion}</h2>
     <p id="message-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${message}</p>
   `;
 
-  // Insert into popup content container and show popup
+  // Insert into popup content and show popup
   const popupContent = document.querySelector('.preview-popup-content');
   popupContent.innerHTML = previewHTML;
 
-  // Show popup
   const popup = document.getElementById('preview-container');
   popup.style.display = 'flex';
 
-  // Typing animation for occasion and message
+  // Start typing animation
   typeText('occasion-text');
   setTimeout(() => {
     typeText('message-text');
   }, 1000);
 });
 
-// Close preview function
+// Close popup
 function closePreview() {
-  document.getElementById('preview-container').style.display = 'none';
-  // Clear typed text so next time it restarts fresh
+  const popup = document.getElementById('preview-container');
+  popup.style.display = 'none';
   document.querySelector('.preview-popup-content').innerHTML = '';
 }
 
 // Typing effect function
 function typeText(id) {
   const element = document.getElementById(id);
-  const text = element.textContent;
-  let i = 0;
-  element.textContent = '';
+  if (!element) return;
 
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
+  const fullText = element.textContent;
+  element.textContent = '';
+  let i = 0;
+
+  function type() {
+    if (i < fullText.length) {
+      element.textContent += fullText.charAt(i);
       i++;
-      setTimeout(typing, 40);
+      setTimeout(type, 50); // Adjust speed here
     }
   }
-  typing();
+  type();
 }
