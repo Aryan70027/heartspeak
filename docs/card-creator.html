@@ -17,7 +17,6 @@
       font-family: 'Great Vibes', cursive;
     }
 
-    /* Override form width for this page */
     main.container.card-creator-page {
       max-width: 450px;
       margin: 2rem auto;
@@ -26,16 +25,72 @@
       border-radius: 20px;
       box-shadow: 0 5px 15px rgba(214, 51, 108, 0.2);
     }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    select, textarea, input[type="file"], input[type="color"] {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border: 1.5px solid #e73370;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    select:hover, textarea:hover, input[type="file"]:hover, input[type="color"]:hover {
+      border-color: #f94d81;
+    }
+
+    textarea {
+      resize: vertical;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn {
+      background: #e73370;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      margin-right: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #c82d5d;
+    }
+
+    .site-header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo {
+      max-width: 150px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #e34a72;
+      background-color: #ffe9d9;
+    }
   </style>
 </head>
 <body>
+
   <div class="heart-animation"></div>
+
   <header class="site-header">
     <img src="img/logo.png" alt="HeartSpeak" class="logo" />
   </header>
 
   <main class="container card-creator-page">
     <h2>Customize Your Card</h2>
+
     <form id="card-form">
       <div class="form-group">
         <label for="eventType">Occasion</label>
@@ -50,7 +105,7 @@
 
       <div class="form-group">
         <label for="textInput">Message</label>
-        <textarea id="textInput" name="textInput" rows="3" placeholder="Your heartfelt message here"></textarea>
+        <textarea id="textInput" name="textInput" rows="4" placeholder="Your heartfelt message here"></textarea>
       </div>
 
       <div class="form-group">
@@ -65,7 +120,7 @@
 
       <div class="form-group">
         <label for="colorPicker">Text Color</label>
-        <input type="color" id="colorPicker" name="colorPicker" value="#d6336c" />
+        <input type="color" id="colorPicker" name="colorPicker" value="#d73170" />
       </div>
 
       <div class="form-group">
@@ -77,79 +132,10 @@
       <button type="button" class="btn" id="saveDraft-btn">Save Draft</button>
     </form>
 
+    <!-- Card preview container -->
     <div id="card-preview"></div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    // Initialize particles.js (optional)
-    particlesJS('heart-animation', {
-      "particles": {
-        "number": {
-          "value": 40,
-          "density": {"enable": true, "value_area": 800}
-        },
-        "color": {"value": "#d6336c"},
-        "shape": {
-          "type": "image",
-          "image": {
-            "src": "img/heart-pink.png",
-            "width": 15,
-            "height": 15
-          }
-        },
-        "opacity": {"value": 0.5, "random": true},
-        "size": {"value": 4, "random": true},
-        "move": {
-          "enable": true,
-          "speed": 2,
-          "direction": "top",
-          "random": true,
-          "out_mode": "out"
-        }
-      },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-          "onhover": {"enable": true, "mode": "repulse"},
-          "onclick": {"enable": true, "mode": "push"}
-        }
-      },
-      "retina_detect": true
-    });
-
-    // Preview functionality
-    document.getElementById('preview-btn').addEventListener('click', function() {
-      const occasion = document.getElementById('eventType').value;
-      const message = document.getElementById('textInput').value;
-      const font = document.getElementById('fontSelect').value;
-      const color = document.getElementById('colorPicker').value;
-
-      let previewHTML = `
-        <div style="font-family: '${font}', cursive; color: ${color}; padding: 10px; text-align: center;">
-          <h2>${occasion}</h2>
-          <p>${message}</p>
-        </div>
-      `;
-
-      // Show photo preview if uploaded
-      const photoInput = document.getElementById('photoUpload');
-      if (photoInput.files && photoInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          previewHTML += `<img src="${e.target.result}" alt="Card Photo" style="max-width: 100%; border-radius: 15px; margin-top: 15px;">`;
-          document.getElementById('card-preview').innerHTML = previewHTML;
-        };
-        reader.readAsDataURL(photoInput.files[0]);
-      } else {
-        document.getElementById('card-preview').innerHTML = previewHTML;
-      }
-    });
-
-    // Save draft button placeholder
-    document.getElementById('saveDraft-btn').addEventListener('click', function() {
-      alert('Save Draft functionality coming soon!');
-    });
-  </script>
+  <script src="js/scripts.js"></script>
 </body>
 </html>
