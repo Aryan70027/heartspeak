@@ -100,3 +100,129 @@ body {
     padding: 0 1rem;
   }
 }
+/* Register page styles */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background: #f9d9e1; /* Soft pink background matching home */
+  box-sizing: border-box;
+}
+
+.form-wrapper {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(233, 53, 97, 0.3);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.form-wrapper .logo {
+  width: 120px;
+  margin-bottom: 25px;
+}
+
+.form-wrapper h1 {
+  font-size: 2.4rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+  color: #a12258;
+}
+
+.form {
+  text-align: left;
+}
+
+.form label {
+  font-weight: 600;
+  color: #7f2c55;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.1rem;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"] {
+  width: 100%;
+  padding: 14px 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 2px solid #a12258;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.form input[type="text"]:focus,
+.form input[type="email"]:focus,
+.form input[type="password"]:focus {
+  border-color: #e93561;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px 0;
+  background-color: #e93561;
+  color: white;
+  font-weight: 700;
+  font-size: 1.3rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #b22244;
+}
+
+.login-link {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  color: #7f2c55;
+  text-align: center;
+}
+
+.login-link a {
+  color: #e93561;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+  .form-wrapper {
+    padding: 30px 20px;
+  }
+
+  .form-wrapper h1 {
+    font-size: 2rem;
+  }
+
+  .form label {
+    font-size: 1rem;
+  }
+
+  .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="password"] {
+    font-size: 1rem;
+    padding: 12px 12px;
+  }
+
+  .btn-primary {
+    font-size: 1.1rem;
+    padding: 14px 0;
+  }
+}
