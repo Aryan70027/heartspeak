@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Analytics • HeartSpeak</title>
-  <link rel="stylesheet" href="/css/styles.css"/>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <div class="heart-animation"></div>
+
   <header class="site-header">
-    <img src="/img/logo.png" alt="HeartSpeak" class="logo"/>
+    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
   </header>
+
   <main class="container analytics-page">
     <section class="analytics-overview">
       <h2>View Analytics</h2>
       <div class="stats-grid">
-        <div class="stat-card"><h3>Total Views</h3><p id="totalViews">--</p></div>
-        <div class="stat-card"><h3>Unique Visitors</h3><p id="uniqueVisitors">--</p></div>
-        <div class="stat-card"><h3>Top Device</h3><p id="topDevice">--</p></div>
+        <div class="stat-card">
+          <h3>Total Views</h3>
+          <p id="totalViews">--</p>
+        </div>
+        <div class="stat-card">
+          <h3>Unique Visitors</h3>
+          <p id="uniqueVisitors">--</p>
+        </div>
+        <div class="stat-card">
+          <h3>Top Device</h3>
+          <p id="topDevice">--</p>
+        </div>
       </div>
     </section>
+
     <section class="notifications-settings">
       <h2>Notifications</h2>
-      <div class="form-group"><input type="checkbox" id="realTimeEmail"/><label for="realTimeEmail">Real-Time Email Alerts</label></div>
-      <div class="form-group"><input type="checkbox" id="dailyDigest"/><label for="dailyDigest">Daily Digest</label></div>
+      <div class="form-group">
+        <input type="checkbox" id="realTimeEmail" />
+        <label for="realTimeEmail">Real-Time Email Alerts</label>
+      </div>
+      <div class="form-group">
+        <input type="checkbox" id="dailyDigest" />
+        <label for="dailyDigest">Daily Digest</label>
+      </div>
     </section>
   </main>
-  <script src="/js/scripts.js"></script>
+
+  <script src="js/scripts.js"></script>
 </body>
 </html>
