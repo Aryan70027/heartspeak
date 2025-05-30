@@ -17,12 +17,11 @@ document.getElementById('preview-btn').addEventListener('click', function() {
   const color = document.getElementById('colorPicker').value;
 
   // Compose card HTML
-  const previewHTML = `
-    <div style="font-family: '${font}', cursive; color: ${color};">
-      <h2>${occasion}</h2>
-      <p>${message}</p>
-    </div>
-  `;
+ const previewHTML = `
+  <h2 id="occasion-text" class="typing-text" style="color: #fff; font-family: '${font}', cursive;"></h2>
+  <p id="message-text" class="typing-text" style="color: #fff; font-family: '${font}', cursive;"></p>
+`;
+
 
   // Insert into preview container and show
   document.getElementById('card-preview').innerHTML = previewHTML;
