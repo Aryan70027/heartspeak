@@ -437,7 +437,11 @@ input[type="file"] {
   padding: 30px;
   border-radius: 25px;
   width: 90%;
-  max-width: 600px;
+ 
+  max-height: none !important;
+  overflow: visible !important;
+
+ max-width: 600px;
   box-shadow: 0 10px 40px rgba(255, 105, 180, 0.6);
   color: white;
   font-family: 'Great Vibes', cursive;
