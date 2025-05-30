@@ -4,11 +4,12 @@ function spawnHeart() {
   const heart = document.createElement('span');
   heart.classList.add('heart');
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.top  = Math.random() * 100 + 'vh';
+  heart.style.top = Math.random() * 100 + 'vh';
   container.appendChild(heart);
   setTimeout(() => heart.remove(), 4000);
 }
 setInterval(spawnHeart, 300);
+
 document.getElementById('preview-btn').addEventListener('click', function() {
   // Get form values
   const occasion = document.getElementById('eventType').value;
@@ -16,20 +17,21 @@ document.getElementById('preview-btn').addEventListener('click', function() {
   const font = document.getElementById('fontSelect').value;
   const color = document.getElementById('colorPicker').value;
 
-  // Compose card HTML
- const previewHTML = `
-  <h2 id="occasion-text" class="typing-text" style="color: #fff; font-family: '${font}', cursive;"></h2>
-  <p id="message-text" class="typing-text" style="color: #fff; font-family: '${font}', cursive;"></p>
-`;
+  // Compose card HTML with typing animation classes
+  let previewHTML = `
+    <h2 id="occasion-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${occasion}</h2>
+    <p id="message-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${message}</p>
+  `;
 
-
-  // Insert into preview container and show
+  // Insert preview content
   document.getElementById('card-preview').innerHTML = previewHTML;
- document.getElementById('preview-container').style.display = 'block';
 
+  // Show popup container with fade effect
+  const previewContainer = document.getElementById('preview-container');
+  previewContainer.classList.add('show');
 });
 
-// Close preview function
 function closePreview() {
-  document.getElementById('preview-container').style.display = 'none';
+  const previewContainer = document.getElementById('preview-container');
+  previewContainer.classList.remove('show');
 }
