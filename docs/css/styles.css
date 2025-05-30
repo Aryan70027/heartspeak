@@ -250,4 +250,10 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 10px #e34a72;
   background-color: #ffe9d9;
+}  
+@media (min-width: 768px) {
+  .dashboard-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
 }
