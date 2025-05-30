@@ -25,7 +25,8 @@ document.getElementById('preview-btn').addEventListener('click', function() {
 
   // Insert into preview container and show
   document.getElementById('card-preview').innerHTML = previewHTML;
-  document.getElementById('preview-container').style.display = 'block';
+ document.getElementById('preview-container').style.display = 'block';
+
 });
 
 // Close preview function
