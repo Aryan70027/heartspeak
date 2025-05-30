@@ -462,3 +462,32 @@ input[type="file"] {
   max-height: 80vh;        /* Limit height to viewport */
   overflow-y: auto;        /* Add vertical scrollbar if content overflows */
 }
+/* Add to your styles.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.site-header {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto 50px auto;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
