@@ -1,80 +1,29 @@
-/* ----------------------------------
-   HERO LAYOUT
----------------------------------- */
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg-body);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - HeartSpeak</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="form-wrapper register-form">
+      <img src="img/logo.png" alt="HeartSpeak Logo" />
+      <h1>Login to HeartSpeak</h1>
+      <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';" class="form">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
 
-.hero-wrapper {
-  max-width: 480px;
-  width: 90%;
-  text-align: center;
-  z-index: 1; /* sit above floating hearts */
-}
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
-.site-header .logo {
-  display: block;
-  margin: 0 auto 1rem;
-  max-width: 200px;
-  width: 60%;
-}
-
-.hero-panel {
-  background: var(--bg-panel);
-  padding: 2rem 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.hero-panel h1 {
-  margin: 0 0 0.5rem;
-  font-size: 1.75rem;
-}
-
-.hero-panel p {
-  margin: 0 0 1.25rem;
-  font-size: 1rem;
-  color: #555;
-}
-
-.primary-btn {
-  display: inline-block;
-  background: var(--rose-red);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.primary-btn:hover {
-  background: var(--deep-magenta);
-}
-
-/* ensure hearts animation sits behind */
-.heart-animation {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  /* your existing keyframes / animation-styles go here */
-}
-
-/* MOBILE TWEAKS */
-@media (max-width: 400px) {
-  .hero-panel {
-    padding: 1.5rem 1rem;
-  }
-  .hero-panel h1 {
-    font-size: 1.5rem;
-  }
-}
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+      <p class="login-link">
+        Don't have an account? <a href="register.html">Register here</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
