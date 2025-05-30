@@ -1,6 +1,5 @@
 // simple floating hearts generator
 const container = document.querySelector('.heart-animation');
-
 function spawnHeart() {
   const heart = document.createElement('span');
   heart.classList.add('heart');
@@ -18,7 +17,7 @@ document.getElementById('preview-btn').addEventListener('click', function() {
   const font = document.getElementById('fontSelect').value;
   const color = document.getElementById('colorPicker').value;
 
-  // Compose card HTML with typing effect classes and IDs
+  // Compose card HTML
   const previewHTML = `
     <h2 id="occasion-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${occasion}</h2>
     <p id="message-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${message}</p>
@@ -39,6 +38,7 @@ document.getElementById('preview-btn').addEventListener('click', function() {
   }, 1000);
 });
 
+// Close preview function
 function closePreview() {
   document.getElementById('preview-container').style.display = 'none';
   // Clear typed text so next time it restarts fresh
@@ -48,15 +48,16 @@ function closePreview() {
 // Typing effect function
 function typeText(id) {
   const element = document.getElementById(id);
-  const fullText = element.textContent;
+  const text = element.textContent;
+  let i = 0;
   element.textContent = '';
-  let index = 0;
-  function type() {
-    if (index < fullText.length) {
-      element.textContent += fullText.charAt(index);
-      index++;
-      setTimeout(type, 50); // speed in ms
+
+  function typing() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(typing, 40);
     }
   }
-  type();
+  typing();
 }
