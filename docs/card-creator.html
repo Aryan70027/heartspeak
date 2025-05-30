@@ -1,57 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Card Creator • HeartSpeak</title>
-  <link rel="stylesheet" href="/css/styles.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Card - HeartSpeak</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* Fullscreen background container */
+    .heart-animation {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background: #ffe9d9; /* light warm background */
+    }
+
+    /* Main container */
+    main.container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff9f5;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(255, 105, 135, 0.3);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    main.container h2 {
+      text-align: center;
+      color: #e73370;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Form groups */
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #d82f6e;
+    }
+
+    select, textarea, input[type="file"], input[type="color"] {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border: 1.5px solid #e73370;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    select:hover, textarea:hover, input[type="file"]:hover, input[type="color"]:hover {
+      border-color: #f94d81;
+    }
+
+    textarea {
+      resize: vertical;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Buttons */
+    .btn {
+      background: #e73370;
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-right: 1rem;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      background: #f94d81;
+    }
+
+    /* Responsive layout */
+    @media (max-width: 600px) {
+      main.container {
+        margin: 1rem;
+        padding: 1.2rem;
+      }
+
+      .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="heart-animation"></div>
-  <header class="site-header">
-    <img src="/img/logo.png" alt="HeartSpeak" class="logo"/>
-  </header>
-  <main class="container card-creator-page">
-    <section class="creator-sidebar">
-      <h2>Customize Your Card</h2>
-      <!-- form groups -->
+  <div class="heart-animation" id="particles-js"></div>
+
+  <main class="container">
+    <h2>Customize Your Card</h2>
+
+    <form id="cardForm">
       <div class="form-group">
-        <label>Occasion</label>
-        <select id="eventType">
-          <option>Birthday</option><option>Proposal</option><option>Anniversary</option>
+        <label for="eventType">Occasion</label>
+        <select id="eventType" name="eventType">
+          <option>Birthday</option>
+          <option>Proposal</option>
+          <option>Anniversary</option>
+          <option>Wedding</option>
+          <option>Other</option>
         </select>
       </div>
+
       <div class="form-group">
-        <label>Message</label>
-        <textarea id="textInput" rows="3"></textarea>
+        <label for="textInput">Message</label>
+        <textarea id="textInput" name="textInput" rows="4" placeholder="Your heartfelt message here"></textarea>
       </div>
+
       <div class="form-group">
-        <label>Font</label>
-        <select id="fontSelect"><option>Great Vibes</option><option>Dancing Script</option><option>Montserrat</option></select>
+        <label for="fontSelect">Font</label>
+        <select id="fontSelect" name="fontSelect">
+          <option>Great Vibes</option>
+          <option>Dancing Script</option>
+          <option>Roboto</option>
+          <option>Open Sans</option>
+        </select>
       </div>
+
       <div class="form-group">
-        <label>Text Color</label>
-        <input type="color" id="colorPicker" value="#C2185B"/>
+        <label for="textColor">Text Color</label>
+        <input type="color" id="textColor" name="textColor" value="#e73370" />
       </div>
+
       <div class="form-group">
-        <label>Photo</label>
-        <input type="file" id="imageUpload" accept="image/*"/>
+        <label for="photoUpload">Photo (optional)</label>
+        <input type="file" id="photoUpload" name="photoUpload" accept="image/*" />
       </div>
-      <div class="form-group">
-        <label>Music</label>
-        <input type="file" id="musicUpload" accept="audio/*"/>
-      </div>
-      <button id="saveDraftBtn" class="primary-btn">Save Draft</button>
-      <button id="nextBtn" class="primary-btn">Next: Preview</button>
-    </section>
-    <section class="creator-preview">
-      <div id="cardPreview" class="preview-card birthday">
-        <p id="cardText">Your heartfelt message here</p>
-        <img id="previewImage" style="display:none;max-width:100%;border-radius:1rem;"/>
-        <audio id="previewAudio" controls style="display:none;margin-top:1rem;"></audio>
-      </div>
-    </section>
+
+      <button type="submit" class="btn">Preview</button>
+      <button type="button" class="btn" id="saveDraft">Save Draft</button>
+    </form>
   </main>
-  <script src="/js/scripts.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {"value": 40, "density": {"enable": true, "value_area": 800}},
+        "color": {"value": "#e73370"},
+        "shape": {
+          "type": "image",
+          "image": {"src": "img/heart-pink.png", "width": 32, "height": 32}
+        },
+        "opacity": {"value": 0.5, "random": true},
+        "size": {"value": 15, "random": true},
+        "move": {"enable": true, "speed": 2, "direction": "top", "random": true, "out_mode": "out"}
+      },
+      "interactivity": {
+        "events": {"onhover": {"enable": true, "mode": "repulse"}}
+      }
+    });
+
+    // Optional: Add JS to preview card or save draft here...
+  </script>
 </body>
 </html>
