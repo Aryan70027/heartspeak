@@ -20,15 +20,22 @@ body {
   z-index: 0;
 }
 
-/* Header logo */
+/* Header logo styling */
 .site-header {
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 0;
 }
+
 .logo {
-  height: 80px;
+  height: 120px;       /* Adjust the height to make it smaller or bigger */
   max-width: 100%;
+  display: inline-block;
+  border-radius: 20px; /* Rounded corners like in your image */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Subtle shadow for premium look */
+  background-color: #fdeeea; /* Light background behind logo */
+  padding: 10px 15px;
 }
+
 
 /* Hero Layout */
 .hero-container {
