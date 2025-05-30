@@ -135,6 +135,13 @@
     <!-- Card preview container -->
     <div id="card-preview"></div>
   </main>
+<!-- Preview popup container -->
+<div id="preview-container" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:1000;">
+  <div id="card-preview" style="background:#fff; padding: 2rem; border-radius: 15px; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 15px #d6336c;">
+    <!-- Preview content will go here -->
+  </div>
+  <button onclick="closePreview()" style="position:absolute; top:20px; right:20px; background:#d6336c; color:#fff; border:none; padding:0.5rem 1rem; border-radius:10px; cursor:pointer;">Close</button>
+</div>
 
   <script src="js/scripts.js"></script>
 </body>
