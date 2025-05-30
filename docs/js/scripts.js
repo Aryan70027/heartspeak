@@ -1,5 +1,6 @@
-// Floating hearts animation (optional, keep if you use it)
+// simple floating hearts generator
 const container = document.querySelector('.heart-animation');
+
 function spawnHeart() {
   const heart = document.createElement('span');
   heart.classList.add('heart');
@@ -10,46 +11,52 @@ function spawnHeart() {
 }
 setInterval(spawnHeart, 300);
 
-// Preview button click handler
-document.getElementById('preview-btn').addEventListener('click', function () {
+document.getElementById('preview-btn').addEventListener('click', function() {
+  // Get form values
   const occasion = document.getElementById('eventType').value;
   const message = document.getElementById('textInput').value;
   const font = document.getElementById('fontSelect').value;
   const color = document.getElementById('colorPicker').value;
 
-  // Compose preview HTML placeholders
+  // Compose card HTML with typing effect classes and IDs
   const previewHTML = `
-    <h2 id="popup-occasion" style="font-family: '${font}', cursive; color: ${color};"></h2>
-    <p id="popup-message" style="font-family: '${font}', cursive; color: ${color}; font-size: 1.2rem;"></p>
+    <h2 id="occasion-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${occasion}</h2>
+    <p id="message-text" class="typing-text" style="color: ${color}; font-family: '${font}', cursive;">${message}</p>
   `;
 
-  // Show popup container and insert HTML
-  const popup = document.getElementById('preview-popup');
+  // Insert into popup content container and show popup
+  const popupContent = document.querySelector('.preview-popup-content');
+  popupContent.innerHTML = previewHTML;
+
+  // Show popup
+  const popup = document.getElementById('preview-container');
   popup.style.display = 'flex';
-  const previewContainer = document.getElementById('popup-card-preview');
-  previewContainer.innerHTML = previewHTML;
 
-  // Typing animation function
-  function typeText(elementId, text, delay = 50) {
-    let i = 0;
-    const el = document.getElementById(elementId);
-    el.textContent = '';
-    function typing() {
-      if (i < text.length) {
-        el.textContent += text.charAt(i);
-        i++;
-        setTimeout(typing, delay);
-      }
+  // Typing animation for occasion and message
+  typeText('occasion-text');
+  setTimeout(() => {
+    typeText('message-text');
+  }, 1000);
+});
+
+function closePreview() {
+  document.getElementById('preview-container').style.display = 'none';
+  // Clear typed text so next time it restarts fresh
+  document.querySelector('.preview-popup-content').innerHTML = '';
+}
+
+// Typing effect function
+function typeText(id) {
+  const element = document.getElementById(id);
+  const fullText = element.textContent;
+  element.textContent = '';
+  let index = 0;
+  function type() {
+    if (index < fullText.length) {
+      element.textContent += fullText.charAt(index);
+      index++;
+      setTimeout(type, 50); // speed in ms
     }
-    typing();
   }
-
-  // Start typing occasion then message with delay
-  typeText('popup-occasion', occasion);
-  setTimeout(() => typeText('popup-message', message), occasion.length * 60);
-});
-
-// Close popup button handler
-document.getElementById('close-popup').addEventListener('click', function () {
-  document.getElementById('preview-popup').style.display = 'none';
-});
+  type();
+}
