@@ -1,3 +1,4 @@
+
 /* Reset and font */
 body {
   margin: 0;
@@ -232,4 +233,21 @@ body {
     font-size: 1.1rem;
     padding: 14px 0;
   }
+}
+/* Container centering and margin */
+.form-wrapper.register-form {
+  max-width: 400px;  /* set desired width */
+  margin: 0 auto;    /* center horizontally */
+  padding: 1rem;
+}
+
+/* Logo resizing and centering */
+.form-wrapper.register-form img {
+  display: block;
+  margin: 0 auto 1rem; /* center and add bottom space */
+  max-width: 150px;    /* resize logo */
+  height: auto;        /* keep aspect ratio */
+  border-radius: 20px;
+  box-shadow: 0 0 10px #e34a72;
+  background-color: #ffe9d9;
 }
