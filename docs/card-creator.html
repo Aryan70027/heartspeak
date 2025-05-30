@@ -8,12 +8,14 @@
   <style>
     /* Additional preview styling */
     #card-preview {
-      margin-top: 20px;
-      border: 2px solid #d6336c;
+      background: #fff;
+      padding: 2rem;
       border-radius: 15px;
-      padding: 20px;
-      background-color: #fff0f6;
-      min-height: 120px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 0 15px #d6336c;
+      position: relative;
       font-family: 'Great Vibes', cursive;
     }
 
@@ -78,6 +80,59 @@
       box-shadow: 0 0 10px #e34a72;
       background-color: #ffe9d9;
     }
+
+    /* Fullscreen preview container */
+    #preview-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    #preview-container.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Close button styling */
+    #preview-container button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #d6336c;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Typing effect */
+    .typing-text {
+      overflow: hidden;
+      border-right: .15em solid #d6336c;
+      white-space: nowrap;
+      animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #d6336c; }
+    }
   </style>
 </head>
 <body>
@@ -135,13 +190,12 @@
     <!-- Card preview container -->
     <div id="card-preview"></div>
   </main>
-<!-- Preview popup container -->
-<div id="preview-container" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:1000;">
-  <div id="card-preview" style="background:#fff; padding: 2rem; border-radius: 15px; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 15px #d6336c;">
-    <!-- Preview content will go here -->
+
+  <!-- Fullscreen preview popup -->
+  <div id="preview-container">
+    <div id="card-preview"></div>
+    <button onclick="closePreview()">Close</button>
   </div>
-  <button onclick="closePreview()" style="position:absolute; top:20px; right:20px; background:#d6336c; color:#fff; border:none; padding:0.5rem 1rem; border-radius:10px; cursor:pointer;">Close</button>
-</div>
 
   <script src="js/scripts.js"></script>
 </body>
