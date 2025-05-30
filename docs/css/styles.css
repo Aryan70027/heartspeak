@@ -257,3 +257,61 @@ body {
     margin: 0 auto;
   }
 }
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: #fff7f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #e34a72;
+}
+
+.creator-sidebar {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+input[type="color"],
+select,
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1.5px solid #e73370;
+  border-radius: 8px;
+  font-family: Poppins, sans-serif;
+}
+
+.btn {
+  background-color: #e73370;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 1rem;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background-color: #c62b62;
+}
+
+.card-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px solid #e73370;
+  border-radius: 12px;
+  font-family: 'Great Vibes', cursive;
+  color: #97137c;
+  min-height: 150px;
+}
