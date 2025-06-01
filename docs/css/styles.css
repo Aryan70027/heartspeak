@@ -491,3 +491,22 @@ body {
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
+.heart-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #ffb6c1 0%, #f08080 70%);
+  z-index: -1;
+  animation: pulse 5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    filter: brightness(1);
+  }
+  100% {
+    filter: brightness(1.2);
+  }
+}
