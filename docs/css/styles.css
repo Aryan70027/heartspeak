@@ -510,3 +510,14 @@ body {
     filter: brightness(1.2);
   }
 }
+
+/* Make body positioned relative to help .heart-animation z-index work */
+body {
+  position: relative;
+}
+
+/* Optional: Add temporary red border on heart-animation div to confirm it's visible */
+.heart-animation {
+  /* Existing styles must be here already */
+  border: 2px solid red; /* Remove this line after testing */
+}
