@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Wish – HeartSpeak</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #F8CDE0 0%, #FFE7EF 100%);
+      font-family: 'Montserrat', sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .floating-hearts {
+      pointer-events: none;
+      position: fixed;
+      z-index: 0;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+    }
+    .emoji-row {
+      margin: 2rem 0 1rem;
+      text-align: center;
+      font-size: 2.2rem;
+      letter-spacing: 1.2rem;
+      min-height: 2.5rem;
+      transition: opacity 0.6s;
+    }
+    .birthday-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(233,30,99,0.10);
+      max-width: 400px;
+      margin: 6vh auto;
+      padding: 2.2rem 2rem 2rem 2rem;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .birthday-card h1 {
+      font-family: 'Dancing Script', cursive;
+      color: #E91E63;
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    .birthday-card p {
+      color: #c2185b;
+      margin-bottom: 1.2rem;
+      font-size: 1.12rem;
+    }
+    .add-message-label {
+      font-size: 1rem;
+      color: #E91E63;
+      margin-bottom: 0.2rem;
+    }
+    #custom-message {
+      width: 95%;
+      min-height: 2.2em;
+      font-size: 1.1em;
+      padding: 0.6em 0.8em;
+      border: 1.2px solid #E91E63;
+      border-radius: 8px;
+      margin-bottom: 0.8em;
+      outline: none;
+      resize: vertical;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .btn {
+      display: inline-block;
+      background: #E91E63;
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 15px;
+      padding: 0.8em 1.5em;
+      margin: 0.5em 0.2em;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s;
+      box-shadow: 0 2px 12px rgba(233,30,99,0.11);
+    }
+    .btn:hover { background: #C2185B; }
+    /* Popup styling */
+    .popup-bg {
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.18);
+      z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      display: none;
+    }
+    .popup-card {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 4px 32px rgba(233,30,99,0.13);
+      max-width: 340px;
+      width: 90vw;
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .popup-card h2 { font-family: 'Dancing Script', cursive; color: #E91E63; }
+    .popup-close {
+      position: absolute;
+      top: 8px; right: 18px;
+      font-size: 1.8em; color: #E91E63;
+      cursor: pointer;
+      background: none; border: none;
+      font-family: inherit;
+    }
+    @media (max-width: 520px) {
+      .birthday-card, .popup-card { padding: 1.1rem 0.7rem; }
+      .emoji-row { font-size: 1.3rem; }
+      #custom-message { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="floating-hearts"></canvas>
+  <div class="birthday-card" id="mainCard">
+    <h1>Happy Birthday!</h1>
+    <div id="emojiRow" class="emoji-row"></div>
+    <p id="wishText">Wishing you a day filled with smiles, joy, and all your favorite things. Have an amazing year ahead!</p>
+    <div>
+      <div class="add-message-label">Add your own message:</div>
+      <textarea id="custom-message" placeholder="Write your personal birthday wish here..."></textarea><br>
+      <button class="btn" id="previewBtn">Preview Card</button>
+    </div>
+  </div>
+  <!-- Popup -->
+  <div class="popup-bg" id="popupBg">
+    <div class="popup-card">
+      <button class="popup-close" id="closePopup" title="Close">&times;</button>
+      <h2>🎉 Happy Birthday! 🎉</h2>
+      <div id="popupEmojiRow" style="font-size:2rem;margin:1.1rem 0;"></div>
+      <div id="popupWishText" style="color:#C2185B;margin-bottom:0.6em;"></div>
+      <div id="popupCustomText" style="margin-bottom:0.8em;font-weight:500;color:#E91E63;"></div>
+    </div>
+  </div>
+  <script>
+    // Heart animation
+    const canvas = document.querySelector('.floating-hearts');
+    const ctx = canvas.getContext('2d');
+    let hearts = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function Heart() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + Math.random() * 50;
+      this.size = 20 + Math.random() * 20;
+      this.speed = 0.7 + Math.random() * 1.4;
+      this.alpha = 0.55 + Math.random() * 0.35;
+      this.color = `rgba(233,30,99,${this.alpha})`;
+      this.tilt = Math.random() * 2 * Math.PI;
+      this.tiltSpeed = 0.02 + Math.random() * 0.02;
+    }
+    Heart.prototype.draw = function() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.tilt);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(0, -this.size/2, -this.size, -this.size/2, -this.size, 0);
+      ctx.bezierCurveTo(-this.size, this.size, 0, this.size*1.4, 0, this.size);
+      ctx.bezierCurveTo(0, this.size*1.4, this.size, this.size, this.size, 0);
+      ctx.bezierCurveTo(this.size, -this.size/2, 0, -this.size/2, 0, 0);
+      ctx.closePath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = "#F8CDE0";
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.restore();
+    }
+    function createHearts(num) {
+      hearts = [];
+      for (let i = 0; i < num; i++) hearts.push(new Heart());
+    }
+    function animateHearts() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let h of hearts) {
+        h.draw();
+        h.y -= h.speed;
+        h.tilt += h.tiltSpeed;
+        if (h.y < -40) {
+          h.x = Math.random() * canvas.width;
+          h.y = canvas.height + Math.random() * 50;
+        }
+      }
+      requestAnimationFrame(animateHearts);
+    }
+    createHearts(24);
+    animateHearts();
+
+    // Emoji level animation
+    const emojiLevels = ['🎂','🎁','🥳','💖'];
+    let currLevel = 0;
+    function showNextEmoji() {
+      if (currLevel < emojiLevels.length) {
+        document.getElementById('emojiRow').innerHTML += `<span>${emojiLevels[currLevel]}</span>`;
+        currLevel++;
+        setTimeout(showNextEmoji, 550);
+      }
+    }
+    document.getElementById('emojiRow').innerHTML = "";
+    currLevel = 0;
+    setTimeout(showNextEmoji, 500);
+
+    // Popup logic
+    document.getElementById('previewBtn').onclick = function() {
+      // Show all emojis in popup
+      document.getElementById('popupEmojiRow').innerText = emojiLevels.join(" ");
+      // Set the wish text
+      document.getElementById('popupWishText').innerText = document.getElementById('wishText').innerText;
+      // Show user's custom text
+      let userText = document.getElementById('custom-message').value.trim();
+      document.getElementById('popupCustomText').innerText = userText ? userText : "";
+      document.getElementById('popupBg').style.display = "flex";
+    };
+    document.getElementById('closePopup').onclick = function() {
+      document.getElementById('popupBg').style.display = "none";
+    };
+  </script>
+</body>
+</html>
