@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HeartSpeak – Level 1: Birthday Wish</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Inline special style for this level */
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffecf0 0%, #ffe7fa 100%);
+      overflow-x: hidden;
+    }
+    .spark-container {
+      position: absolute;
+      left: 50%;
+      top: 130px;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+    .spark {
+      width: 14px; height: 14px;
+      background: radial-gradient(circle, #ffd700 70%, #f8cde0 100%);
+      position: absolute;
+      border-radius: 50%;
+      animation: sparkle 1s linear forwards;
+      opacity: 0;
+    }
+    @keyframes sparkle {
+      0% { opacity: 1; transform: scale(0.8) translateY(0);}
+      70% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.5) translateY(-100px);}
+    }
+    .level1-wrapper {
+      background: #fff;
+      max-width: 420px;
+      margin: 80px auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 36px 0 rgba(233,30,99,.15);
+      padding: 2rem 2.2rem 2rem 2.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .logo {
+      max-width: 85px;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px #e34a7291;
+      background: #fff9;
+    }
+    h2 {
+      font-family: 'Dancing Script', cursive;
+      color: #e91e63;
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      margin-top: 0;
+      letter-spacing: .7px;
+    }
+    .msg-section {
+      margin-bottom: 1.4rem;
+    }
+    .msg-section label {
+      display: block;
+      font-weight: 600;
+      color: #c2185b;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+    .msg-prewritten {
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+    .msg-prewritten label {
+      font-weight: 400;
+      color: #812c54;
+      margin-left: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .msg-prewritten input[type=radio] {
+      accent-color: #e91e63;
+      margin-right: 6px;
+    }
+    .custom-msg {
+      width: 100%;
+      min-height: 40px;
+      border: 1.5px solid #f6bdd8;
+      border-radius: 10px;
+      padding: 8px;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      outline: none;
+      transition: border .2s;
+    }
+    .custom-msg:focus {
+      border-color: #e91e63;
+      background: #fff0f6;
+    }
+    .btn-row {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn {
+      background: #e73370;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn:hover:not(:disabled) { background: #c82d5d; }
+    .live-preview {
+      margin-top: 1.5rem;
+      min-height: 60px;
+      background: #fff7fa;
+      border: 1.5px solid #f9c4d5;
+      border-radius: 12px;
+      color: #c2185b;
+      font-size: 1.08rem;
+      font-family: 'Dancing Script', cursive;
+      padding: 1.1rem;
+      box-shadow: 0 0 0.5rem #f8cde075;
+      word-break: break-word;
+      letter-spacing: 0.6px;
+      display: none;
+    }
+    @media (max-width: 500px) {
+      .level1-wrapper { padding: 1rem 0.7rem; }
+      h2 { font-size: 1.4rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- SPARK BLAST animation container -->
+  <div class="spark-container" id="spark-blast"></div>
+
+  <div class="level1-wrapper">
+    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
+    <h2>Level 1: Birthday Wishes</h2>
+    <form id="wishForm" autocomplete="off">
+      <div class="msg-section">
+        <label>Select a birthday wish (or write your own):</label>
+        <div class="msg-prewritten">
+          <label><input type="radio" name="msg" value="Wishing you a wonderful birthday full of happiness and laughter! 🎂">Wishing you a wonderful birthday full of happiness and laughter! 🎂</label><br>
+          <label><input type="radio" name="msg" value="May your special day be filled with joy and amazing surprises!">May your special day be filled with joy and amazing surprises!</label><br>
+          <label><input type="radio" name="msg" value="Happy Birthday! Here’s to new adventures, dreams, and memories.">Happy Birthday! Here’s to new adventures, dreams, and memories.</label>
+        </div>
+        <input type="text" class="custom-msg" id="customMsg" placeholder="Or write your own birthday wish here" maxlength="160" />
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn" id="previewBtn">Preview This Level</button>
+        <button type="button" class="btn" id="saveDraftBtn">Save Draft</button>
+        <button type="submit" class="btn" id="nextBtn" disabled>Next Level &rarr;</button>
+      </div>
+    </form>
+    <div class="live-preview" id="previewBox"></div>
+  </div>
+
+  <script>
+    // SPARK BLAST Animation
+    function doSparkBlast() {
+      const container = document.getElementById('spark-blast');
+      for (let i = 0; i < 15; i++) {
+        const spark = document.createElement('div');
+        spark.classList.add('spark');
+        spark.style.left = (Math.random() * 300 - 150) + 'px';
+        spark.style.top = (Math.random() * 60 - 30) + 'px';
+        container.appendChild(spark);
+        setTimeout(() => spark.remove(), 1000);
+      }
+    }
+
+    // Handle form logic
+    const radios = document.querySelectorAll('input[type=radio][name=msg]');
+    const customMsg = document.getElementById('customMsg');
+    const nextBtn = document.getElementById('nextBtn');
+    const previewBtn = document.getElementById('previewBtn');
+    const previewBox = document.getElementById('previewBox');
+    const saveDraftBtn = document.getElementById('saveDraftBtn');
+    let selectedMsg = '';
+
+    function updateNextButton() {
+      if (document.querySelector('input[name=msg]:checked') || customMsg.value.trim()) {
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.disabled = true;
+      }
+    }
+
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        customMsg.value = '';
+        selectedMsg = radio.value;
+        updateNextButton();
+      });
+    });
+
+    customMsg.addEventListener('input', () => {
+      if (customMsg.value.trim()) {
+        radios.forEach(r => r.checked = false);
+        selectedMsg = customMsg.value.trim();
+      } else {
+        selectedMsg = document.querySelector('input[name=msg]:checked')?.value || '';
+      }
+      updateNextButton();
+    });
+
+    // Preview This Level
+    previewBtn.addEventListener('click', () => {
+      if (selectedMsg) {
+        previewBox.innerHTML = selectedMsg;
+        previewBox.style.display = 'block';
+        doSparkBlast();
+      } else {
+        previewBox.innerHTML = '';
+        previewBox.style.display = 'none';
+      }
+    });
+
+    // Save Draft (for now, just alert)
+    saveDraftBtn.addEventListener('click', () => {
+      if (selectedMsg) {
+        alert('Draft saved:\n' + selectedMsg);
+      } else {
+        alert('Please choose or enter a message before saving a draft.');
+      }
+    });
+
+    // Next Level (for now, just go to level2.html)
+    document.getElementById('wishForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (selectedMsg) {
+        // Save draft/final (future: store to backend or localStorage)
+        window.location.href = "level2.html";
+      }
+    });
+
+    // Initial state
+    updateNextButton();
+  </script>
+</body>
+</html>
