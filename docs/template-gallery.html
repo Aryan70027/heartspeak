@@ -1,36 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Templates • HeartSpeak</title>
-<link rel="stylesheet" href="/css/styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template Gallery • HeartSpeak</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #f8cde0 0%, #fff0f6 100%);
+      font-family: 'Montserrat', 'Poppins', sans-serif;
+      color: #C2185B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container.template-gallery-page {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 24px rgba(233, 30, 99, 0.07);
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    .site-header .logo {
+      max-width: 130px;
+      margin-bottom: 1.4rem;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px #e34a72;
+      background: #ffe9d9;
+    }
+    .gallery-filter {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .tab-btn {
+      background: #ffd9ec;
+      color: #d6336c;
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s, color 0.3s;
+      box-shadow: 0 1px 4px #f8bbd0;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: linear-gradient(90deg,#e73370 0,#e573c7 100%);
+      color: #fff;
+    }
+    .gallery-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 1.3rem;
+    }
+    .gallery-card {
+      background: #fff0f6;
+      border-radius: 15px;
+      box-shadow: 0 2px 12px rgba(233, 30, 99, 0.06);
+      padding: 1.2rem 1.1rem;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .gallery-card img {
+      max-width: 100%;
+      height: 105px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 0.7rem;
+      box-shadow: 0 1px 4px #f8bbd0;
+      background: #ffe9d9;
+    }
+    .template-info h4 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.23rem;
+      color: #d6336c;
+      margin-bottom: 0.5rem;
+    }
+    .secondary-btn {
+      background: #ffd9ec;
+      color: #d6336c;
+      font-weight: 700;
+      padding: 0.65rem 1.3rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 0.6rem;
+      transition: background 0.3s;
+    }
+    .secondary-btn:hover {
+      background: #e73370;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-<div class="heart-animation"></div>
-<header class="site-header">
-    <img src="/img/logo.png" alt="HeartSpeak" class="logo"/>
-</header>
-<main class="container template-gallery-page">
+  <div class="heart-animation"></div>
+  <header class="site-header">
+    <img src="img/logo.png" alt="HeartSpeak logo" class="logo" />
+  </header>
+  <main class="container template-gallery-page">
     <section class="gallery-filter">
-        <button class="tab-btn active" data-event="birthday">Birthday</button>
-        <button class="tab-btn" data-event="proposal">Proposal</button>
-        <button class="tab-btn" data-event="anniversary">Anniversary</button>
+      <button class="tab-btn active" data-event="birthday" onclick="showTab('birthday')">Birthday</button>
+      <button class="tab-btn" data-event="proposal" onclick="showTab('proposal')">Proposal</button>
+      <button class="tab-btn" data-event="anniversary" onclick="showTab('anniversary')">Anniversary</button>
     </section>
     <section class="gallery-cards">
-        <div id="birthday" class="gallery-grid">
-            <div class="template-card">
-                <img src="/img/placeholder.png" alt="template"/>
-                <div class="template-info">
-                    <h4>Elegant Floral</h4>
-                    <button class="secondary-btn">Use Template</button>
-                </div>
-            </div>
+      <div id="birthday" class="gallery-grid">
+        <div class="gallery-card">
+          <img src="img/placeholder.png" alt="Birthday Template">
+          <div class="template-info">
+            <h4>Elegant Florals</h4>
+            <button class="secondary-btn">Use Template</button>
+          </div>
         </div>
-        <div id="proposal" class="gallery-grid" style="display:none;"></div>
-        <div id="anniversary" class="gallery-grid" style="display:none;"></div>
+        <!-- Add more birthday templates here -->
+      </div>
+      <div id="proposal" class="gallery-grid" style="display:none;">
+        <div class="gallery-card">
+          <img src="img/placeholder.png" alt="Proposal Template">
+          <div class="template-info">
+            <h4>Dreamy Proposal</h4>
+            <button class="secondary-btn">Use Template</button>
+          </div>
+        </div>
+        <!-- Add more proposal templates here -->
+      </div>
+      <div id="anniversary" class="gallery-grid" style="display:none;">
+        <div class="gallery-card">
+          <img src="img/placeholder.png" alt="Anniversary Template">
+          <div class="template-info">
+            <h4>Romantic Rose</h4>
+            <button class="secondary-btn">Use Template</button>
+          </div>
+        </div>
+        <!-- Add more anniversary templates here -->
+      </div>
     </section>
-</main>
-<script src="/js/scripts.js"></script>
+  </main>
+  <script>
+    function showTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector('.tab-btn[data-event="' + tab + '"]').classList.add('active');
+      document.getElementById('birthday').style.display = 'none';
+      document.getElementById('proposal').style.display = 'none';
+      document.getElementById('anniversary').style.display = 'none';
+      document.getElementById(tab).style.display = 'flex';
+    }
+  </script>
 </body>
 </html>
