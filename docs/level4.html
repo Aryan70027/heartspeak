@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HeartSpeak – Level 4: Photo Collage</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffe2ec 0%, #fdeff9 100%);
+      min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Emoji animation bg */
+    .emoji-bg {
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .emoji-anim {
+      position: absolute;
+      font-size: 2.2rem;
+      opacity: 0.14;
+      animation: floatEmoji 8s linear infinite;
+    }
+    @keyframes floatEmoji {
+      0% { transform: translateY(110vh) scale(0.9) rotate(-9deg);}
+      60% { opacity: 0.19;}
+      100% { transform: translateY(-10vh) scale(1.17) rotate(15deg);}
+    }
+    .level4-wrapper {
+      background: #fff;
+      max-width: 410px;
+      margin: 75px auto 0 auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px 0 rgba(233,30,99,.09);
+      padding: 2.2rem 1.7rem 2rem 1.7rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .logo {
+      max-width: 78px;
+      border-radius: 1rem;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 2px 8px #e34a7291;
+      background: #fff9;
+    }
+    h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: #e91e63;
+      margin-bottom: 1.2rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    label {
+      font-weight: 500;
+      color: #ad2071;
+      font-size: 1.03rem;
+      margin-bottom: 0.18rem;
+      display: block;
+    }
+    input[type="file"] {
+      margin-top: 0.4rem;
+      width: 100%;
+    }
+    .collage-preview {
+      margin: 1.3rem auto 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      min-height: 100px;
+    }
+    .collage-preview img {
+      width: 85px;
+      height: 85px;
+      object-fit: cover;
+      border-radius: 13px;
+      box-shadow: 0 2px 9px #e91e6342;
+      background: #ffe3ef;
+      transition: transform 0.18s;
+    }
+    .collage-preview img:hover {
+      transform: scale(1.09) rotate(-3deg);
+    }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 1.2rem;
+    }
+    .btn {
+      background: #e73370;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.7rem 1.4rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed;}
+    .btn:hover:not(:disabled) { background: #c82d5d; }
+    @media (max-width: 500px) {
+      .level4-wrapper { padding: 1.1rem 0.6rem;}
+      .logo { max-width: 54px;}
+      .collage-preview img { width: 60px; height: 60px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="emoji-bg" id="emojiBg"></div>
+  <div class="level4-wrapper">
+    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
+    <h2>Level 4: Photo Collage</h2>
+    <form id="level4Form">
+      <div class="form-group">
+        <label for="photos">Upload your best moments (min 3, max 20 photos):</label>
+        <input type="file" id="photos" name="photos" accept="image/*" multiple>
+      </div>
+      <div class="collage-preview" id="collagePreview"></div>
+      <div class="btn-row">
+        <button type="button" class="btn" id="nextBtn" disabled>Next Level &rarr;</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Emoji Animation
+    const emojiArr = ["🎉","💖","✨","🥳","🌈","🎈","😊","🌟"];
+    const emojiBg = document.getElementById("emojiBg");
+    for(let i=0;i<18;i++) {
+      let e = document.createElement("span");
+      e.className = "emoji-anim";
+      e.textContent = emojiArr[Math.floor(Math.random()*emojiArr.length)];
+      e.style.left = Math.random()*97+"vw";
+      e.style.animationDelay = Math.random()*7+"s";
+      emojiBg.appendChild(e);
+    }
+
+    // Photo Collage Logic
+    const photoInput = document.getElementById("photos");
+    const collagePreview = document.getElementById("collagePreview");
+    const nextBtn = document.getElementById("nextBtn");
+
+    photoInput.addEventListener('change', function(){
+      collagePreview.innerHTML = "";
+      const files = Array.from(photoInput.files).slice(0,20);
+      if(files.length < 3) {
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.disabled = false;
+      }
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          collagePreview.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+      });
+    });
+
+    nextBtn.addEventListener('click', function() {
+      if(photoInput.files.length >= 3) {
+        window.location.href = "level5.html";
+      }
+    });
+  </script>
+</body>
+</html>
