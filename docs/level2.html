@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HeartSpeak – Level 2: Mood Selection</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffe2ec 0%, #fdeff9 100%);
+      min-height: 100vh;
+    }
+    .level2-wrapper {
+      background: #fff;
+      max-width: 420px;
+      margin: 80px auto 0 auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 36px 0 rgba(233,30,99,.11);
+      padding: 2.2rem 2rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .logo {
+      max-width: 85px;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px #e34a7291;
+      background: #fff9;
+    }
+    .levelup {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.1rem;
+      color: #e91e63;
+      margin-bottom: 1rem;
+      letter-spacing: 1.1px;
+      animation: popIn 1s;
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.7);}
+      60% { opacity: 1; transform: scale(1.07);}
+      100% { opacity: 1; transform: scale(1);}
+    }
+    .emoji-ring {
+      margin: 0 auto 1.8rem auto;
+      width: 150px; height: 150px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .emoji-ring span {
+      position: absolute;
+      font-size: 2rem;
+      animation: ringPop 1.1s cubic-bezier(.16,1,.3,1) backwards;
+    }
+    @keyframes ringPop {
+      0% { opacity: 0; transform: scale(0.5);}
+      80% { opacity: 1; transform: scale(1.2);}
+      100% { opacity: 1; transform: scale(1);}
+    }
+    /* Positioning emojis in a circle */
+    .emoji1 { top: 0; left: 50%; transform: translate(-50%, 0);}
+    .emoji2 { top: 20%; left: 90%; transform: translate(-50%, -50%);}
+    .emoji3 { top: 65%; left: 94%; transform: translate(-50%, -50%);}
+    .emoji4 { top: 100%; left: 60%; transform: translate(-50%, -50%);}
+    .emoji5 { top: 100%; left: 10%; transform: translate(-50%, -50%);}
+    .emoji6 { top: 65%; left: 0%; transform: translate(-50%, -50%);}
+    .emoji7 { top: 20%; left: 5%; transform: translate(-50%, -50%);}
+    .emoji8 { top: 0; left: 25%; transform: translate(-50%, 0);}
+    .mood-section {
+      margin-bottom: 1.5rem;
+    }
+    .mood-section label {
+      font-size: 1.13rem;
+      color: #ad2071;
+      font-weight: 600;
+    }
+    .mood-list {
+      margin: 0.8rem 0 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      justify-content: center;
+    }
+    .mood-item {
+      background: #ffebf6;
+      color: #e91e63;
+      border-radius: 10px;
+      font-size: 1rem;
+      padding: 7px 16px;
+      border: 1.3px solid #f9c4d5;
+      cursor: pointer;
+      transition: all .23s;
+      font-family: 'Montserrat',sans-serif;
+      font-weight: 600;
+    }
+    .mood-item.selected, .mood-item:hover {
+      background: #e91e63;
+      color: #fff;
+      border-color: #e91e63;
+      box-shadow: 0 0 10px #f8cde08e;
+    }
+    .btn-row {
+      margin-top: 2.2rem;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn {
+      background: #e73370;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed;}
+    .btn:hover:not(:disabled) { background: #c82d5d; }
+    @media (max-width: 500px) {
+      .level2-wrapper { padding: 1.2rem 0.7rem;}
+      .emoji-ring { width: 110px; height: 110px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="level2-wrapper">
+    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
+    <div class="levelup">Level Up! <span style="font-size:1.3rem;">🎉</span></div>
+    <div class="emoji-ring">
+      <span class="emoji1">🎂</span>
+      <span class="emoji2">💖</span>
+      <span class="emoji3">✨</span>
+      <span class="emoji4">🥳</span>
+      <span class="emoji5">🌈</span>
+      <span class="emoji6">🎈</span>
+      <span class="emoji7">😊</span>
+      <span class="emoji8">🌟</span>
+    </div>
+    <div class="mood-section">
+      <label>Select a mood for the next card:</label>
+      <div class="mood-list" id="moodList">
+        <div class="mood-item">Cheerful</div>
+        <div class="mood-item">Romantic</div>
+        <div class="mood-item">Motivational</div>
+        <div class="mood-item">Friendly</div>
+        <div class="mood-item">Funny</div>
+        <div class="mood-item">Grateful</div>
+        <div class="mood-item">Surprise</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="previewBtn" disabled>Preview Mood</button>
+      <button class="btn" id="nextBtn" disabled>Next Level &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const moods = document.querySelectorAll('.mood-item');
+    let selectedMood = '';
+    moods.forEach(mood => {
+      mood.addEventListener('click', function() {
+        moods.forEach(m => m.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedMood = this.textContent;
+        document.getElementById('previewBtn').disabled = false;
+        document.getElementById('nextBtn').disabled = false;
+      });
+    });
+    document.getElementById('previewBtn').addEventListener('click', () => {
+      if(selectedMood) {
+        alert('Mood selected: ' + selectedMood + '\nPreview coming soon!');
+      }
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if(selectedMood) {
+        // Store mood for next page in localStorage or just proceed for now
+        window.location.href = 'level3.html';
+      }
+    });
+  </script>
+</body>
+</html>
