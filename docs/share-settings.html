@@ -1,35 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Share Settings • HeartSpeak</title>
-<link rel="stylesheet" href="/css/styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Settings • HeartSpeak</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #f8cde0 0%, #fff0f6 100%);
+      font-family: 'Montserrat', 'Poppins', sans-serif;
+      color: #C2185B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container.share-settings-page {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 24px rgba(233, 30, 99, 0.07);
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    .site-header .logo {
+      max-width: 130px;
+      margin-bottom: 1.4rem;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px #e34a72;
+      background: #ffe9d9;
+    }
+    h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #E91E63;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    input[type="datetime-local"], input[type="number"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1.7px solid #e73370;
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      outline: none;
+      background: #fff9fb;
+      font-family: inherit;
+    }
+    .primary-btn {
+      background: linear-gradient(90deg,#e73370 0,#e573c7 100%);
+      color: #fff;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 1.1rem 0 0.7rem 0;
+      font-size: 1.07rem;
+      transition: background 0.3s;
+      box-shadow: 0 2px 8px #f8bbd0;
+    }
+    .primary-btn:hover {
+      background: linear-gradient(90deg,#e573c7 0,#e73370 100%);
+    }
+    .share-buttons {
+      margin-top: 1.5rem;
+    }
+    .secondary-btn {
+      background: #ffd9ec;
+      color: #d6336c;
+      font-weight: 700;
+      padding: 0.7rem 1.3rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 0 0.3rem;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .secondary-btn:hover {
+      background: #e73370;
+      color: #fff;
+    }
+    .link-output {
+      background: #f8cde0;
+      color: #c2185b;
+      padding: 0.7rem 0.8rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      word-break: break-all;
+      display: inline-block;
+      min-width: 80%;
+    }
+  </style>
 </head>
 <body>
-<div class="heart-animation"></div>
-<header class="site-header">
-    <img src="/img/logo.png" alt="HeartSpeak" class="logo"/>
-</header>
-<main class="container share-settings-page">
+  <div class="heart-animation"></div>
+  <header class="site-header">
+    <img src="img/logo.png" alt="HeartSpeak logo" class="logo" />
+  </header>
+  <main class="container share-settings-page">
     <section class="share-settings-panel">
-        <h2>Share Your Creation</h2>
-        <div class="form-group">
-            <label for="expiryDate">Expiry</label>
-            <input type="datetime-local" id="expiryDate"/>
-        </div>
-        <div class="form-group">
-            <label for="viewLimit">Max Views</label>
-            <input type="number" id="viewLimit" placeholder="e.g., 5"/>
-        </div>
-        <button id="generateBtn" class="primary-btn">Generate Share Link</button>
-        <div id="linkOutput" class="link-output" style="display:none; margin-top:1rem;"></div>
-        <div id="shareButtons" class="share-buttons" style="display:none; margin-top:1rem;">
-            <button class="secondary-btn">WhatsApp</button>
-            <button class="secondary-btn">Social</button>
-        </div>
+      <h2>Share Your Creation</h2>
+      <div class="form-group">
+        <label for="expiryDate">Expiry</label>
+        <input type="datetime-local" id="expiryDate" />
+      </div>
+      <div class="form-group">
+        <label for="viewLimit">Max Views</label>
+        <input type="number" id="viewLimit" min="1" placeholder="e.g. 5" />
+      </div>
+      <button id="generateBtn" class="primary-btn">Generate Share Link</button>
+      <div id="linkOutput" class="link-output" style="display:none; margin-top: 1rem;"></div>
+      <div id="shareButtons" class="share-buttons" style="display:none;">
+        <button class="secondary-btn" onclick="alert('WhatsApp sharing...')">WhatsApp</button>
+        <button class="secondary-btn" onclick="alert('Social sharing...')">Social</button>
+      </div>
     </section>
-</main>
-<script src="/js/scripts.js"></script>
+  </main>
+  <script>
+    // Simple fake link generation for UI demo
+    document.getElementById('generateBtn').onclick = function () {
+      document.getElementById('linkOutput').innerHTML = 'https://heartspeak.io/card/abcd1234';
+      document.getElementById('linkOutput').style.display = 'inline-block';
+      document.getElementById('shareButtons').style.display = 'block';
+    };
+  </script>
 </body>
 </html>
