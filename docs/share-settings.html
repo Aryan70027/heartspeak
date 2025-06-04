@@ -1,144 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Share Settings • HeartSpeak</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Share Settings – HeartSpeak</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
     body {
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #f8cde0 0%, #fff0f6 100%);
-      font-family: 'Montserrat', 'Poppins', sans-serif;
-      color: #C2185B;
+      background: linear-gradient(120deg,#ffe6f0 40%, #f3e7fd 100%);
+      font-family: 'Poppins', sans-serif;
+      margin: 0; padding: 0; min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .logo {
+      width: 120px;
+      height: auto;
+      border-radius: 1.5rem;
+      box-shadow: 0 2px 16px #fbb5dd55;
+    }
+    .stepper {
+      display: flex; justify-content: center; align-items: center;
+      margin: 0.7rem 0 2rem 0;
+      font-size: 1.05rem;
+      gap: 0.7rem;
+      color: #b250c3;
+    }
+    .stepper .dot { 
+      width: 11px; height: 11px; border-radius:50%; 
+      background:#fbb5dd; display:inline-block; margin:0 4px;
+      border: 2.5px solid #fff;
+      box-shadow: 0 0 2px #b250c3;
+    }
+    .stepper .active { background: #b250c3; }
+    .share-container {
+      max-width: 540px;
+      margin: auto;
+      padding: 1.3rem 1.2rem 2rem 1.2rem;
+      background: #fff;
+      border-radius: 1.4rem;
+      box-shadow: 0 4px 32px #b4aad644;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      gap: 1.3rem;
+      position: relative;
     }
-    .container.share-settings-page {
+    .card-mini-preview {
+      width: 100%;
+      background: #ffe6f0;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 9px #fbb5dd44;
+      display: flex; align-items: center; gap: 1.1rem;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+    .card-mini-img {
+      width: 54px; height: 54px; object-fit: cover;
+      border-radius: 0.8rem;
       background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 5px 24px rgba(233, 30, 99, 0.07);
-      padding: 2rem 2.5rem;
-      margin: 2rem 0;
-      max-width: 420px;
+      box-shadow: 0 1px 4px #fbb5dd55;
+    }
+    .card-mini-info {
+      display: flex; flex-direction: column;
+    }
+    .card-mini-title { font-weight: 600; color: #b250c3; }
+    .card-mini-recipient { color: #cc0066; font-size: 0.95rem;}
+    .share-form {
+      width: 100%; display: flex; flex-direction: column; gap: 1.1rem;
+      margin-top: 0.1rem;
+    }
+    .share-label {
+      font-weight: 500; color: #b250c3; font-size: 1.01rem;
+      margin-bottom: 0.27rem;
+    }
+    .share-row { display: flex; gap: 1rem; flex-wrap: wrap;}
+    .share-toggle {
+      accent-color: #b250c3; margin-right: 0.3rem;
+    }
+    .input-field, .input-area, .input-num, .input-date {
+      padding: 0.68rem 1rem;
+      font-size: 1.06rem;
+      border: 1.3px solid #ddd;
+      border-radius: 0.8rem;
+      background: #fafaff;
+      outline: none; min-width: 0;
+      margin-bottom: 0.2rem;
       width: 100%;
+      transition: border 0.2s;
+    }
+    .input-field:focus, .input-area:focus, .input-num:focus, .input-date:focus {
+      border-color: #b250c3;
+    }
+    .input-num { width: 5rem; }
+    .input-date { width: 10rem;}
+    .toggle-label {font-size:0.96rem;color:#7c2e94;margin-left:0.35rem;}
+    .share-btn {
+      margin: 1.1rem auto 0.2rem auto;
+      padding: 0.8rem 2.2rem;
+      font-size: 1.13rem;
+      border: none;
+      border-radius: 2rem;
+      background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
+      color: #fff; font-weight: 700;
+      box-shadow: 0 2px 12px #b250c355;
+      cursor: pointer;
+      transition: background 0.17s, transform 0.12s;
+      letter-spacing: 1px;
+    }
+    .share-btn:active { transform: scale(.97);}
+    /* Animated Surprise Box */
+    .suprise-box-wrap {
+      width: 100%; display: flex; justify-content: center; align-items: center;
+      min-height: 110px;
+    }
+    .suprise-box {
+      background: linear-gradient(120deg,#fbb5dd 40%,#f3e7fd 100%);
+      border-radius: 1.6rem;
+      box-shadow: 0 2px 18px #fbb5dd99, 0 0 25px #b250c344 inset;
+      padding: 2.5rem 1.7rem 1.3rem 1.7rem;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+      animation: boxPop 1.1s;
+      margin-top: 1.1rem;
+      min-width: 260px;
+      max-width: 400px;
+    }
+    @keyframes boxPop {
+      0% { transform: scale(0.7) translateY(40px); opacity:0;}
+      70% { transform: scale(1.08) translateY(-8px);}
+      100% { transform: scale(1) translateY(0); opacity:1;}
+    }
+    .suprise-box .confetti {
+      position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
+      font-size: 2.2rem; opacity: 0.6;
+      animation: confettiPop 1.3s linear;
+    }
+    @keyframes confettiPop {
+      0% { opacity: 0; transform:translate(-50%,20px) scale(0.8);}
+      60% { opacity: 1; transform:translate(-50%,-10px) scale(1.08);}
+      100% { opacity: 0.65; transform:translate(-50%,0) scale(1);}
+    }
+    .suprise-link {
+      background: #fffbe8;
+      border: 1.6px dashed #b250c3;
+      border-radius: 1.1rem;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.03rem;
+      color: #6a227c;
+      margin: 0.5rem 0 1.1rem 0;
       text-align: center;
-    }
-    .site-header .logo {
-      max-width: 130px;
-      margin-bottom: 1.4rem;
-      border-radius: 20px;
-      box-shadow: 0 2px 8px #e34a72;
-      background: #ffe9d9;
-    }
-    h2 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #E91E63;
-    }
-    .form-group {
-      margin-bottom: 1.2rem;
-      text-align: left;
-    }
-    label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-    input[type="datetime-local"], input[type="number"] {
-      width: 100%;
-      padding: 0.7rem;
-      border: 1.7px solid #e73370;
-      border-radius: 12px;
-      font-size: 1rem;
-      margin-bottom: 0.4rem;
-      outline: none;
-      background: #fff9fb;
-      font-family: inherit;
-    }
-    .primary-btn {
-      background: linear-gradient(90deg,#e73370 0,#e573c7 100%);
-      color: #fff;
-      font-weight: 700;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      margin: 1.1rem 0 0.7rem 0;
-      font-size: 1.07rem;
-      transition: background 0.3s;
-      box-shadow: 0 2px 8px #f8bbd0;
-    }
-    .primary-btn:hover {
-      background: linear-gradient(90deg,#e573c7 0,#e73370 100%);
-    }
-    .share-buttons {
-      margin-top: 1.5rem;
-    }
-    .secondary-btn {
-      background: #ffd9ec;
-      color: #d6336c;
-      font-weight: 700;
-      padding: 0.7rem 1.3rem;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      margin: 0 0.3rem;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-    .secondary-btn:hover {
-      background: #e73370;
-      color: #fff;
-    }
-    .link-output {
-      background: #f8cde0;
-      color: #c2185b;
-      padding: 0.7rem 0.8rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      margin-bottom: 1rem;
       word-break: break-all;
-      display: inline-block;
-      min-width: 80%;
+      transition: box-shadow 0.15s;
+      box-shadow: 0 2px 8px #fbb5dd33;
+    }
+    .share-icons-row {
+      display: flex; gap: 1.2rem; justify-content: center; align-items: center;
+      margin: 0.5rem 0 0.3rem 0;
+    }
+    .share-icon-btn {
+      background: #ffe6f0;
+      border: none;
+      border-radius: 1.3rem;
+      font-size: 1.42rem;
+      padding: 0.7rem 1.05rem;
+      color: #b250c3;
+      box-shadow: 0 1px 8px #fbb5dd55;
+      cursor: pointer;
+      transition: background 0.17s, transform 0.12s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .share-icon-btn:active { transform: scale(.96);}
+    .qr-code {
+      margin-top: 0.7rem; margin-bottom: 0.6rem;
+      background: #fff;
+      border-radius: 0.7rem;
+      box-shadow: 0 2px 9px #fbb5dd33;
+      padding: 0.6rem 0.7rem;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .edit-note {
+      margin-top:1.1rem;font-size:0.99rem;color:#8e44ad;text-align:center;
+    }
+    .share-nav-row {
+      margin-top:1.7rem;
+      display:flex; gap:1.3rem; justify-content:center;
+    }
+    .share-nav-row button {
+      padding:0.65rem 1.5rem; font-size:1.04rem; font-weight:600;
+      border:none; border-radius:1.3rem;
+      background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
+      color:#fff; cursor:pointer;
+      box-shadow: 0 2px 8px #b250c355;
+    }
+    .share-nav-row button:active { transform:scale(.96);}
+    @media (max-width:650px) {
+      .share-container {padding:0.7rem 2vw;}
+    }
+    @media (max-width:500px) {
+      .share-container {padding:0.1rem 1vw;}
+      .suprise-box {padding:1.7rem 0.7rem 1rem 0.7rem;}
     }
   </style>
+  <!-- For QR code -->
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 </head>
 <body>
-  <div class="heart-animation"></div>
-  <header class="site-header">
-    <img src="img/logo.png" alt="HeartSpeak logo" class="logo" />
+  <header>
+    <img src="img/logo.png" alt="HeartSpeak Logo" class="logo" />
   </header>
-  <main class="container share-settings-page">
-    <section class="share-settings-panel">
-      <h2>Share Your Creation</h2>
-      <div class="form-group">
-        <label for="expiryDate">Expiry</label>
-        <input type="datetime-local" id="expiryDate" />
+  <div class="stepper">
+    <span class="dot"></span> Create
+    <span class="dot"></span> Preview
+    <span class="dot active"></span> Share
+  </div>
+  <div class="share-container">
+    <div id="cardMini"></div>
+    <form id="shareForm" class="share-form" autocomplete="off" onsubmit="event.preventDefault();generateLink();">
+      <!-- Privacy -->
+      <div>
+        <div class="share-label">Privacy</div>
+        <div class="share-row">
+          <label><input type="radio" name="privacy" value="public" checked class="share-toggle" onchange="showPrivacyFields()"> Anyone with link</label>
+          <label><input type="radio" name="privacy" value="private" class="share-toggle" onchange="showPrivacyFields()"> Private (require code/email/number)</label>
+        </div>
+        <div id="privateFields" style="display:none;gap:0.7rem;margin-top:0.5rem;">
+          <input class="input-field" type="text" id="privateEmail" placeholder="Receiver Email (optional)">
+          <input class="input-field" type="text" id="privateNumber" placeholder="Receiver Phone (optional)">
+          <input class="input-field" type="text" id="privateCode" placeholder="Secret Code (optional)">
+        </div>
       </div>
-      <div class="form-group">
-        <label for="viewLimit">Max Views</label>
-        <input type="number" id="viewLimit" min="1" placeholder="e.g. 5" />
+      <!-- Password -->
+      <div>
+        <label><input type="checkbox" id="enablePassword" class="share-toggle" onchange="showPasswordField()">
+          <span class="toggle-label">Set password to open card (optional)</span></label>
+        <input class="input-field" type="text" id="passwordField" placeholder="Enter password" style="display:none;">
       </div>
-      <button id="generateBtn" class="primary-btn">Generate Share Link</button>
-      <div id="linkOutput" class="link-output" style="display:none; margin-top: 1rem;"></div>
-      <div id="shareButtons" class="share-buttons" style="display:none;">
-        <button class="secondary-btn" onclick="alert('WhatsApp sharing...')">WhatsApp</button>
-        <button class="secondary-btn" onclick="alert('Social sharing...')">Social</button>
+      <!-- Expiry -->
+      <div>
+        <div class="share-label">Expiry & Usage</div>
+        <div class="share-row" style="gap:1.2rem;">
+          <label><input type="radio" name="expiry" value="none" checked class="share-toggle" onchange="showExpiryFields()"> No expiry</label>
+          <label><input type="radio" name="expiry" value="one-time" class="share-toggle" onchange="showExpiryFields()"> One-time view</label>
+          <label><input type="radio" name="expiry" value="days" class="share-toggle" onchange="showExpiryFields()"> Expire after days</label>
+          <label><input type="radio" name="expiry" value="date" class="share-toggle" onchange="showExpiryFields()"> Expire on date</label>
+        </div>
+        <div id="daysField" style="display:none;margin-top:0.4rem;">
+          <input class="input-num" type="number" id="daysInput" min="1" max="30" placeholder="Days (1-30)">
+        </div>
+        <div id="dateField" style="display:none;margin-top:0.4rem;">
+          <input class="input-date" type="date" id="dateInput">
+        </div>
       </div>
-    </section>
-  </main>
+      <!-- Max Opens -->
+      <div>
+        <label class="share-label">Maximum Opens (optional)</label>
+        <input class="input-num" type="number" id="maxOpens" min="1" max="99" placeholder="e.g. 5">
+      </div>
+      <!-- Reply toggle -->
+      <div>
+        <label><input type="checkbox" id="allowReply" class="share-toggle" checked>
+          <span class="toggle-label">Allow receiver to reply (1 reply only)</span></label>
+      </div>
+      <button type="submit" class="share-btn" id="generateBtn">Generate Link</button>
+    </form>
+    <div class="suprise-box-wrap" id="supriseBoxWrap" style="display:none;">
+      <div class="suprise-box" id="supriseBox">
+        <div class="confetti">🎁✨🎉</div>
+        <div class="suprise-link" id="theLink"></div>
+        <div class="share-icons-row">
+          <button class="share-icon-btn" onclick="copyLink()" title="Copy Link">📋 Copy</button>
+          <button class="share-icon-btn" onclick="shareWhatsApp()" title="WhatsApp">🟢 WhatsApp</button>
+          <button class="share-icon-btn" onclick="shareInstagram()" title="Instagram">📸 Instagram</button>
+        </div>
+        <div class="qr-code" id="qrCode"></div>
+        <div class="edit-note">You can edit these settings anytime.<br><span id="editMsg"></span></div>
+      </div>
+    </div>
+    <div class="share-nav-row">
+      <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+      <button onclick="window.location.href='card-creator.html'">Create New Card</button>
+    </div>
+  </div>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script>
-    // Simple fake link generation for UI demo
-    document.getElementById('generateBtn').onclick = function () {
-      document.getElementById('linkOutput').innerHTML = 'https://heartspeak.io/card/abcd1234';
-      document.getElementById('linkOutput').style.display = 'inline-block';
-      document.getElementById('shareButtons').style.display = 'block';
+    // === UI toggle functions ===
+    function showPrivacyFields() {
+      const priv = document.querySelector('input[name="privacy"]:checked').value;
+      document.getElementById("privateFields").style.display = priv==="private" ? "flex" : "none";
+    }
+    function showPasswordField() {
+      document.getElementById("passwordField").style.display = document.getElementById("enablePassword").checked ? "block" : "none";
+    }
+    function showExpiryFields() {
+      const val = document.querySelector('input[name="expiry"]:checked').value;
+      document.getElementById("daysField").style.display = val==="days" ? "block" : "none";
+      document.getElementById("dateField").style.display = val==="date" ? "block" : "none";
+    }
+
+    // === Firebase setup ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      authDomain: "heartspeak-bf703.firebaseapp.com",
+      projectId: "heartspeak-bf703",
+      storageBucket: "heartspeak-bf703.appspot.com",
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7",
+      measurementId: "G-RGVFVSSPMG"
     };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // === Load card mini preview ===
+    let currentCardId = localStorage.getItem("lastCardId");
+    let cardData = {};
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) { window.location.href = "login.html"; return; }
+      if (!currentCardId) {
+        document.getElementById("cardMini").innerHTML = "No card selected. Please go back to preview.";
+        document.getElementById("shareForm").style.display = "none";
+        return;
+      }
+      // Fetch card data from Firestore
+      const doc = await db.collection("cards").doc(currentCardId).get();
+      if (!doc.exists) {
+        document.getElementById("cardMini").innerHTML = "Card not found.";
+        document.getElementById("shareForm").style.display = "none";
+        return;
+      }
+      cardData = doc.data();
+      // Mini preview
+      document.getElementById("cardMini").innerHTML = `
+        <div class="card-mini-preview">
+          <img src="${cardData.mainImg || 'img/demo-avatar.jpg'}" class="card-mini-img">
+          <div class="card-mini-info">
+            <span class="card-mini-title">${cardData.title || "Card"}</span>
+            <span class="card-mini-recipient">To: ${cardData.recipient || "Someone"}</span>
+          </div>
+        </div>`;
+      // Load existing share settings (if any)
+      if (cardData.shareSettings) { fillShareSettings(cardData.shareSettings); }
+    });
+
+    function fillShareSettings(set) {
+      if (set.privacy) document.querySelector(`input[name="privacy"][value="${set.privacy}"]`).checked = true;
+      showPrivacyFields();
+      document.getElementById("privateEmail").value = set.privateEmail || "";
+      document.getElementById("privateNumber").value = set.privateNumber || "";
+      document.getElementById("privateCode").value = set.privateCode || "";
+      document.getElementById("enablePassword").checked = !!set.password;
+      showPasswordField();
+      document.getElementById("passwordField").value = set.password || "";
+      if (set.expiry) document.querySelector(`input[name="expiry"][value="${set.expiry}"]`).checked = true;
+      showExpiryFields();
+      document.getElementById("daysInput").value = set.days || "";
+      document.getElementById("dateInput").value = set.expiryDate || "";
+      document.getElementById("maxOpens").value = set.maxOpens || "";
+      document.getElementById("allowReply").checked = !!set.allowReply;
+    }
+
+    // === Generate & Save Link/Settings ===
+    async function generateLink() {
+      document.getElementById("generateBtn").disabled = true;
+      // Gather all settings
+      const settings = {
+        privacy: document.querySelector('input[name="privacy"]:checked').value,
+        privateEmail: document.getElementById("privateEmail").value.trim(),
+        privateNumber: document.getElementById("privateNumber").value.trim(),
+        privateCode: document.getElementById("privateCode").value.trim(),
+        password: document.getElementById("enablePassword").checked ? document.getElementById("passwordField").value : "",
+        expiry: document.querySelector('input[name="expiry"]:checked').value,
+        days: document.getElementById("daysInput").value,
+        expiryDate: document.getElementById("dateInput").value,
+        maxOpens: document.getElementById("maxOpens").value,
+        allowReply: document.getElementById("allowReply").checked
+      };
+      // Save settings to Firestore (editable anytime)
+      await db.collection("cards").doc(currentCardId).update({ shareSettings: settings });
+      // Generate link (use card ID)
+      const link = `${window.location.origin}/card.html?id=${currentCardId}`;
+      showSupriseBox(link, settings);
+      document.getElementById("generateBtn").disabled = false;
+      document.getElementById("editMsg").innerHTML = `<b>Settings updated!</b> You can edit these anytime.`;
+    }
+
+    function showSupriseBox(link, settings) {
+      document.getElementById("supriseBoxWrap").style.display = "flex";
+      document.getElementById("theLink").textContent = link;
+      // QR code
+      const qr = new QRious({ value: link, size: 120 });
+      document.getElementById("qrCode").innerHTML = "";
+      document.getElementById("qrCode").appendChild(qr.image);
+      // Scroll to box
+      setTimeout(()=>{document.getElementById("supriseBox").scrollIntoView({behavior:"smooth"});},400);
+    }
+    // --- Share Actions ---
+    function copyLink() {
+      const text = document.getElementById("theLink").textContent;
+      navigator.clipboard.writeText(text);
+      document.getElementById("theLink").style.boxShadow = "0 0 18px #a3ea5f";
+      setTimeout(()=>{document.getElementById("theLink").style.boxShadow = "";},700);
+    }
+    function shareWhatsApp() {
+      const text = "I just made a beautiful HeartSpeak card for you! Open it here: " + document.getElementById("theLink").textContent;
+      window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+    }
+    function shareInstagram() {
+      const text = "Check your HeartSpeak card! " + document.getElementById("theLink").textContent;
+      window.open("https://www.instagram.com/direct/new/", "_blank");
+    }
   </script>
 </body>
 </html>
