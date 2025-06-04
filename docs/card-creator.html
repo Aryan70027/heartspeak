@@ -3,107 +3,357 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Create Card - HeartSpeak</title>
+  <title>Create Card – HeartSpeak</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
-    /* Popup container initially hidden */
-    #preview-container {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
+    body {
+      background: #ffe6f0;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 1.2rem;
+    }
+    .logo {
+      width: 120px;
+      height: auto;
+      border-radius: 1.5rem;
+      box-shadow: 0 2px 16px #fbb5dd55;
+    }
+    .creator-container {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      z-index: 9999;
+      gap: 2.5rem;
+      max-width: 900px;
+      margin: auto;
+      padding: 0 1rem 3rem 1rem;
     }
-
-    .preview-popup-content {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-      padding: 30px;
-      border-radius: 25px;
-      width: 90%;
-      max-width: 600px;
-      color: white;
-      font-family: 'Great Vibes', cursive;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(255, 105, 180, 0.6);
-      position: relative;
+    .creator-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.2rem;
+      width: 100%;
+      justify-content: center;
     }
-
-    .close-popup {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 30px;
+    .card-form {
+      background: rgba(255,255,255,0.95);
+      border-radius: 1.3rem;
+      box-shadow: 0 4px 32px #b4aad644;
+      padding: 2.1rem 1.3rem;
+      min-width: 280px;
+      max-width: 340px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .input-label {
+      font-weight: 500;
+      margin-bottom: 0.28rem;
+      color: #b250c3;
+      font-size: 1.01rem;
+    }
+    .input-field, .input-area {
+      padding: 0.8rem 1.1rem;
+      font-size: 1.06rem;
+      border: 1.5px solid #ddd;
+      border-radius: 0.8rem;
+      background: #fafaff;
+      margin-bottom: 0.4rem;
+      outline: none;
+      width: 100%;
+      transition: border 0.2s;
+    }
+    .input-field:focus, .input-area:focus {
+      border-color: #b250c3;
+    }
+    .input-area { min-height: 75px; resize: vertical;}
+    .sticker-list {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.3rem;
+    }
+    .sticker-btn {
+      font-size: 1.55rem;
+      background: #f8e5fc;
+      border: 1px solid #e0c8f8;
+      border-radius: 0.65rem;
       cursor: pointer;
-      user-select: none;
-      color: white;
+      transition: background 0.17s, transform 0.13s;
+    }
+    .sticker-btn:active { background: #fbb5dd77; transform: scale(.92);}
+    .bg-picker-row { display: flex; gap: 8px;}
+    .bg-sample {
+      width: 36px; height: 36px; border-radius: 0.7rem;
+      cursor: pointer; border: 2px solid #fff;
+      box-shadow: 0 1px 5px #d9c1ed44;
+      transition: border 0.17s, box-shadow 0.17s;
+    }
+    .bg-sample.selected { border: 2px solid #b250c3; box-shadow: 0 2px 12px #b250c355;}
+    .voice-box {
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+      margin: 0.8rem 0;
+    }
+    .voice-btn {
+      background: #ffe5f2;
+      color: #b250c3;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.7rem 1.8rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 14px #b250c322;
+      margin-bottom: 0.6rem;
+      transition: background 0.17s;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .voice-btn.recording { background: #b250c3; color: #fff; }
+    .voice-audio { width: 100%; max-width: 190px; margin-top: 0.2rem; }
+    .creator-actions {
+      display: flex; gap: 1.2rem; justify-content: center; margin-top: 1.2rem;
+    }
+    .creator-actions button {
+      padding: 0.7rem 1.7rem;
+      font-size: 1.09rem;
+      border: none;
+      border-radius: 2rem;
+      background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
+      color: #fff; font-weight: 600;
+      box-shadow: 0 2px 14px #b250c355;
+      cursor: pointer;
+      transition: background 0.17s, transform 0.12s;
+    }
+    .creator-actions button:active { transform: scale(.97);}
+    .success-msg { text-align:center; color:#1bbb7a; margin-top:1.2rem; font-weight:600;}
+    /* Preview card */
+    .preview-card {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 3px 18px #b4aad688;
+      padding: 2rem 1.3rem;
+      min-width: 260px; max-width: 330px; width: 100%;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      animation: popIn 1.2s;
+      margin-bottom: 0.7rem;
+    }
+    @keyframes popIn {
+      0% { transform: scale(.9); opacity: 0;}
+      90% { transform: scale(1.04);}
+      100% { transform: scale(1); opacity:1;}
+    }
+    .preview-bg {
+      position: absolute; inset: 0;
+      border-radius: 1.2rem;
+      z-index: 0;
+      opacity: 0.34;
+    }
+    .preview-main-img {
+      width: 86px; height: 86px; object-fit: cover;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 14px #c88ad433;
+      z-index: 2;
+    }
+    .preview-title {
+      color: #b250c3; font-size: 1.1rem; font-weight: 600; z-index:2;
+    }
+    .preview-recipient {
+      font-size: 1.13rem; font-weight: 600; color: #cc0066; margin-bottom: 0.3rem; z-index:2;
+    }
+    .preview-message {
+      color: #6a227c; font-size: 1rem; text-align: center; z-index:2;
+      min-height: 40px;
+    }
+    .preview-stickers {
+      display: flex; gap: 3px; flex-wrap: wrap; margin-top: 0.3rem; z-index:2;
+    }
+    .preview-sticker {
+      font-size: 1.32rem;
+    }
+    .preview-voice {
+      margin-top: 0.6rem; z-index:2;
+    }
+    @media (max-width: 900px) {
+      .creator-flex { flex-direction: column; align-items:center; }
+    }
+    @media (max-width: 500px) {
+      .creator-container { padding: 0 0.2rem;}
+      .card-form, .preview-card { min-width: 95vw; max-width: 98vw;}
     }
   </style>
 </head>
 <body>
-
-  <div class="heart-animation"></div>
-
-  <header class="site-header">
-    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
+  <header>
+    <img src="img/logo.png" alt="HeartSpeak Logo" class="logo" />
   </header>
-
-  <main class="container card-creator-page">
-    <h2>Customize Your Card</h2>
-
-    <form id="card-form">
-      <div class="form-group">
-        <label for="eventType">Occasion</label>
-        <select id="eventType" name="eventType">
-          <option>Birthday</option>
-          <option>Proposal</option>
-          <option>Anniversary</option>
-          <option>Thank You</option>
-          <option>Other</option>
-        </select>
+  <div class="creator-container">
+    <div class="creator-flex">
+      <!-- Form Side -->
+      <form class="card-form" id="cardForm" onsubmit="event.preventDefault();">
+        <label class="input-label" for="recipient">Recipient’s Name</label>
+        <input class="input-field" type="text" id="recipient" maxlength="24" placeholder="e.g. Aryan" required oninput="updatePreview()">
+        
+        <label class="input-label" for="title">Card Headline</label>
+        <input class="input-field" type="text" id="title" maxlength="30" placeholder="e.g. Happy Birthday!" required oninput="updatePreview()">
+        
+        <label class="input-label" for="message">Message</label>
+        <textarea class="input-area" id="message" maxlength="160" placeholder="Type your heartfelt wish..." required oninput="updatePreview()"></textarea>
+        
+        <label class="input-label" for="mainImg">Main Photo</label>
+        <input class="input-field" type="file" id="mainImg" accept="image/*" onchange="handleImage(event)">
+        
+        <label class="input-label">Add Stickers</label>
+        <div class="sticker-list">
+          <button type="button" class="sticker-btn" onclick="addSticker('🎂')">🎂</button>
+          <button type="button" class="sticker-btn" onclick="addSticker('🎉')">🎉</button>
+          <button type="button" class="sticker-btn" onclick="addSticker('💖')">💖</button>
+          <button type="button" class="sticker-btn" onclick="addSticker('✨')">✨</button>
+          <button type="button" class="sticker-btn" onclick="addSticker('🥳')">🥳</button>
+          <button type="button" class="sticker-btn" onclick="addSticker('🌟')">🌟</button>
+        </div>
+        
+        <label class="input-label">Card Background</label>
+        <div class="bg-picker-row" id="bgPicker">
+          <div class="bg-sample selected" style="background:#ffe6f0;" onclick="selectBg('#ffe6f0', this)"></div>
+          <div class="bg-sample" style="background:linear-gradient(135deg,#ffe8ea 0%, #e5e4fa 100%);" onclick="selectBg('linear-gradient(135deg,#ffe8ea 0%, #e5e4fa 100%)', this)"></div>
+          <div class="bg-sample" style="background:linear-gradient(135deg,#fad6ec 0%, #fffbe8 100%);" onclick="selectBg('linear-gradient(135deg,#fad6ec 0%, #fffbe8 100%)', this)"></div>
+          <div class="bg-sample" style="background:#f3e7fd;" onclick="selectBg('#f3e7fd', this)"></div>
+        </div>
+        
+        <div class="voice-box">
+          <button type="button" class="voice-btn" id="recordBtn" onclick="toggleRecording()">
+            <span id="micIcon">🎤</span> <span id="recordText">Record Your Voice</span>
+          </button>
+          <audio class="voice-audio" id="voiceAudio" controls style="display:none;"></audio>
+        </div>
+        
+        <div class="creator-actions">
+          <button type="button" onclick="saveDraft()">Save Draft</button>
+          <button type="button" onclick="showPreview()">Show Preview</button>
+        </div>
+        <div class="success-msg" id="formMsg"></div>
+      </form>
+      
+      <!-- Live Preview Side -->
+      <div class="preview-card" id="previewCard">
+        <div class="preview-bg" id="previewBg" style="background:#ffe6f0;"></div>
+        <div class="preview-title" id="previewTitle">Happy Birthday!</div>
+        <div class="preview-recipient" id="previewRecipient">To: Aryan</div>
+        <img src="img/demo-avatar.jpg" id="previewMainImg" class="preview-main-img" alt="Card Main">
+        <div class="preview-message" id="previewMessage">Type your heartfelt wish…</div>
+        <div class="preview-stickers" id="previewStickers"></div>
+        <div class="preview-voice" id="previewVoice" style="display:none;">
+          <span style="color:#b250c3;font-weight:600;">🔊 Voice Message Attached</span>
+        </div>
       </div>
-
-      <div class="form-group">
-        <label for="textInput">Message</label>
-        <textarea id="textInput" name="textInput" rows="4" placeholder="Your heartfelt message here"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="fontSelect">Font</label>
-        <select id="fontSelect" name="fontSelect">
-          <option>Great Vibes</option>
-          <option>Dancing Script</option>
-          <option>Roboto</option>
-          <option>Open Sans</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="colorPicker">Text Color</label>
-        <input type="color" id="colorPicker" name="colorPicker" value="#d73170" />
-      </div>
-
-      <div class="form-group">
-        <label for="photoUpload">Photo (optional)</label>
-        <input type="file" id="photoUpload" name="photoUpload" accept="image/*" />
-      </div>
-
-      <button type="button" class="btn" id="preview-btn">Preview</button>
-      <button type="button" class="btn" id="saveDraft-btn">Save Draft</button>
-    </form>
-
-  </main>
-
-  <!-- Popup for preview -->
-  <div id="preview-container">
-    <div class="preview-popup-content"></div>
-    <span class="close-popup" onclick="closePreview()">×</span>
+    </div>
   </div>
+  
+  <!-- Firebase SDKs (Auth, Firestore, Storage) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      authDomain: "heartspeak-bf703.firebaseapp.com",
+      projectId: "heartspeak-bf703",
+      storageBucket: "heartspeak-bf703.appspot.com",
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7",
+      measurementId: "G-RGVFVSSPMG"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+    
+    // Live preview logic
+    let stickers = [];
+    let selectedBg = "#ffe6f0";
+    let mainImgURL = "img/demo-avatar.jpg";
+    let mainImgFile = null;
+    let voiceBlob = null, voiceURL = "";
 
-  <script src="js/scripts.js"></script>
-</body>
-</html>
+    function updatePreview() {
+      document.getElementById('previewTitle').textContent = document.getElementById('title').value || "Happy Birthday!";
+      document.getElementById('previewRecipient').textContent = "To: " + (document.getElementById('recipient').value || "Aryan");
+      document.getElementById('previewMessage').textContent = document.getElementById('message').value || "Type your heartfelt wish…";
+      document.getElementById('previewMainImg').src = mainImgURL;
+      document.getElementById('previewBg').style.background = selectedBg;
+      // Stickers
+      const stickerDiv = document.getElementById('previewStickers');
+      stickerDiv.innerHTML = stickers.map(st => `<span class="preview-sticker">${st}</span>`).join('');
+      // Voice
+      document.getElementById('previewVoice').style.display = (voiceURL) ? 'block' : 'none';
+    }
+    function addSticker(st) { stickers.push(st); updatePreview(); }
+    function selectBg(bg, el) {
+      selectedBg = bg;
+      document.querySelectorAll('.bg-sample').forEach(div=>div.classList.remove('selected'));
+      el.classList.add('selected');
+      updatePreview();
+    }
+    function handleImage(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      mainImgFile = file;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        mainImgURL = evt.target.result;
+        updatePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+    // Voice Recording (Web API)
+    let recorder, audioChunks = [], recording = false;
+    async function toggleRecording() {
+      if (!recording) {
+        // Start Recording
+        if (!navigator.mediaDevices) {
+          alert("Voice recording not supported on this device.");
+          return;
+        }
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recorder = new MediaRecorder(stream);
+        audioChunks = [];
+        recorder.ondataavailable = e => audioChunks.push(e.data);
+        recorder.onstop = () => {
+          voiceBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          voiceURL = URL.createObjectURL(voiceBlob);
+          document.getElementById('voiceAudio').src = voiceURL;
+          document.getElementById('voiceAudio').style.display = "block";
+          updatePreview();
+        };
+        recorder.start();
+        recording = true;
+        document.getElementById('recordBtn').classList.add('recording');
+        document.getElementById('recordText').textContent = "Recording... Click to Stop";
+        document.getElementById('micIcon').textContent = "⏺️";
+      } else {
+        // Stop Recording
+        recorder.stop();
+        recording = false;
+        document.getElementById('recordBtn').classList.remove('recording');
+        document.getElementById('recordText').textContent = "Record Your Voice";
+        document.getElementById('micIcon').textContent = "🎤";
+      }
+    }
+    // --- Utility for Save/Preview ---
+    function getCardData(mainImgDownloadURL = "", voiceDownloadURL = "") {
+      return {
+        recipient: document.getElementById('recipient').value,
+        title: document.getElementById('title').value,
+        message: document.getElementById('message').value,
+        stickers: stickers,
+        cardBg: selectedBg,
+        mainImg: mainImgDownloadURL,
+        voiceMsg: voiceDownloadURL,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        uid:
