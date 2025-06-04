@@ -2,251 +2,177 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HeartSpeak – Level 1: Birthday Wish</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>HeartSpeak – Level 1</title>
   <link rel="stylesheet" href="css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* Inline special style for this level */
     body {
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
-      background: linear-gradient(135deg, #ffecf0 0%, #ffe7fa 100%);
-      overflow-x: hidden;
+      font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+      background: #1e1e2f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    .spark-container {
-      position: absolute;
-      left: 50%;
-      top: 130px;
-      transform: translateX(-50%);
+    .confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
       z-index: 1;
     }
-    .spark {
-      width: 14px; height: 14px;
-      background: radial-gradient(circle, #ffd700 70%, #f8cde0 100%);
-      position: absolute;
-      border-radius: 50%;
-      animation: sparkle 1s linear forwards;
-      opacity: 0;
-    }
-    @keyframes sparkle {
-      0% { opacity: 1; transform: scale(0.8) translateY(0);}
-      70% { opacity: 1; }
-      100% { opacity: 0; transform: scale(1.5) translateY(-100px);}
-    }
-    .level1-wrapper {
-      background: #fff;
-      max-width: 420px;
-      margin: 80px auto;
-      border-radius: 20px;
-      box-shadow: 0 8px 36px 0 rgba(233,30,99,.15);
-      padding: 2rem 2.2rem 2rem 2.2rem;
-      text-align: center;
-      position: relative;
-    }
-    .logo {
-      max-width: 85px;
-      border-radius: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 8px #e34a7291;
-      background: #fff9;
-    }
-    h2 {
-      font-family: 'Dancing Script', cursive;
-      color: #e91e63;
-      font-size: 2.2rem;
-      margin-bottom: 0.8rem;
-      margin-top: 0;
-      letter-spacing: .7px;
-    }
-    .msg-section {
-      margin-bottom: 1.4rem;
-    }
-    .msg-section label {
-      display: block;
-      font-weight: 600;
-      color: #c2185b;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      text-align: left;
-    }
-    .msg-prewritten {
-      margin-bottom: 0.5rem;
-      text-align: left;
-    }
-    .msg-prewritten label {
-      font-weight: 400;
-      color: #812c54;
-      margin-left: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .msg-prewritten input[type=radio] {
-      accent-color: #e91e63;
-      margin-right: 6px;
-    }
-    .custom-msg {
-      width: 100%;
-      min-height: 40px;
-      border: 1.5px solid #f6bdd8;
-      border-radius: 10px;
-      padding: 8px;
-      font-family: 'Montserrat', sans-serif;
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-      outline: none;
-      transition: border .2s;
-    }
-    .custom-msg:focus {
-      border-color: #e91e63;
-      background: #fff0f6;
-    }
-    .btn-row {
-      margin-top: 1.5rem;
+    .card {
+      background: rgba(255,255,255,0.96);
+      border-radius: 2rem;
+      box-shadow: 0 4px 24px 0 rgba(30,30,47,0.10);
+      padding: 2.5rem 1.5rem 2rem 1.5rem;
+      max-width: 380px;
+      width: 90vw;
       display: flex;
-      gap: 10px;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1s cubic-bezier(.17,.67,.83,.67);
     }
-    .btn {
-      background: #e73370;
-      color: #fff;
-      font-weight: 700;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 1rem;
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(48px);}
+      to   { opacity: 1; transform: none;}
     }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .btn:hover:not(:disabled) { background: #c82d5d; }
-    .live-preview {
-      margin-top: 1.5rem;
-      min-height: 60px;
-      background: #fff7fa;
-      border: 1.5px solid #f9c4d5;
-      border-radius: 12px;
-      color: #c2185b;
-      font-size: 1.08rem;
-      font-family: 'Dancing Script', cursive;
-      padding: 1.1rem;
-      box-shadow: 0 0 0.5rem #f8cde075;
-      word-break: break-word;
-      letter-spacing: 0.6px;
+    .headline {
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #d20c6c;
+      text-shadow: 0 2px 16px #f6bbd8cc;
+      text-align: center;
+      margin-bottom: .6rem;
+      animation: popIn 1s;
+    }
+    @keyframes popIn {
+      0% {transform: scale(0.7);}
+      80% {transform: scale(1.08);}
+      100% {transform: scale(1);}
+    }
+    .profile-img-preview {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
       display: none;
+      border: 3px solid #d20c6c;
+      box-shadow: 0 2px 16px #f6bbd880;
+      background: #fff;
     }
-    @media (max-width: 500px) {
-      .level1-wrapper { padding: 1rem 0.7rem; }
-      h2 { font-size: 1.4rem;}
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .input-row input[type="text"] {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 1.5rem;
+      border: 1.5px solid #d20c6c;
+      outline: none;
+      width: 90%;
+      background: #faf6fa;
+      color: #c40e5b;
+      text-align: center;
+      font-weight: 500;
+      margin-bottom: .7rem;
+      transition: border 0.2s;
+    }
+    .input-row input[type="file"] {
+      border: none;
+      background: none;
+      font-size: 0.98rem;
+      color: #d20c6c;
+      margin-bottom: 0.2rem;
+    }
+    .btn-next {
+      background: linear-gradient(90deg,#d20c6c,#fbb5dd 80%);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.65rem 2.2rem;
+      font-size: 1.13rem;
+      box-shadow: 0 2px 14px #d20c6c44;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: transform 0.13s, box-shadow 0.13s;
+    }
+    .btn-next:active { transform: scale(.96);}
+    @media (max-width: 480px) {
+      .card { max-width: 96vw; padding: 1.5rem 0.3rem 1.3rem 0.3rem; }
+      .headline { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <!-- SPARK BLAST animation container -->
-  <div class="spark-container" id="spark-blast"></div>
-
-  <div class="level1-wrapper">
-    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
-    <h2>Level 1: Birthday Wishes</h2>
-    <form id="wishForm" autocomplete="off">
-      <div class="msg-section">
-        <label>Select a birthday wish (or write your own):</label>
-        <div class="msg-prewritten">
-          <label><input type="radio" name="msg" value="Wishing you a wonderful birthday full of happiness and laughter! 🎂">Wishing you a wonderful birthday full of happiness and laughter! 🎂</label><br>
-          <label><input type="radio" name="msg" value="May your special day be filled with joy and amazing surprises!">May your special day be filled with joy and amazing surprises!</label><br>
-          <label><input type="radio" name="msg" value="Happy Birthday! Here’s to new adventures, dreams, and memories.">Happy Birthday! Here’s to new adventures, dreams, and memories.</label>
-        </div>
-        <input type="text" class="custom-msg" id="customMsg" placeholder="Or write your own birthday wish here" maxlength="160" />
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn" id="previewBtn">Preview This Level</button>
-        <button type="button" class="btn" id="saveDraftBtn">Save Draft</button>
-        <button type="submit" class="btn" id="nextBtn" disabled>Next Level &rarr;</button>
-      </div>
+  <!-- Confetti Animation -->
+  <canvas class="confetti-canvas" id="confetti"></canvas>
+  
+  <div class="card">
+    <div class="headline" id="headline">
+      Happy Birthday, <span id="name-output">Friend</span>! 🎉
+    </div>
+    <img class="profile-img-preview" id="img-preview" />
+    <form class="input-row" onsubmit="event.preventDefault();nextLevel();">
+      <input type="text" id="name-input" placeholder="Enter recipient's name" maxlength="18" oninput="updateName()"/>
+      <input type="file" id="img-input" accept="image/*" onchange="previewImg(event)"/>
+      <button type="submit" class="btn-next">Next Level</button>
     </form>
-    <div class="live-preview" id="previewBox"></div>
   </div>
 
   <script>
-    // SPARK BLAST Animation
-    function doSparkBlast() {
-      const container = document.getElementById('spark-blast');
-      for (let i = 0; i < 15; i++) {
-        const spark = document.createElement('div');
-        spark.classList.add('spark');
-        spark.style.left = (Math.random() * 300 - 150) + 'px';
-        spark.style.top = (Math.random() * 60 - 30) + 'px';
-        container.appendChild(spark);
-        setTimeout(() => spark.remove(), 1000);
-      }
+    // Name live update
+    function updateName() {
+      let val = document.getElementById('name-input').value.trim();
+      document.getElementById('name-output').textContent = val || "Friend";
     }
-
-    // Handle form logic
-    const radios = document.querySelectorAll('input[type=radio][name=msg]');
-    const customMsg = document.getElementById('customMsg');
-    const nextBtn = document.getElementById('nextBtn');
-    const previewBtn = document.getElementById('previewBtn');
-    const previewBox = document.getElementById('previewBox');
-    const saveDraftBtn = document.getElementById('saveDraftBtn');
-    let selectedMsg = '';
-
-    function updateNextButton() {
-      if (document.querySelector('input[name=msg]:checked') || customMsg.value.trim()) {
-        nextBtn.disabled = false;
+    // Photo preview
+    function previewImg(event) {
+      let img = document.getElementById('img-preview');
+      if (event.target.files && event.target.files[0]) {
+        let reader = new FileReader();
+        reader.onload = e => {
+          img.src = e.target.result;
+          img.style.display = "block";
+        }
+        reader.readAsDataURL(event.target.files[0]);
       } else {
-        nextBtn.disabled = true;
+        img.src = "";
+        img.style.display = "none";
       }
     }
-
-    radios.forEach(radio => {
-      radio.addEventListener('change', () => {
-        customMsg.value = '';
-        selectedMsg = radio.value;
-        updateNextButton();
+    // Next Level Navigation (update link as needed)
+    function nextLevel() {
+      // You can add data saving here!
+      window.location.href = "Level2.html";
+    }
+  </script>
+  <!-- Confetti (Canvas Confetti via CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Premium confetti burst!
+    function fireConfetti() {
+      confetti({
+        particleCount: 120,
+        spread: 120,
+        startVelocity: 48,
+        origin: { y: 0.6 }
       });
-    });
-
-    customMsg.addEventListener('input', () => {
-      if (customMsg.value.trim()) {
-        radios.forEach(r => r.checked = false);
-        selectedMsg = customMsg.value.trim();
-      } else {
-        selectedMsg = document.querySelector('input[name=msg]:checked')?.value || '';
-      }
-      updateNextButton();
-    });
-
-    // Preview This Level
-    previewBtn.addEventListener('click', () => {
-      if (selectedMsg) {
-        previewBox.innerHTML = selectedMsg;
-        previewBox.style.display = 'block';
-        doSparkBlast();
-      } else {
-        previewBox.innerHTML = '';
-        previewBox.style.display = 'none';
-      }
-    });
-
-    // Save Draft (for now, just alert)
-    saveDraftBtn.addEventListener('click', () => {
-      if (selectedMsg) {
-        alert('Draft saved:\n' + selectedMsg);
-      } else {
-        alert('Please choose or enter a message before saving a draft.');
-      }
-    });
-
-    // Next Level (for now, just go to level2.html)
-    document.getElementById('wishForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (selectedMsg) {
-        // Save draft/final (future: store to backend or localStorage)
-        window.location.href = "level2.html";
-      }
-    });
-
-    // Initial state
-    updateNextButton();
+      setTimeout(fireConfetti, 1300 + Math.random()*700);
+    }
+    fireConfetti();
   </script>
 </body>
 </html>
