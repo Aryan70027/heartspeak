@@ -260,6 +260,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script>
+    // --- Firebase config ---
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
@@ -274,7 +275,7 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
     
-    // Live preview logic
+    // --------- Live Preview Logic ---------
     let stickers = [];
     let selectedBg = "#ffe6f0";
     let mainImgURL = "img/demo-avatar.jpg";
@@ -315,7 +316,6 @@
     let recorder, audioChunks = [], recording = false;
     async function toggleRecording() {
       if (!recording) {
-        // Start Recording
         if (!navigator.mediaDevices) {
           alert("Voice recording not supported on this device.");
           return;
@@ -337,7 +337,6 @@
         document.getElementById('recordText').textContent = "Recording... Click to Stop";
         document.getElementById('micIcon').textContent = "⏺️";
       } else {
-        // Stop Recording
         recorder.stop();
         recording = false;
         document.getElementById('recordBtn').classList.remove('recording');
@@ -345,7 +344,8 @@
         document.getElementById('micIcon').textContent = "🎤";
       }
     }
-    // --- Utility for Save/Preview ---
+
+    // --------------- BACKEND LOGIC ----------------
     function getCardData(mainImgDownloadURL = "", voiceDownloadURL = "") {
       return {
         recipient: document.getElementById('recipient').value,
@@ -356,4 +356,51 @@
         mainImg: mainImgDownloadURL,
         voiceMsg: voiceDownloadURL,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        uid:
+        uid: auth.currentUser ? auth.currentUser.uid : null
+      };
+    }
+
+    async function saveDraft() {
+      document.getElementById("formMsg").textContent = "Saving draft...";
+      const user = auth.currentUser;
+      if (!user) {
+        document.getElementById("formMsg").textContent = "Please log in first.";
+        return;
+      }
+      // Upload image (if selected)
+      let mainImgDownloadURL = "", voiceDownloadURL = "";
+      try {
+        if (mainImgFile) {
+          const imgRef = storage.ref(`cards/${user.uid}/img_${Date.now()}.jpg`);
+          await imgRef.put(mainImgFile);
+          mainImgDownloadURL = await imgRef.getDownloadURL();
+        }
+        if (voiceBlob) {
+          const voiceRef = storage.ref(`cards/${user.uid}/voice_${Date.now()}.webm`);
+          await voiceRef.put(voiceBlob);
+          voiceDownloadURL = await voiceRef.getDownloadURL();
+        }
+        // Save card data
+        const data = getCardData(mainImgDownloadURL, voiceDownloadURL);
+        const docRef = await db.collection("cards").add(data);
+        document.getElementById("formMsg").textContent = "Draft saved!";
+        // Optionally, save the docRef.id to localStorage if you want to show this card in preview.html
+        localStorage.setItem("lastCardId", docRef.id);
+        setTimeout(() => {
+          window.location.href = "preview.html";
+        }, 800);
+      } catch (e) {
+        document.getElementById("formMsg").textContent = "Error: " + e.message;
+      }
+    }
+
+    async function showPreview() {
+      document.getElementById("formMsg").textContent = "Saving and generating preview...";
+      await saveDraft(); // Save then redirect (reuse above logic)
+    }
+
+    // --- Initialize preview on page load ---
+    updatePreview();
+  </script>
+</body>
+</html>
