@@ -1,159 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Preview Dedication – HeartSpeak</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Create Card – HeartSpeak</title>
+  <link rel="stylesheet" href="css/styles.css"/>
   <style>
     body {
       background: linear-gradient(120deg,#ffe6f0 40%, #fad7f9 100%);
       font-family: 'Poppins', sans-serif;
       min-height: 100vh;
       margin: 0; padding: 0;
-      position: relative;
-      overflow-x: hidden;
-    }
-    .bg-hearts {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      opacity: 0.16;
-      background-image: url('img/heart-bg.png');
-      background-repeat: repeat;
-      background-size: 120px;
     }
     .logo {
-      width: 140px;
-      margin: 2.5rem auto 1rem auto;
+      width: 110px;
+      margin: 2rem auto 1.2rem auto;
       display: block;
     }
-    h1 {
-      text-align: center;
-      color: #b250c3;
-      font-size: 2.2rem;
-      margin-bottom: 2.3rem;
-      z-index: 2;
-    }
-    .cards-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      max-width: 950px;
-      margin: 0 auto 2.2rem auto;
-      justify-items: center;
-      z-index: 2;
-    }
-    .preview-card {
+    .card-creator-container {
+      max-width: 410px;
+      margin: 0 auto;
       background: #fff;
-      border-radius: 1.3rem;
-      box-shadow: 0 4px 24px #d87fe633, 0 2px 6px #fff9;
-      padding: 1.5rem 1.1rem 1.2rem 1.1rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 6px 36px #d87fe655, 0 2px 6px #fff9;
+      padding: 2.5rem 2rem 1.5rem 2rem;
       text-align: center;
-      min-width: 230px; max-width: 330px;
       position: relative;
-      transition: box-shadow 0.2s;
+      margin-bottom: 3rem;
     }
-    .preview-card:hover {
-      box-shadow: 0 6px 32px #b250c355, 0 4px 20px #fff9;
+    .input-row {
+      margin-bottom: 1.18rem;
+      text-align: left;
     }
-    .preview-title {
-      font-size: 1.21rem;
+    label {
+      font-size: 1.09rem;
       color: #b250c3;
       font-weight: 600;
       margin-bottom: 0.2rem;
-    }
-    .preview-recipient {
-      font-size: 1rem;
-      color: #cc0066;
-      margin-bottom: 0.9rem;
-    }
-    .preview-main-img {
-      width: 80px;
-      height: 80px;
-      border-radius: 1.1rem;
-      object-fit: cover;
-      box-shadow: 0 2px 10px #fbb5dd77;
-      margin-bottom: 1rem;
-    }
-    .preview-message {
-      color: #7c2e94;
-      font-size: 1.05rem;
-      margin-bottom: 1rem;
-    }
-    .preview-stickers {
-      margin-bottom: 0.8rem;
-      font-size: 1.45rem;
-    }
-    .preview-voice {
-      margin-bottom: 1rem;
-    }
-    .card-actions {
-      display: flex;
-      gap: 0.6rem;
-      justify-content: center;
-      margin-top: 0.7rem;
-    }
-    .card-actions button {
-      padding: 0.45rem 0.95rem;
-      font-size: 0.99rem;
-      border-radius: 0.9rem;
-      border: none;
-      color: #fff;
-      background: linear-gradient(90deg, #b250c3 60%, #fbb5dd 120%);
-      cursor: pointer;
-      font-weight: 500;
-      transition: background 0.15s;
-    }
-    .card-actions button:active {
-      background: linear-gradient(90deg,#cc0066 60%, #b250c3 120%);
-    }
-    .no-cards-msg {
-      text-align: center;
-      color: #b250c3;
-      font-size: 1.14rem;
-      margin-top: 2.2rem;
-      font-weight: 500;
-    }
-    .back-btn {
       display: block;
-      margin: 2.3rem auto 0 auto;
-      padding: 1rem 2.3rem;
-      background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
-      color: #fff;
-      border: none;
-      border-radius: 2.5rem;
-      font-size: 1.22rem;
-      font-weight: 700;
-      box-shadow: 0 2px 16px #b250c344;
-      letter-spacing: 1px;
+    }
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 0.68rem 0.75rem;
+      font-size: 1.01rem;
+      border: 1px solid #fbb5dd;
+      border-radius: 0.7rem;
+      margin-top: 0.1rem;
+      margin-bottom: 0.6rem;
+      outline: none;
+      box-sizing: border-box;
+      background: #ffe6f09a;
+      color: #960066;
+    }
+    textarea { min-height: 60px; resize: vertical;}
+    .file-upload, .stickers-row, .bg-options, .voice-record-row {
+      margin-bottom: 1.11rem;
+      text-align: left;
+    }
+    .stickers-row span {
+      font-size: 1.5rem;
+      margin-right: 0.3rem;
       cursor: pointer;
-      transition: background 0.18s, transform 0.13s;
+      transition: transform .16s;
     }
-    .back-btn:active { transform: scale(.96);}
-    @media (max-width:700px) {
-      .cards-list {gap: 1.1rem;}
-      .preview-card {min-width: 170px;}
+    .stickers-row span.selected {
+      transform: scale(1.18);
+      border-bottom: 2px solid #fbb5dd;
     }
+    .bg-options label {
+      display: inline-block;
+      margin-right: 0.7rem;
+      cursor: pointer;
+    }
+    .bg-color-sample {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 2px solid #d87fe6;
+      margin-right: 3px;
+    }
+    .voice-record-row {
+      display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
+    }
+    .record-btn, .delete-recording-btn {
+      background: linear-gradient(90deg, #b250c3 60%, #fbb5dd 120%);
+      color: #fff; border: none; border-radius: 1.2rem;
+      padding: 0.49rem 1.12rem;
+      font-size: 1.05rem; font-weight: 500;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .record-btn.recording { background: #ff4081;}
+    .delete-recording-btn {
+      background: #eb3d69;
+      margin-left: .6rem;
+    }
+    .audio-preview {
+      margin-top: .6rem;
+      margin-bottom: .4rem;
+      width: 100%;
+    }
+    .action-btns {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 2rem;
+      margin-bottom: 1.3rem;
+    }
+    .action-btns button {
+      padding: 0.88rem 1.7rem;
+      background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
+      color: #fff; border: none; border-radius: 2.5rem;
+      font-size: 1.11rem; font-weight: 600;
+      letter-spacing: 1px; cursor: pointer;
+      box-shadow: 0 2px 16px #b250c344;
+      transition: background 0.18s;
+    }
+    .action-btns button:active { transform: scale(.98);}
+    .saving-status { margin-top: 1.2rem; color: #1ca40b; font-size: 1.09rem;}
   </style>
 </head>
 <body>
-  <div class="bg-hearts"></div>
-  <img src="img/logo.png" alt="HeartSpeak Logo" class="logo" />
-  <h1>Your Latest Cards</h1>
-  <div class="cards-list" id="cardsList">
-    Loading your latest cards...
+  <img src="img/logo.png" alt="HeartSpeak Logo" class="logo"/>
+  <div class="card-creator-container">
+    <form id="cardForm" autocomplete="off" onsubmit="event.preventDefault(); saveDraft();">
+      <div class="input-row">
+        <label for="recipient">Recipient Name</label>
+        <input type="text" id="recipient" maxlength="24" placeholder="Enter recipient's name" required>
+      </div>
+      <div class="input-row">
+        <label for="title">Title</label>
+        <input type="text" id="title" maxlength="50" placeholder="Card Title (e.g. Happy Birthday)" required>
+      </div>
+      <div class="input-row">
+        <label for="message">Message</label>
+        <textarea id="message" maxlength="180" placeholder="Write your message" required></textarea>
+      </div>
+      <div class="file-upload input-row">
+        <label for="mainImg">Main Photo</label>
+        <input type="file" id="mainImg" accept="image/*">
+      </div>
+      <div class="stickers-row input-row">
+        <label>Add Stickers</label>
+        <span onclick="toggleSticker(this)">🎂</span>
+        <span onclick="toggleSticker(this)">💌</span>
+        <span onclick="toggleSticker(this)">❤️</span>
+        <span onclick="toggleSticker(this)">✨</span>
+        <span onclick="toggleSticker(this)">🎉</span>
+        <span onclick="toggleSticker(this)">🥳</span>
+      </div>
+      <div class="bg-options input-row">
+        <label>Card Background</label>
+        <label><input type="radio" name="cardBg" value="#ffe6f0" checked><span class="bg-color-sample" style="background:#ffe6f0"></span></label>
+        <label><input type="radio" name="cardBg" value="#fad7f9"><span class="bg-color-sample" style="background:#fad7f9"></span></label>
+        <label><input type="radio" name="cardBg" value="#fffde6"><span class="bg-color-sample" style="background:#fffde6"></span></label>
+        <label><input type="radio" name="cardBg" value="#e6f7ff"><span class="bg-color-sample" style="background:#e6f7ff"></span></label>
+      </div>
+      <div class="voice-record-row input-row">
+        <button type="button" id="recordBtn" class="record-btn">
+          <span id="micIcon">🎤</span> <span id="recordText">Record Your Voice</span>
+        </button>
+        <button type="button" id="deleteRecordingBtn" class="delete-recording-btn" style="display:none;">
+          Delete Recording
+        </button>
+      </div>
+      <div id="audioPreview" class="audio-preview"></div>
+      <div class="action-btns">
+        <button type="submit" id="saveDraftBtn">Save Draft</button>
+        <button type="button" onclick="showPreview()">Show Preview</button>
+      </div>
+      <div id="savingStatus" class="saving-status"></div>
+    </form>
   </div>
-  <button class="back-btn" onclick="window.location.href='dashboard.html'">&larr; Back to Dashboard</button>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script>
-    // Firebase setup
+    // Your Firebase config (same as other pages)
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
@@ -166,76 +192,125 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage();
 
-    // Fetch and show latest 3 cards
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
-      const cardsList = document.getElementById("cardsList");
-      cardsList.innerHTML = "Loading your latest cards...";
-      try {
-        const snap = await db.collection("cards")
-          .where("uid", "==", user.uid)
-          .orderBy("createdAt", "desc")
-          .limit(3)
-          .get();
+    // Stickers logic
+    let stickers = [];
+    function toggleSticker(el) {
+      el.classList.toggle('selected');
+      const emoji = el.textContent;
+      if (el.classList.contains('selected')) stickers.push(emoji);
+      else stickers = stickers.filter(e => e !== emoji);
+    }
 
-        if (snap.empty) {
-          cardsList.innerHTML = `<div class="no-cards-msg">No cards yet! Go create your first card 🎉</div>`;
+    // Voice recording logic
+    let recorder, audioBlob, audioURL, audioFile;
+    let chunks = [];
+    let isRecording = false;
+    const recordBtn = document.getElementById('recordBtn');
+    const deleteBtn = document.getElementById('deleteRecordingBtn');
+    const audioPreview = document.getElementById('audioPreview');
+    const recordText = document.getElementById('recordText');
+    const micIcon = document.getElementById('micIcon');
+
+    recordBtn.onclick = async function() {
+      if (isRecording) {
+        // Stop recording
+        recorder.stop();
+        isRecording = false;
+        recordBtn.classList.remove('recording');
+        recordText.textContent = "Record Your Voice";
+        micIcon.textContent = "🎤";
+      } else {
+        // Start recording
+        if (!navigator.mediaDevices) {
+          alert("Audio recording not supported in this browser.");
           return;
         }
-        cardsList.innerHTML = "";
-        snap.forEach(doc => {
-          const data = doc.data();
-          const bg = data.cardBg || "#ffe6f0";
-          const mainImg = data.mainImg || "img/logo.png";
-          const stickers = (data.stickers || []).map(st=>`<span>${st}</span>`).join('');
-          const voice = data.voiceMsg ? 
-            `<div class="preview-voice"><span>🔊 Voice Message:</span><audio controls src="${data.voiceMsg}"></audio></div>` : '';
-          const card = document.createElement("div");
-          card.className = "preview-card";
-          card.innerHTML = `
-            <div class="preview-title">${data.title || "HeartSpeak Card"}</div>
-            <div class="preview-recipient">To: ${data.recipient || "Friend"}</div>
-            <img src="${mainImg}" class="preview-main-img" alt="Card Main">
-            <div class="preview-message">${data.message || "Best wishes!"}</div>
-            <div class="preview-stickers">${stickers}</div>
-            ${voice}
-            <div class="card-actions">
-              <button onclick="editCard('${doc.id}')">Edit</button>
-              <button onclick="deleteCard('${doc.id}', this)">Delete</button>
-              <button onclick="generateLink('${doc.id}')">Generate Link</button>
-            </div>
-          `;
-          cardsList.appendChild(card);
-        });
-      } catch (err) {
-        cardsList.innerHTML = `<div class="no-cards-msg">Error loading cards. Try again later.</div>`;
-        console.error("Error fetching cards: ", err);
+        chunks = [];
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recorder = new MediaRecorder(stream);
+        recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+        recorder.onstop = () => {
+          audioBlob = new Blob(chunks, { type: 'audio/webm' });
+          audioURL = URL.createObjectURL(audioBlob);
+          audioPreview.innerHTML = `<audio controls src="${audioURL}"></audio>`;
+          deleteBtn.style.display = 'inline-block';
+        };
+        recorder.start();
+        isRecording = true;
+        recordBtn.classList.add('recording');
+        recordText.textContent = "Recording... Click to Stop";
+        micIcon.textContent = "⏺️";
+        deleteBtn.style.display = 'none';
+        audioPreview.innerHTML = '';
       }
+    };
+
+    deleteBtn.onclick = function() {
+      audioBlob = null;
+      audioURL = null;
+      audioPreview.innerHTML = '';
+      deleteBtn.style.display = 'none';
+    };
+
+    // Main Photo logic
+    let mainPhotoFile;
+    document.getElementById('mainImg').addEventListener('change', function(e) {
+      mainPhotoFile = e.target.files[0];
     });
 
-    // Card actions (edit, delete, generate link)
-    function editCard(cardId) {
-      localStorage.setItem("editCardId", cardId);
-      window.location.href = "card-creator.html";
+    // Save Draft
+    function saveDraft() {
+      const savingStatus = document.getElementById('savingStatus');
+      savingStatus.textContent = "Saving draft...";
+      auth.onAuthStateChanged(async user => {
+        if (!user) { alert("Login required!"); window.location.href="login.html"; return; }
+
+        // Upload photo (if selected)
+        let photoURL = "";
+        if (mainPhotoFile) {
+          const photoRef = storage.ref('card-photos/' + Date.now() + '-' + mainPhotoFile.name);
+          await photoRef.put(mainPhotoFile);
+          photoURL = await photoRef.getDownloadURL();
+        }
+
+        // Upload audio (if recorded)
+        let voiceMsgURL = "";
+        if (audioBlob) {
+          const audioRef = storage.ref('voice-messages/' + Date.now() + '.webm');
+          await audioRef.put(audioBlob);
+          voiceMsgURL = await audioRef.getDownloadURL();
+        }
+
+        // Card background
+        let bg = "#ffe6f0";
+        const bgInputs = document.querySelectorAll('input[name="cardBg"]');
+        bgInputs.forEach(radio => { if (radio.checked) bg = radio.value; });
+
+        // Card data
+        const cardData = {
+          uid: user.uid,
+          recipient: document.getElementById('recipient').value,
+          title: document.getElementById('title').value,
+          message: document.getElementById('message').value,
+          mainImg: photoURL,
+          stickers: stickers,
+          cardBg: bg,
+          voiceMsg: voiceMsgURL,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection("cards").add(cardData);
+        savingStatus.textContent = "Draft saved!";
+        window.location.href = "preview.html";
+      });
     }
-    async function deleteCard(cardId, btn) {
-      if (!confirm("Delete this card?")) return;
-      btn.disabled = true;
-      try {
-        await firebase.firestore().collection("cards").doc(cardId).delete();
-        btn.parentNode.parentNode.remove();
-      } catch (e) {
-        alert("Delete failed. Try again.");
-        btn.disabled = false;
-      }
-    }
-    function generateLink(cardId) {
-      localStorage.setItem("lastCardId", cardId);
-      window.location.href = "share-settings.html";
+
+    // Show Preview (optional, you can customize this)
+    function showPreview() {
+      alert("Preview will be improved soon. (Redirecting to preview.html)");
+      window.location.href = "preview.html";
     }
   </script>
 </body>
