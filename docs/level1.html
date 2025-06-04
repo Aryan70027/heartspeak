@@ -107,6 +107,9 @@
       box-shadow: 0 2px 14px #d20c6c44;
       cursor: pointer;
       margin-top: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
       transition: transform 0.13s, box-shadow 0.13s;
     }
     .btn-next:active { transform: scale(.96);}
@@ -125,11 +128,11 @@
       Happy Birthday, <span id="name-output">Friend</span>! 🎉
     </div>
     <img class="profile-img-preview" id="img-preview" />
-    <form class="input-row" onsubmit="event.preventDefault();nextLevel();">
+    <div class="input-row">
       <input type="text" id="name-input" placeholder="Enter recipient's name" maxlength="18" oninput="updateName()"/>
       <input type="file" id="img-input" accept="image/*" onchange="previewImg(event)"/>
-      <button type="submit" class="btn-next">Next Level</button>
-    </form>
+      <a href="Level2.html" class="btn-next">Next Level</a>
+    </div>
   </div>
 
   <script>
@@ -152,11 +155,6 @@
         img.src = "";
         img.style.display = "none";
       }
-    }
-    // Next Level Navigation (update link as needed)
-    function nextLevel() {
-      // You can add data saving here!
-      window.location.href = "Level2.html";
     }
   </script>
   <!-- Confetti (Canvas Confetti via CDN) -->
