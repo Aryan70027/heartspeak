@@ -8,9 +8,10 @@
   <style>
     body { margin: 0; padding: 0; min-height: 100vh;
       font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
-      background: linear-gradient(130deg,#fff6f2 0%,#e5e4fa 100%);
       display: flex; align-items: center; justify-content: center;
+      transition: background 0.85s cubic-bezier(.7,.7,0,1.04);
       overflow: hidden;
+      background: linear-gradient(130deg,#fff6f2 0%,#e5e4fa 100%);
     }
     .showcase-container {
       position: relative;
@@ -103,6 +104,13 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
+    const bgList = [
+      "linear-gradient(135deg, #ffe8ea 0%, #e5e4fa 100%)",      // Level 1: pink-purple
+      "linear-gradient(135deg, #ffe8fc 0%, #fad6ec 100%)",      // Level 2: soft pink
+      "linear-gradient(135deg, #d7e5ff 0%, #f8f5ff 100%)",      // Level 3: blue-white
+      "linear-gradient(135deg, #d4ffe8 0%, #e8fffd 100%)",      // Level 4: green-turquoise
+      "linear-gradient(135deg, #fffbe8 0%, #ffd6f7 100%)"       // Level 5: gold-pink
+    ];
     const levels = [
       document.getElementById('level1'),
       document.getElementById('level2'),
@@ -112,12 +120,17 @@
     ];
     let idx = 0;
 
+    function setBg(n) {
+      document.body.style.background = bgList[n] || bgList[0];
+    }
+
     function showLevel(n) {
       levels.forEach((lv,i)=>lv.classList.toggle('active', i===n));
       // Clean up all effect canvases
       document.getElementById('heartRain').width = 0;
       document.getElementById('blueBurst').width = 0;
       document.getElementById('sparkleBurst').width = 0;
+      setBg(n);
       if(n===0 || n===4) fireConfetti();
     }
 
