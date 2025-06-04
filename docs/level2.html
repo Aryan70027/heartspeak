@@ -102,6 +102,9 @@
       box-shadow: 0 2px 14px #d20c6c44;
       cursor: pointer;
       margin-top: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
       transition: transform 0.13s, box-shadow 0.13s;
     }
     .btn-next:active { transform: scale(.96);}
@@ -118,7 +121,7 @@
   <div class="card">
     <div class="headline">You’re Special! 💖</div>
     <div class="subheadline">Pick a birthday wish or write your own:</div>
-    <form onsubmit="event.preventDefault();nextLevel();" style="width:100%;">
+    <form style="width:100%;">
       <div class="wish-select">
         <select id="preWish" onchange="updateWish()">
           <option value="">— Select a heartfelt wish —</option>
@@ -132,7 +135,8 @@
       <div class="wish-custom">
         <textarea id="customWish" placeholder="Or type your own birthday wish..."></textarea>
       </div>
-      <button class="btn-next" type="submit">Next Level</button>
+      <!-- DIRECT LINK BUTTON BELOW -->
+      <a href="level3.html" class="btn-next">Next Level</a>
     </form>
   </div>
   
@@ -142,11 +146,6 @@
       const sel = document.getElementById('preWish');
       const ta = document.getElementById('customWish');
       if(sel.value) ta.value = sel.value;
-    }
-    // Next level navigation (can store data in localStorage if needed)
-    function nextLevel() {
-      // You can store the message here if needed
-      window.location.href = "Level3.html";
     }
   </script>
   <!-- Hearts rain animation -->
