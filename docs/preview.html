@@ -3,198 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Preview Cards – HeartSpeak</title>
+  <title>Preview Dedication – HeartSpeak</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
     body {
-      background: linear-gradient(120deg,#ffe6f0 40%, #f3e7fd 100%);
+      background: linear-gradient(120deg,#ffe6f0 40%, #fad7f9 100%);
       font-family: 'Poppins', sans-serif;
-      margin: 0; padding: 0; min-height: 100vh;
+      min-height: 100vh;
+      margin: 0; padding: 0;
+      position: relative;
       overflow-x: hidden;
     }
-    header {
-      text-align: center;
-      margin-top: 2rem;
-      margin-bottom: 1.2rem;
+    .bg-hearts {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.16;
+      background-image: url('img/heart-bg.png');
+      background-repeat: repeat;
+      background-size: 120px;
     }
     .logo {
-      width: 120px;
-      height: auto;
-      border-radius: 1.5rem;
-      box-shadow: 0 2px 16px #fbb5dd55;
-    }
-    .preview-container {
-      max-width: 900px;
-      margin: auto;
-      padding: 0 1rem 3rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: 140px;
+      margin: 2.5rem auto 1rem auto;
+      display: block;
     }
     h1 {
       text-align: center;
-      font-size: 2.1rem;
       color: #b250c3;
-      margin-bottom: 2rem;
+      font-size: 2.2rem;
+      margin-bottom: 2.3rem;
+      z-index: 2;
     }
     .cards-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 2.2rem;
-      margin-bottom: 1.8rem;
+      max-width: 950px;
+      margin: 0 auto 2.2rem auto;
+      justify-items: center;
+      z-index: 2;
     }
     .preview-card {
       background: #fff;
-      border-radius: 1.2rem;
-      box-shadow: 0 3px 18px #b4aad688;
-      padding: 2rem 1.3rem 1.2rem 1.3rem;
-      min-width: 260px; max-width: 330px; width: 100%;
-      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      border-radius: 1.3rem;
+      box-shadow: 0 4px 24px #d87fe633, 0 2px 6px #fff9;
+      padding: 1.5rem 1.1rem 1.2rem 1.1rem;
+      text-align: center;
+      min-width: 230px; max-width: 330px;
       position: relative;
-      overflow: hidden;
-      animation: popIn 1s;
-      margin: auto;
+      transition: box-shadow 0.2s;
     }
-    @keyframes popIn {
-      0% { transform: scale(.93); opacity: 0;}
-      80% { transform: scale(1.03);}
-      100% { transform: scale(1); opacity:1;}
-    }
-    .preview-bg {
-      position: absolute; inset: 0;
-      border-radius: 1.2rem;
-      z-index: 0;
-      opacity: 0.32;
-    }
-    .preview-main-img {
-      width: 86px; height: 86px; object-fit: cover;
-      border-radius: 1.1rem;
-      box-shadow: 0 2px 14px #c88ad433;
-      z-index: 2;
+    .preview-card:hover {
+      box-shadow: 0 6px 32px #b250c355, 0 4px 20px #fff9;
     }
     .preview-title {
-      color: #b250c3; font-size: 1.1rem; font-weight: 600; z-index:2;
+      font-size: 1.21rem;
+      color: #b250c3;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
     }
     .preview-recipient {
-      font-size: 1.13rem; font-weight: 600; color: #cc0066; margin-bottom: 0.2rem; z-index:2;
+      font-size: 1rem;
+      color: #cc0066;
+      margin-bottom: 0.9rem;
+    }
+    .preview-main-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 1.1rem;
+      object-fit: cover;
+      box-shadow: 0 2px 10px #fbb5dd77;
+      margin-bottom: 1rem;
     }
     .preview-message {
-      color: #6a227c; font-size: 1rem; text-align: center; z-index:2;
-      min-height: 40px;
+      color: #7c2e94;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
     }
     .preview-stickers {
-      display: flex; gap: 3px; flex-wrap: wrap; margin-top: 0.2rem; z-index:2;
-    }
-    .preview-sticker {
-      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+      font-size: 1.45rem;
     }
     .preview-voice {
-      margin-top: 0.4rem; z-index:2;
-      background: #ffe5f2; border-radius: 0.6rem;
-      padding: 0.4rem 0.7rem;
-      display: flex; align-items: center; gap: 0.7rem;
-    }
-    .preview-voice span {
-      color:#b250c3;font-weight:600;
+      margin-bottom: 1rem;
     }
     .card-actions {
-      margin-top: 1.1rem;
       display: flex;
-      gap: 1.3rem;
+      gap: 0.6rem;
       justify-content: center;
+      margin-top: 0.7rem;
     }
     .card-actions button {
-      padding: 0.47rem 1.25rem;
-      font-size: 0.97rem;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.99rem;
+      border-radius: 0.9rem;
       border: none;
-      border-radius: 1.4rem;
-      background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
-      color: #fff; font-weight: 600;
-      box-shadow: 0 2px 9px #b250c355;
+      color: #fff;
+      background: linear-gradient(90deg, #b250c3 60%, #fbb5dd 120%);
       cursor: pointer;
-      transition: background 0.17s, transform 0.12s;
+      font-weight: 500;
+      transition: background 0.15s;
     }
-    .card-actions button:active { transform: scale(.97);}
+    .card-actions button:active {
+      background: linear-gradient(90deg,#cc0066 60%, #b250c3 120%);
+    }
     .no-cards-msg {
-      text-align: center; font-size: 1.13rem;
-      color: #9c36a6; margin: 3rem 0 2rem 0;
+      text-align: center;
+      color: #b250c3;
+      font-size: 1.14rem;
+      margin-top: 2.2rem;
+      font-weight: 500;
     }
     .back-btn {
-      display: inline-block;
-      margin-top: 2.2rem;
-      padding: 0.72rem 2.3rem;
-      border: none;
-      border-radius: 2rem;
+      display: block;
+      margin: 2.3rem auto 0 auto;
+      padding: 1rem 2.3rem;
       background: linear-gradient(90deg,#b250c3,#fbb5dd 80%);
       color: #fff;
-      font-size: 1.06rem;
-      font-weight: 600;
-      box-shadow: 0 2px 12px #b250c322;
+      border: none;
+      border-radius: 2.5rem;
+      font-size: 1.22rem;
+      font-weight: 700;
+      box-shadow: 0 2px 16px #b250c344;
+      letter-spacing: 1px;
       cursor: pointer;
-      transition: background 0.17s, transform 0.12s;
+      transition: background 0.18s, transform 0.13s;
     }
     .back-btn:active { transform: scale(.96);}
-    /* Animated hearts/confetti (example with hearts) */
-    .bg-anim {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .heart {
-      position: absolute;
-      color: #ff92be;
-      font-size: 2rem;
-      opacity: 0.4;
-      animation: floatHearts 8s linear infinite;
-    }
-    @keyframes floatHearts {
-      0% { transform: translateY(110vh) scale(0.8) rotate(0deg);}
-      100% { transform: translateY(-10vh) scale(1.18) rotate(38deg);}
-    }
-    @media (max-width: 900px) {
-      .preview-container { padding: 0 0.2rem;}
-      .cards-list { gap: 1.1rem; }
-      .preview-card { min-width: 95vw; max-width: 98vw;}
+    @media (max-width:700px) {
+      .cards-list {gap: 1.1rem;}
+      .preview-card {min-width: 170px;}
     }
   </style>
 </head>
 <body>
-  <!-- Animated floating hearts background -->
-  <div class="bg-anim" id="bgAnim"></div>
-  <header>
-    <img src="img/logo.png" alt="HeartSpeak Logo" class="logo" />
-  </header>
-  <div class="preview-container">
-    <h1>Your Latest Cards</h1>
-    <div class="cards-list" id="cardsList"></div>
-    <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+  <div class="bg-hearts"></div>
+  <img src="img/logo.png" alt="HeartSpeak Logo" class="logo" />
+  <h1>Your Latest Cards</h1>
+  <div class="cards-list" id="cardsList">
+    Loading your latest cards...
   </div>
-  
+  <button class="back-btn" onclick="window.location.href='dashboard.html'">&larr; Back to Dashboard</button>
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script>
-    // Animate floating hearts in background
-    function createHearts() {
-      const container = document.getElementById('bgAnim');
-      for(let i=0;i<16;i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.style.left = Math.random()*98+'vw';
-        heart.style.animationDelay = (Math.random()*8)+'s';
-        heart.innerHTML = '💖';
-        heart.style.fontSize = (1.5+Math.random()*1.3) + 'rem';
-        container.appendChild(heart);
-      }
-    }
-    createHearts();
-
-    // Firebase config
+    // Firebase setup
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
@@ -207,9 +166,8 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-    const storage = firebase.storage();
 
-    // Load last 3 cards for the logged-in user
+    // Fetch and show latest 3 cards
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         window.location.href = "login.html";
@@ -217,59 +175,67 @@
       }
       const cardsList = document.getElementById("cardsList");
       cardsList.innerHTML = "Loading your latest cards...";
-      const snap = await db.collection("cards")
-        .where("uid","==",user.uid)
-        .orderBy("createdAt","desc")
-        .limit(3)
-        .get();
-      if (snap.empty) {
-        cardsList.innerHTML = `<div class="no-cards-msg">No cards yet! Go create your first card 🎉</div>`;
-        return;
+      try {
+        const snap = await db.collection("cards")
+          .where("uid", "==", user.uid)
+          .orderBy("createdAt", "desc")
+          .limit(3)
+          .get();
+
+        if (snap.empty) {
+          cardsList.innerHTML = `<div class="no-cards-msg">No cards yet! Go create your first card 🎉</div>`;
+          return;
+        }
+        cardsList.innerHTML = "";
+        snap.forEach(doc => {
+          const data = doc.data();
+          const bg = data.cardBg || "#ffe6f0";
+          const mainImg = data.mainImg || "img/logo.png";
+          const stickers = (data.stickers || []).map(st=>`<span>${st}</span>`).join('');
+          const voice = data.voiceMsg ? 
+            `<div class="preview-voice"><span>🔊 Voice Message:</span><audio controls src="${data.voiceMsg}"></audio></div>` : '';
+          const card = document.createElement("div");
+          card.className = "preview-card";
+          card.innerHTML = `
+            <div class="preview-title">${data.title || "HeartSpeak Card"}</div>
+            <div class="preview-recipient">To: ${data.recipient || "Friend"}</div>
+            <img src="${mainImg}" class="preview-main-img" alt="Card Main">
+            <div class="preview-message">${data.message || "Best wishes!"}</div>
+            <div class="preview-stickers">${stickers}</div>
+            ${voice}
+            <div class="card-actions">
+              <button onclick="editCard('${doc.id}')">Edit</button>
+              <button onclick="deleteCard('${doc.id}', this)">Delete</button>
+              <button onclick="generateLink('${doc.id}')">Generate Link</button>
+            </div>
+          `;
+          cardsList.appendChild(card);
+        });
+      } catch (err) {
+        cardsList.innerHTML = `<div class="no-cards-msg">Error loading cards. Try again later.</div>`;
+        console.error("Error fetching cards: ", err);
       }
-      cardsList.innerHTML = "";
-      snap.forEach(doc => {
-        const data = doc.data();
-        // Build card preview HTML
-        const bg = data.cardBg || "#ffe6f0";
-        const mainImg = data.mainImg || "img/demo-avatar.jpg";
-        const stickers = (data.stickers || []).map(st=>`<span class="preview-sticker">${st}</span>`).join('');
-        const voice = data.voiceMsg ? 
-          `<div class="preview-voice"><span>🔊 Voice Message:</span><audio controls src="${data.voiceMsg}"></audio></div>` : '';
-        const card = document.createElement("div");
-        card.className = "preview-card";
-        card.innerHTML = `
-          <div class="preview-bg" style="background:${bg};"></div>
-          <div class="preview-title">${data.title || "Happy Birthday!"}</div>
-          <div class="preview-recipient">To: ${data.recipient || "Aryan"}</div>
-          <img src="${mainImg}" class="preview-main-img" alt="Card Main">
-          <div class="preview-message">${data.message || "Best wishes!"}</div>
-          <div class="preview-stickers">${stickers}</div>
-          ${voice}
-          <div class="card-actions">
-            <button onclick="editCard('${doc.id}')">Edit</button>
-            <button onclick="deleteCard('${doc.id}', this)">Delete</button>
-            <button onclick="generateLink('${doc.id}')">Generate Link</button>
-          </div>
-        `;
-        cardsList.appendChild(card);
-      });
     });
 
-    // Edit: store card ID, redirect to card-creator.html with editing mode
-    function editCard(id) {
-      localStorage.setItem("editCardId", id);
+    // Card actions (edit, delete, generate link)
+    function editCard(cardId) {
+      // Redirect to card-creator.html with cardId in localStorage
+      localStorage.setItem("editCardId", cardId);
       window.location.href = "card-creator.html";
     }
-    // Delete: remove from Firestore
-    async function deleteCard(id, btn) {
-      if (!confirm("Are you sure you want to delete this card?")) return;
+    async function deleteCard(cardId, btn) {
+      if (!confirm("Delete this card?")) return;
       btn.disabled = true;
-      await db.collection("cards").doc(id).delete();
-      btn.closest('.preview-card').remove();
+      try {
+        await firebase.firestore().collection("cards").doc(cardId).delete();
+        btn.parentNode.parentNode.remove();
+      } catch (e) {
+        alert("Delete failed. Try again.");
+        btn.disabled = false;
+      }
     }
-    // Generate Link: save card ID for share-settings.html
-    function generateLink(id) {
-      localStorage.setItem("lastCardId", id);
+    function generateLink(cardId) {
+      localStorage.setItem("lastCardId", cardId);
       window.location.href = "share-settings.html";
     }
   </script>
