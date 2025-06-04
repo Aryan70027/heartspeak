@@ -9,26 +9,87 @@
 <body>
   <div class="page-container">
     <div class="form-wrapper register-form">
-      <img src="img/logo.png" alt="HeartSpeak Logo" />
+      <img src="img/logo.png" alt="HeartSpeak Logo" style="width:110px; border-radius:1.1rem; margin-bottom:1.2rem; box-shadow:0 2px 12px #b4aad633;">
       <h1>Create an Account</h1>
-<form onsubmit="event.preventDefault(); window.location.href='login.html';" class="form">
-
+      <form onsubmit="event.preventDefault(); registerUser();" class="form">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+        <input type="text" id="reg-username" name="username" placeholder="Enter your username" required />
 
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <input type="email" id="reg-email" name="email" placeholder="Enter your email" required />
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        <input type="password" id="reg-password" name="password" placeholder="Enter your password" required />
 
-        <button type="button" class="btn-primary" onclick="location.href='login.html'">Register</button>
-
+        <button type="submit" class="btn-primary">Register</button>
+        <div id="reg-message" style="color:#d20c6c; margin-top:1rem; text-align:center;"></div>
       </form>
       <p class="login-link">
         Already have an account? <a href="login.html">Login here</a>
       </p>
     </div>
   </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      authDomain: "heartspeak-bf703.firebaseapp.com",
+      projectId: "heartspeak-bf703",
+      storageBucket: "heartspeak-bf703.appspot.com",
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7",
+      measurementId: "G-RGVFVSSPMG"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+  <script>
+    function registerUser() {
+      const username = document.getElementById('reg-username').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value.trim();
+      const message = document.getElementById('reg-message');
+
+      message.style.color = "#d20c6c";
+      message.textContent = "";
+
+      if (!username || !email || !password) {
+        message.textContent = "All fields are required!";
+        return;
+      }
+      if (password.length < 6) {
+        message.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Save username to Firestore
+          return db.collection('users').doc(userCredential.user.uid).set({
+            username: username,
+            email: email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        })
+        .then(() => {
+          message.style.color = "#1bbb7a";
+          message.textContent = "Registration successful! Redirecting to login…";
+          setTimeout(() => { window.location.href = "login.html"; }, 1800);
+        })
+        .catch((error) => {
+          message.style.color = "#d20c6c";
+          if (error.code === "auth/email-already-in-use") {
+            message.textContent = "Email already registered. Please login!";
+          } else {
+            message.textContent = error.message;
+          }
+        });
+    }
+  </script>
 </body>
 </html>
