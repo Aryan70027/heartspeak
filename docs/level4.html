@@ -2,178 +2,214 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HeartSpeak – Level 4: Photo Collage</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>HeartSpeak – Level 4</title>
   <link rel="stylesheet" href="css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #ffe2ec 0%, #fdeff9 100%);
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
-      font-family: 'Montserrat', sans-serif;
-      position: relative;
-      overflow-x: hidden;
-    }
-    /* Emoji animation bg */
-    .emoji-bg {
-      position: fixed;
-      left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;
+      background: linear-gradient(120deg,#e6c3f7 0%,#ffe5ec 100%);
+      font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
-    .emoji-anim {
-      position: absolute;
-      font-size: 2.2rem;
-      opacity: 0.14;
-      animation: floatEmoji 8s linear infinite;
-    }
-    @keyframes floatEmoji {
-      0% { transform: translateY(110vh) scale(0.9) rotate(-9deg);}
-      60% { opacity: 0.19;}
-      100% { transform: translateY(-10vh) scale(1.17) rotate(15deg);}
-    }
-    .level4-wrapper {
-      background: #fff;
-      max-width: 410px;
-      margin: 75px auto 0 auto;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px 0 rgba(233,30,99,.09);
-      padding: 2.2rem 1.7rem 2rem 1.7rem;
-      text-align: center;
-      position: relative;
+    .slideshow-card {
+      background: rgba(255,255,255,0.96);
+      border-radius: 2rem;
+      box-shadow: 0 4px 22px #e6a7f155;
+      padding: 2.5rem 1.5rem 2rem 1.5rem;
+      max-width: 420px;
+      width: 96vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.3rem;
       z-index: 2;
+      position: relative;
+      animation: fadeInUp 1s cubic-bezier(.17,.67,.83,.67);
     }
-    .logo {
-      max-width: 78px;
-      border-radius: 1rem;
-      margin-bottom: 1.1rem;
-      box-shadow: 0 2px 8px #e34a7291;
-      background: #fff9;
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(48px);}
+      to   { opacity: 1; transform: none;}
     }
-    h2 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2rem;
-      color: #e91e63;
-      margin-bottom: 1.2rem;
+    .headline {
+      font-size: 1.35rem;
+      font-weight: bold;
+      color: #a651be;
+      text-align: center;
+      margin-bottom: .7rem;
     }
-    .form-group {
-      margin-bottom: 1.25rem;
-      text-align: left;
-    }
-    label {
-      font-weight: 500;
-      color: #ad2071;
-      font-size: 1.03rem;
-      margin-bottom: 0.18rem;
-      display: block;
-    }
-    input[type="file"] {
-      margin-top: 0.4rem;
+    .input-row {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.3rem;
     }
-    .collage-preview {
-      margin: 1.3rem auto 0 auto;
+    .input-row input[type="file"] {
+      border: none;
+      background: none;
+      font-size: 1.01rem;
+      color: #d20c6c;
+      margin-bottom: 0.2rem;
+    }
+    .thumbnails {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
+      margin-top: .7rem;
       justify-content: center;
-      min-height: 100px;
+      max-width: 330px;
     }
-    .collage-preview img {
-      width: 85px;
-      height: 85px;
+    .thumb-img {
+      width: 60px;
+      height: 60px;
       object-fit: cover;
-      border-radius: 13px;
-      box-shadow: 0 2px 9px #e91e6342;
-      background: #ffe3ef;
-      transition: transform 0.18s;
+      border-radius: 1rem;
+      border: 2px solid #d0b1f1;
+      box-shadow: 0 2px 12px #e6a7f133;
+      background: #f3f2fa;
     }
-    .collage-preview img:hover {
-      transform: scale(1.09) rotate(-3deg);
-    }
-    .btn-row {
+    .slideshow-view {
+      width: 230px; height: 230px;
+      border-radius: 1.5rem;
+      background: #f3f2fa;
+      box-shadow: 0 3px 16px #d0b1f188;
       display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-top: 1.2rem;
+      overflow: hidden;
+      margin-bottom: .6rem;
+      position: relative;
     }
-    .btn {
-      background: #e73370;
+    .slide-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1.5rem;
+      opacity: 0;
+      position: absolute;
+      top: 0; left: 0;
+      transition: opacity 0.7s;
+    }
+    .slide-img.active {
+      opacity: 1;
+      z-index: 2;
+    }
+    .slide-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: .7rem;
+    }
+    .slide-btn {
+      background: linear-gradient(90deg,#d20c6c,#fbb5dd 80%);
       color: #fff;
-      font-weight: 700;
-      padding: 0.7rem 1.4rem;
+      font-weight: 600;
       border: none;
-      border-radius: 14px;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 8px #d20c6c22;
       cursor: pointer;
-      transition: background 0.3s;
-      font-size: 1rem;
+      transition: transform 0.12s;
+      outline: none;
     }
-    .btn:disabled { opacity: 0.7; cursor: not-allowed;}
-    .btn:hover:not(:disabled) { background: #c82d5d; }
-    @media (max-width: 500px) {
-      .level4-wrapper { padding: 1.1rem 0.6rem;}
-      .logo { max-width: 54px;}
-      .collage-preview img { width: 60px; height: 60px;}
+    .slide-btn:active { transform: scale(.92);}
+    .btn-next {
+      background: linear-gradient(90deg,#a651be,#fbb5dd 80%);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.65rem 2.2rem;
+      font-size: 1.13rem;
+      box-shadow: 0 2px 14px #a651be44;
+      cursor: pointer;
+      margin-top: 1.2rem;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: transform 0.13s, box-shadow 0.13s;
+    }
+    .btn-next:active { transform: scale(.96);}
+    @media (max-width: 520px) {
+      .slideshow-card { max-width: 99vw; padding: 1.1rem 0.2rem 1rem 0.2rem; }
+      .slideshow-view { width: 98vw; max-width: 220px; height: 36vw; max-height: 220px; }
     }
   </style>
 </head>
 <body>
-  <div class="emoji-bg" id="emojiBg"></div>
-  <div class="level4-wrapper">
-    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
-    <h2>Level 4: Photo Collage</h2>
-    <form id="level4Form">
-      <div class="form-group">
-        <label for="photos">Upload your best moments (min 3, max 20 photos):</label>
-        <input type="file" id="photos" name="photos" accept="image/*" multiple>
-      </div>
-      <div class="collage-preview" id="collagePreview"></div>
-      <div class="btn-row">
-        <button type="button" class="btn" id="nextBtn" disabled>Next Level &rarr;</button>
-      </div>
-    </form>
+  <div class="slideshow-card">
+    <div class="headline">Your Best Memories!<br>Upload 3–20 Photos</div>
+    <div class="input-row">
+      <input type="file" id="imgInput" accept="image/*" multiple onchange="previewThumbnails(event)" />
+      <div class="thumbnails" id="thumbnails"></div>
+    </div>
+    <div class="slideshow-view" id="slideshowView">
+      <!-- Images will appear here -->
+    </div>
+    <div class="slide-btns">
+      <button class="slide-btn" onclick="prevSlide()">&#8592;</button>
+      <button class="slide-btn" onclick="nextSlide()">&#8594;</button>
+    </div>
+    <a href="level5.html" class="btn-next">Next Level</a>
   </div>
   <script>
-    // Emoji Animation
-    const emojiArr = ["🎉","💖","✨","🥳","🌈","🎈","😊","🌟"];
-    const emojiBg = document.getElementById("emojiBg");
-    for(let i=0;i<18;i++) {
-      let e = document.createElement("span");
-      e.className = "emoji-anim";
-      e.textContent = emojiArr[Math.floor(Math.random()*emojiArr.length)];
-      e.style.left = Math.random()*97+"vw";
-      e.style.animationDelay = Math.random()*7+"s";
-      emojiBg.appendChild(e);
-    }
+    let slideImgs = [];
+    let slideIndex = 0;
 
-    // Photo Collage Logic
-    const photoInput = document.getElementById("photos");
-    const collagePreview = document.getElementById("collagePreview");
-    const nextBtn = document.getElementById("nextBtn");
-
-    photoInput.addEventListener('change', function(){
-      collagePreview.innerHTML = "";
-      const files = Array.from(photoInput.files).slice(0,20);
+    function previewThumbnails(event) {
+      const files = event.target.files;
       if(files.length < 3) {
-        nextBtn.disabled = true;
-      } else {
-        nextBtn.disabled = false;
+        alert("Please select at least 3 photos.");
+        return;
       }
-      files.forEach(file => {
+      if(files.length > 20) {
+        alert("You can select up to 20 photos.");
+        return;
+      }
+      const thumbsDiv = document.getElementById('thumbnails');
+      thumbsDiv.innerHTML = "";
+      slideImgs = [];
+      document.getElementById('slideshowView').innerHTML = "";
+      for(let i=0; i<files.length; i++) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          const img = document.createElement("img");
-          img.src = e.target.result;
-          collagePreview.appendChild(img);
+          // Thumbnail
+          const thumb = document.createElement('img');
+          thumb.src = e.target.result;
+          thumb.className = 'thumb-img';
+          thumbsDiv.appendChild(thumb);
+          // Slide
+          const slide = document.createElement('img');
+          slide.src = e.target.result;
+          slide.className = 'slide-img';
+          if(i === 0) slide.classList.add('active');
+          document.getElementById('slideshowView').appendChild(slide);
+          slideImgs.push(slide);
         }
-        reader.readAsDataURL(file);
-      });
-    });
-
-    nextBtn.addEventListener('click', function() {
-      if(photoInput.files.length >= 3) {
-        window.location.href = "level5.html";
+        reader.readAsDataURL(files[i]);
       }
-    });
+      slideIndex = 0;
+      setTimeout(()=>showSlide(0),300);
+    }
+
+    function showSlide(n) {
+      if(slideImgs.length === 0) return;
+      slideImgs.forEach((img,i)=>img.classList.remove('active'));
+      slideIndex = (n + slideImgs.length) % slideImgs.length;
+      slideImgs[slideIndex].classList.add('active');
+    }
+    function prevSlide() { showSlide(slideIndex-1); }
+    function nextSlide() { showSlide(slideIndex+1); }
   </script>
 </body>
 </html>
