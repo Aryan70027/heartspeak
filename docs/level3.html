@@ -2,214 +2,184 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HeartSpeak – Level 3: Card Flip</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>HeartSpeak – Level 3</title>
   <link rel="stylesheet" href="css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #ffe2ec 0%, #fdeff9 100%);
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .level3-container {
-      max-width: 400px;
-      margin: 75px auto 0 auto;
-      background: #fff;
-      border-radius: 22px;
-      box-shadow: 0 8px 32px 0 rgba(233,30,99,.09);
-      padding: 2rem 1.7rem 2rem 1.7rem;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
-    .logo {
-      max-width: 78px;
-      border-radius: 1rem;
-      margin-bottom: 1.1rem;
-      box-shadow: 0 2px 8px #e34a7291;
-      background: #fff9;
-    }
-    h2 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2rem;
-      color: #e91e63;
-      margin-bottom: 1.2rem;
-    }
-    .form-group {
-      margin-bottom: 1.2rem;
-      text-align: left;
-    }
-    label {
-      font-weight: 500;
-      color: #ad2071;
-      font-size: 1.03rem;
-      margin-bottom: 0.18rem;
-      display: block;
-    }
-    textarea {
-      width: 100%;
-      padding: 0.65rem 0.9rem;
-      border: 1.6px solid #e73370;
-      border-radius: 11px;
-      font-size: 1rem;
-      font-family: 'Montserrat', sans-serif;
-      outline: none;
-      resize: vertical;
-      margin-top: 5px;
-      margin-bottom: 0.4rem;
-    }
-    input[type="file"] {
-      margin-top: 0.4rem;
-      width: 100%;
-    }
-    .btn-row {
+      background: linear-gradient(130deg, #fceabb 0%, #f8b8c6 100%);
+      font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-top: 1.5rem;
+      overflow: hidden;
     }
-    .btn {
-      background: #e73370;
-      color: #fff;
-      font-weight: 700;
-      padding: 0.7rem 1.4rem;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 1rem;
-    }
-    .btn:disabled { opacity: 0.7; cursor: not-allowed;}
-    .btn:hover:not(:disabled) { background: #c82d5d; }
-
-    /* Card Flip Animation */
-    .flip-card {
-      background-color: transparent;
+    .card-flip-container {
+      perspective: 1100px;
       width: 270px;
-      height: 160px;
-      perspective: 1000px;
-      margin: 35px auto 0 auto;
+      height: 330px;
+      margin-bottom: 1.2rem;
     }
-    .flip-card-inner {
-      position: relative;
+    .flip-card {
       width: 100%;
       height: 100%;
-      text-align: center;
-      transition: transform 0.7s cubic-bezier(.8,.01,.45,1.09);
+      position: relative;
+      transition: transform 0.7s cubic-bezier(.5,1.5,.5,1);
       transform-style: preserve-3d;
+      cursor: pointer;
     }
-    .flip-card.flipped .flip-card-inner {
+    .flip-card.flipped {
       transform: rotateY(180deg);
     }
-    .flip-card-front, .flip-card-back {
+    .flip-card-front,
+    .flip-card-back {
       position: absolute;
       width: 100%;
       height: 100%;
-      backface-visibility: hidden;
-      border-radius: 16px;
-      box-shadow: 0 4px 28px #e91e6330;
-      background: #fff5fa;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 22px #ffb5ce55;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      background: #fff;
+      backface-visibility: hidden;
+      overflow: hidden;
     }
     .flip-card-front {
-      z-index: 2;
-      color: #e91e63;
-      font-size: 1.5rem;
-      letter-spacing: 0.5px;
-      font-family: 'Dancing Script', cursive;
-      padding: 22px;
+      flex-direction: column;
+      gap: .9rem;
+    }
+    .front-img-preview {
+      width: 130px;
+      height: 130px;
+      border-radius: 1.1rem;
+      object-fit: cover;
+      background: #ffe3ee;
+      border: 2.5px solid #e971ab;
+      box-shadow: 0 2px 12px #e971ab55;
+      margin-bottom: .5rem;
+      display: none;
     }
     .flip-card-back {
+      background: linear-gradient(120deg, #ffe3ee 50%, #fff 100%);
+      color: #d20c6c;
+      flex-direction: column;
+      gap: .8rem;
       transform: rotateY(180deg);
-      color: #c2185b;
-      padding: 22px;
-      font-size: 1.1rem;
-      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      font-size: 1.07rem;
+      padding: 1.2rem 1.2rem .8rem 1.2rem;
+    }
+    .headline {
+      font-size: 1.35rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #e971ab;
+      margin-bottom: .7rem;
       text-align: center;
     }
-    .card-image {
-      margin: 8px auto 0 auto;
-      max-width: 70px;
-      max-height: 70px;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px #e34a72a2;
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.7rem;
     }
+    .input-row input[type="file"] {
+      border: none;
+      background: none;
+      font-size: 0.99rem;
+      color: #d20c6c;
+    }
+    .input-row textarea {
+      width: 90%;
+      min-height: 55px;
+      border-radius: 1rem;
+      border: 1.2px solid #d20c6c;
+      padding: 0.6rem;
+      font-size: 1rem;
+      color: #c40e5b;
+      background: #fef6fa;
+      outline: none;
+      margin-bottom: .3rem;
+      resize: none;
+    }
+    .btn-next {
+      background: linear-gradient(90deg,#d20c6c,#fbb5dd 80%);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.65rem 2.2rem;
+      font-size: 1.13rem;
+      box-shadow: 0 2px 14px #d20c6c44;
+      cursor: pointer;
+      margin-top: 1.2rem;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: transform 0.13s, box-shadow 0.13s;
+    }
+    .btn-next:active { transform: scale(.96);}
     @media (max-width: 500px) {
-      .level3-container { padding: 1.1rem 0.4rem;}
-      .flip-card { width: 170px; height: 105px; }
-      .flip-card-front, .flip-card-back { padding: 11px;}
-      .logo { max-width: 60px;}
+      .card-flip-container { width: 98vw; max-width: 290px;}
     }
   </style>
 </head>
 <body>
-  <div class="level3-container">
-    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
-    <h2>Level 3: Card Flip</h2>
-    <form id="level3Form">
-      <div class="form-group">
-        <label for="message">Your Message</label>
-        <textarea id="message" name="message" rows="3" placeholder="Write a sweet message..."></textarea>
+  <div class="headline">Surprise Card!<br>Click the card to flip 🎴</div>
+  <div class="card-flip-container">
+    <div class="flip-card" id="flipCard" onclick="flipCard()">
+      <!-- Front Side -->
+      <div class="flip-card-front">
+        <img id="frontImg" class="front-img-preview" />
+        <span style="font-size:1.1rem;color:#d20c6c;margin-bottom:6px;">Upload a cute image for the card!</span>
       </div>
-      <div class="form-group">
-        <label for="photo">Add a Photo (optional)</label>
-        <input type="file" id="photo" name="photo" accept="image/*">
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn" id="previewBtn">Preview</button>
-        <button type="button" class="btn" id="nextBtn">Next Level &rarr;</button>
-      </div>
-    </form>
-
-    <!-- Flip card preview -->
-    <div class="flip-card" id="flipCardPreview" style="display:none;">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          Click to Flip Card!
-        </div>
-        <div class="flip-card-back" id="flipCardBack">
-          <!-- Message and image will appear here -->
-        </div>
+      <!-- Back Side -->
+      <div class="flip-card-back" id="cardBackMsg">
+        <!-- The message will appear here -->
+        <span style="font-size:1.15rem;color:#d20c6c;font-weight:500;">
+          Your card message will appear here.<br>
+          (Type below and flip to preview!)
+        </span>
       </div>
     </div>
   </div>
-
+  <div class="input-row">
+    <input type="file" id="imgInput" accept="image/*" onchange="previewImg(event)" />
+    <textarea id="backMsg" placeholder="Write a surprise message for the back of the card..."></textarea>
+  </div>
+  <a href="level4.html" class="btn-next">Next Level</a>
+  
   <script>
-    const previewBtn = document.getElementById('previewBtn');
-    const flipCard = document.getElementById('flipCardPreview');
-    const flipInner = flipCard.querySelector('.flip-card-inner');
-    const flipBack = document.getElementById('flipCardBack');
-    let photoData = "";
-
-    // Card flip on click
-    flipCard.addEventListener('click', function() {
-      flipCard.classList.toggle('flipped');
-    });
-
-    previewBtn.addEventListener('click', function() {
-      const msg = document.getElementById('message').value.trim();
-      const photoInput = document.getElementById('photo');
-      flipCard.style.display = "block";
-      flipCard.classList.remove('flipped');
-      // Read image if uploaded
-      if (photoInput.files && photoInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          photoData = `<img src="${e.target.result}" class="card-image"><br>`;
-          flipBack.innerHTML = photoData + (msg || "No message added yet!");
-        };
-        reader.readAsDataURL(photoInput.files[0]);
+    // Card flip animation
+    function flipCard() {
+      document.getElementById('flipCard').classList.toggle('flipped');
+    }
+    // Image preview for card front
+    function previewImg(event) {
+      let img = document.getElementById('frontImg');
+      if (event.target.files && event.target.files[0]) {
+        let reader = new FileReader();
+        reader.onload = e => {
+          img.src = e.target.result;
+          img.style.display = "block";
+        }
+        reader.readAsDataURL(event.target.files[0]);
       } else {
-        flipBack.innerHTML = (msg ? msg : "No message added yet!");
+        img.src = "";
+        img.style.display = "none";
       }
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', function() {
-      window.location.href = "level4.html";
+    }
+    // Show message live on card back
+    document.getElementById('backMsg').addEventListener('input', function() {
+      const msg = this.value.trim() || "Your card message will appear here.<br>(Type below and flip to preview!)";
+      document.getElementById('cardBackMsg').innerHTML = `<span style="font-size:1.15rem;color:#d20c6c;font-weight:500;">${msg.replace(/\n/g, "<br>")}</span>`;
     });
   </script>
 </body>
