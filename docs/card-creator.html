@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Firebase Auth Test</title>
+  <title>Test Auth | HeartSpeak</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div id="mainContent" style="display:none;">
-    <h1>Welcome, you are logged in!</h1>
-    <button onclick="logout()">Logout</button>
-  </div>
-  <div id="loginMsg" style="display:none; color:red;">
-    <h2>Not logged in. Redirecting to login page...</h2>
+  <h2 id="status" style="text-align:center; margin-top:50px;">Checking authentication status...</h2>
+  <div style="text-align:center;">
+    <button onclick="logoutUser()" style="margin-top:20px; padding:10px 20px;">Logout</button>
   </div>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
@@ -28,25 +26,22 @@
       measurementId: "G-RGVFVSSPMG"
     };
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
 
-    // Auth check
-    auth.onAuthStateChanged(function(user) {
+    // Check login state
+    firebase.auth().onAuthStateChanged(function(user) {
+      const status = document.getElementById('status');
       if (user) {
-        document.getElementById('mainContent').style.display = "block";
-        document.getElementById('loginMsg').style.display = "none";
+        status.innerHTML = "<span style='color:green;'>LOGGED IN as: " + user.email + "</span>";
       } else {
-        document.getElementById('mainContent').style.display = "none";
-        document.getElementById('loginMsg').style.display = "block";
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 1500);
+        status.innerHTML = "<span style='color:red;'>NOT LOGGED IN! (Redirecting...)</span>";
+        setTimeout(() => { window.location.href = "login.html"; }, 2000);
       }
     });
 
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "login.html";
+    function logoutUser() {
+      firebase.auth().signOut().then(function() {
+        alert("Logged out!");
+        window.location.reload();
       });
     }
   </script>
