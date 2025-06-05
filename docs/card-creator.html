@@ -1,239 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Create a Card | HeartSpeak</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
-      font-family: 'Poppins', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 400px;
-      margin: 40px auto;
-      padding: 24px;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
-      text-align: center;
-    }
-    h2 {
-      margin-top: 0;
-      margin-bottom: 16px;
-      color: #d63384;
-    }
-    .form-group {
-      margin-bottom: 18px;
-      text-align: left;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-    input[type="text"], input[type="file"], textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1.2px solid #ddd;
-      border-radius: 7px;
-      font-size: 16px;
-      font-family: inherit;
-      margin-bottom: 4px;
-      box-sizing: border-box;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 60px;
-      font-family: inherit;
-    }
-    .stickers, .card-bg {
-      margin-bottom: 8px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .sticker-btn, .bg-btn {
-      padding: 6px 11px;
-      border: 1px solid #e9ecef;
-      border-radius: 5px;
-      background: #f8f9fa;
-      cursor: pointer;
-      font-size: 18px;
-      transition: background 0.2s, box-shadow 0.2s;
-    }
-    .sticker-btn.selected, .bg-btn.selected {
-      background: #e7c6ff;
-      border-color: #a685e2;
-      box-shadow: 0 2px 8px rgba(166,133,226,0.08);
-    }
-    .submit-btn {
-      width: 100%;
-      background: linear-gradient(90deg, #e94057 0%, #8a2387 100%);
-      color: #fff;
-      border: none;
-      padding: 13px;
-      border-radius: 8px;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.18s;
-      margin-top: 10px;
-    }
-    .submit-btn:hover {
-      background: linear-gradient(90deg, #8a2387 0%, #e94057 100%);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Create a Card | HeartSpeak</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 420px;
+            margin: 32px auto;
+            padding: 32px;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 2.2em;
+            color: #da5a9a;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 7px;
+            color: #555;
+        }
+        input[type="text"], input[type="file"], textarea, select {
+            width: 100%;
+            padding: 9px 12px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 6px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 65px;
+            resize: vertical;
+        }
+        .card-backgrounds label {
+            margin-right: 14px;
+            font-size: 1em;
+        }
+        .stickers {
+            margin-bottom: 12px;
+        }
+        .stickers button {
+            background: #f3f0fc;
+            border: 1px solid #e4e2e9;
+            border-radius: 10px;
+            margin: 2px;
+            font-size: 1.4em;
+            cursor: pointer;
+            padding: 5px 8px;
+            transition: box-shadow 0.2s;
+        }
+        .stickers button.selected {
+            box-shadow: 0 2px 8px #f4b3dc;
+            background: #ffe6f2;
+        }
+        #saveDraftBtn {
+            background: linear-gradient(90deg, #e979c7, #95c8ff);
+            color: white;
+            font-size: 1.15em;
+            padding: 12px 0;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+            transition: background 0.2s;
+        }
+        #saveDraftBtn:hover {
+            background: linear-gradient(90deg, #c678b4, #6fa8dc);
+        }
+    </style>
 </head>
 <body>
-  <div class="container" id="mainContent" style="display:none;">
-    <h2>Create a Card</h2>
-
-    <!-- Recipient Name -->
-    <div class="form-group">
-      <label for="recipientName">Recipient Name</label>
-      <input type="text" id="recipientName" required>
+    <div id="mainContent" style="display:none;">
+        <div class="container">
+            <img src="../logo.png" style="width:60px; border-radius:18px; margin-bottom:10px;" alt="HeartSpeak Logo">
+            <h1>Create a Card</h1>
+            <form id="cardForm">
+                <div class="input-group">
+                    <label for="recipientName">Recipient Name</label>
+                    <input type="text" id="recipientName" required>
+                </div>
+                <div class="input-group">
+                    <label for="cardTitle">Card Title</label>
+                    <input type="text" id="cardTitle" required>
+                </div>
+                <div class="input-group">
+                    <label for="mainPhoto">Main Photo</label>
+                    <input type="file" id="mainPhoto" accept="image/*">
+                </div>
+                <div class="input-group">
+                    <label>Add Stickers</label>
+                    <div class="stickers">
+                        <button type="button" class="sticker-btn" data-sticker="❤️">❤️</button>
+                        <button type="button" class="sticker-btn" data-sticker="🎉">🎉</button>
+                        <button type="button" class="sticker-btn" data-sticker="💐">💐</button>
+                        <button type="button" class="sticker-btn" data-sticker="🎁">🎁</button>
+                        <button type="button" class="sticker-btn" data-sticker="⭐">⭐</button>
+                    </div>
+                </div>
+                <div class="input-group card-backgrounds">
+                    <label>Card Background</label>
+                    <label><input type="radio" name="cardBg" value="white" checked> White</label>
+                    <label><input type="radio" name="cardBg" value="pink"> Pink</label>
+                    <label><input type="radio" name="cardBg" value="blue"> Blue</label>
+                </div>
+                <div class="input-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                <button type="button" id="saveDraftBtn">Save Draft & Show Preview</button>
+            </form>
+        </div>
     </div>
-    <!-- Card Title -->
-    <div class="form-group">
-      <label for="cardTitle">Card Title</label>
-      <input type="text" id="cardTitle" required>
-    </div>
-    <!-- Main Photo -->
-    <div class="form-group">
-      <label for="mainPhoto">Main Photo</label>
-      <input type="file" id="mainPhoto" accept="image/*">
-    </div>
-    <!-- Stickers -->
-    <div class="form-group">
-      <label>Add Stickers</label>
-      <div class="stickers" id="stickersList">
-        <button type="button" class="sticker-btn">😍</button>
-        <button type="button" class="sticker-btn">🎉</button>
-        <button type="button" class="sticker-btn">💖</button>
-        <button type="button" class="sticker-btn">🎵</button>
-        <button type="button" class="sticker-btn">🍕</button>
-      </div>
-    </div>
-    <!-- Card Background -->
-    <div class="form-group">
-      <label>Card Background</label>
-      <div class="card-bg">
-        <button type="button" class="bg-btn" data-bg="white" style="background:#fff;">White</button>
-        <button type="button" class="bg-btn" data-bg="pink" style="background:#ffe1e9;">Pink</button>
-        <button type="button" class="bg-btn" data-bg="blue" style="background:#e7f0fd;">Blue</button>
-      </div>
-    </div>
-    <!-- Message -->
-    <div class="form-group">
-      <label for="message">Message</label>
-      <textarea id="message" rows="4" placeholder="Write your message here..."></textarea>
-    </div>
-    <!-- Voice Recording Button (UI only) -->
-    <div class="form-group">
-      <button type="button" id="recordVoiceBtn" class="submit-btn" style="background:#c1d8ff;color:#222;">🎤 Record Your Voice</button>
-    </div>
-    <!-- Save Draft Button -->
-    <button id="saveDraftBtn" class="submit-btn">Save Draft & Show Preview</button>
-  </div>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script>
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZgVaMT5BMUMsN0bbw31gFbcwXzseGU",
+            authDomain: "heartspeak-bf703.firebaseapp.com",
+            projectId: "heartspeak-bf703",
+            storageBucket: "heartspeak-bf703.firebasestorage.app",
+            messagingSenderId: "341260618790",
+            appId: "1:341260618790:web:f60536bac144fb815aaae7",
+            measurementId: "G-RGVFSSPMG"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
-  <!-- Firebase JS SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+        // --- Main Logic: Only runs if user is logged in! ---
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            document.getElementById('mainContent').style.display = "block";
 
-  <script>
-    // --- Firebase Config (USE CORRECT BUCKET!) ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZgVaMT5BMUMsONbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.firebasestorage.app", // CORRECT BUCKET!
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFSSXPMG"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+            // Stickers select logic
+            let selectedStickers = [];
+            document.querySelectorAll('.sticker-btn').forEach(btn => {
+                btn.onclick = function() {
+                    btn.classList.toggle('selected');
+                    const sticker = btn.getAttribute('data-sticker');
+                    if (btn.classList.contains('selected')) {
+                        selectedStickers.push(sticker);
+                    } else {
+                        selectedStickers = selectedStickers.filter(s => s !== sticker);
+                    }
+                };
+            });
 
-    // ---- Login Check (fixes infinite redirect bug) ----
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (!user) {
-        window.location.href = "login.html";
-      } else {
-        document.getElementById('mainContent').style.display = "block";
-      }
-    });
+            document.getElementById('saveDraftBtn').onclick = async function(e) {
+                e.preventDefault();
+                const recipientName = document.getElementById('recipientName').value.trim();
+                const cardTitle = document.getElementById('cardTitle').value.trim();
+                const cardBg = document.querySelector('input[name="cardBg"]:checked').value;
+                const message = document.getElementById('message').value.trim();
+                const mainPhotoInput = document.getElementById('mainPhoto');
+                let photoURL = "";
 
-    // ---- Sticker & BG Logic ----
-    let selectedStickers = [];
-    let selectedBG = 'white';
-    document.querySelectorAll('.sticker-btn').forEach(btn => {
-      btn.onclick = function() {
-        btn.classList.toggle('selected');
-        const emoji = btn.textContent;
-        if (btn.classList.contains('selected')) {
-          if (!selectedStickers.includes(emoji)) selectedStickers.push(emoji);
-        } else {
-          selectedStickers = selectedStickers.filter(e => e !== emoji);
-        }
-      };
-    });
-    document.querySelectorAll('.bg-btn').forEach(btn => {
-      btn.onclick = function() {
-        document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedBG = btn.getAttribute('data-bg');
-      };
-    });
+                // Handle photo upload if file is selected
+                if (mainPhotoInput.files && mainPhotoInput.files[0]) {
+                    const file = mainPhotoInput.files[0];
+                    const storageRef = storage.ref().child(`cards/${user.uid}/${Date.now()}_${file.name}`);
+                    await storageRef.put(file);
+                    photoURL = await storageRef.getDownloadURL();
+                }
 
-    // ---- Save Draft & Preview ----
-    document.getElementById('saveDraftBtn').onclick = async function() {
-      const user = firebase.auth().currentUser;
-      if (!user) {
-        alert("Please login first!");
-        window.location.href = "login.html";
-        return;
-      }
-      // Collect form values
-      const recipientName = document.getElementById('recipientName').value.trim();
-      const cardTitle = document.getElementById('cardTitle').value.trim();
-      const message = document.getElementById('message').value.trim();
-      const fileInput = document.getElementById('mainPhoto');
-      let photoURL = "";
-      // Upload photo if selected
-      if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        const storageRef = storage.ref('cards/' + user.uid + "/" + Date.now() + "_" + file.name);
-        await storageRef.put(file);
-        photoURL = await storageRef.getDownloadURL();
-      }
-      // Save to Firestore (as draft)
-      const docRef = await db.collection('cards').add({
-        uid: user.uid,
-        recipientName,
-        cardTitle,
-        message,
-        stickers: selectedStickers,
-        cardBG: selectedBG,
-        photoURL,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        draft: true
-      });
-      // Redirect to preview
-      window.location.href = "preview.html?id=" + docRef.id;
-    };
+                // Save card data to Firestore
+                await db.collection("cards").add({
+                    uid: user.uid,
+                    recipientName,
+                    cardTitle,
+                    cardBg,
+                    stickers: selectedStickers,
+                    message,
+                    photoURL,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
 
-    // (Optional) - Voice recording: UI only, actual recording not implemented here
-    document.getElementById('recordVoiceBtn').onclick = function() {
-      alert("Voice recording feature coming soon!");
-    };
-  </script>
+                window.location.href = "preview.html";
+            };
+        });
+    </script>
 </body>
 </html>
