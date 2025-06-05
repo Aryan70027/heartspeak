@@ -349,15 +349,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// 3. Correct login/session check (same as preview/creator)
-let user = null;
-let cardId = null;
-auth.onAuthStateChanged(async (currentUser) => {
-  user = currentUser;
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
+
   // Get cardId from ?cardId=... in URL
   const params = new URLSearchParams(window.location.search);
   cardId = params.get('cardId') || localStorage.getItem('shareCardId');
