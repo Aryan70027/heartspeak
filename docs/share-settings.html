@@ -349,36 +349,27 @@
         let allowReply = document.getElementById('allowReply').checked;
 
         let settings = {
-          privacy,
-          password: password || null,
-          expiryType,
-          expiryDays: expiryType === 'days' && expiryDays ? parseInt(expiryDays)
-      expiryDays: expiryType === 'days' && expiryDays ? parseInt(expiryDays) : null,
-      expiryDate: expiryType === 'date' && expiryDate ? expiryDate : null,
-      maxOpens: maxOpens ? parseInt(maxOpens) : null,
-      allowReply
-    };
+    
+// Save sharing settings in Firestore under the card document
+await db.collection("cards").doc(cardId).update({
+  sharing: settings
+});
 
-    // Save sharing settings in Firestore under the card document
-    await db.collection("cards").doc(cardId).update({
-      sharing: settings
-    });
+// Create shareable link
+let shareLink = `${window.location.origin}/receiver.html?id=${cardId}`;
+document.getElementById("card-link").value = shareLink;
 
-    // Create shareable link
-    let shareLink = `${window.location.origin}/receiver.html?id=${cardId}`;
-    document.getElementById('cardLink').value = shareLink;
-
-    // Show QR code
-    document.getElementById('qrBox').style.display = 'block';
-    let qr = new QRious({
-      element: document.getElementById('qrcode'),
-      value: shareLink,
-      size: 140,
-      background: '#fff',
-      foreground: '#d251a4',
-      level: 'H'
-    });
-  };
+// Show QR code (make sure to include a <canvas id="qrcode"></canvas> in your HTML)
+document.getElementById("qrBox").style.display = "block";
+let qr = new QRious({
+  element: document.getElementById("qrcode"),
+  value: shareLink,
+  size: 140,
+  background: "#fff",
+  foreground: "#d251a4",
+  level: "H"
+});
+});
 });
 </script>
 </body>
