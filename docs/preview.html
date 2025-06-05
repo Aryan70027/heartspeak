@@ -9,6 +9,7 @@
       background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
       font-family: 'Poppins', Arial, sans-serif;
       margin: 0; padding: 0; min-height: 100vh;
+      overflow-x: hidden;
     }
     header { text-align: center; padding: 2rem 0 0.5rem 0;}
     .logo { width: 70px; border-radius: 1.1rem; box-shadow: 0 2px 10px #d5c6e988;}
@@ -16,32 +17,133 @@
     h1 { color: #da5a9a; text-align: center; font-size: 2rem; margin: 0.8rem 0 2rem 0; font-weight: 600; letter-spacing: 1px;}
     .cards-list { display: flex; flex-wrap: wrap; gap: 32px; justify-content: center;}
     .card-box {
-      background: #fff; border-radius: 18px;
-      box-shadow: 0 4px 18px rgba(218,90,154,0.08), 0 1px 3px #eee8;
-      padding: 1.4rem 1rem 1.1rem 1rem; min-width: 270px; max-width: 320px;
-      position: relative; display: flex; flex-direction: column; align-items: center;
-      transition: box-shadow 0.2s, transform 0.12s; cursor: pointer; border: 2.5px solid transparent;
+      background: #fff;
+      border-radius: 2.2rem;
+      box-shadow: 0 8px 36px rgba(218,90,154,0.14), 0 1px 3px #eee8;
+      padding: 1.6rem 1.2rem 1.2rem 1.2rem;
+      min-width: 270px; max-width: 320px;
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; border: 2.5px solid transparent;
+      transition: box-shadow 0.28s, transform 0.14s, border 0.2s;
+      overflow: visible;
     }
-    .card-box:hover { box-shadow: 0 8px 32px #f4b3dc55, 0 1.5px 4px #e3e3e3; transform: translateY(-5px) scale(1.015); border: 2.5px solid #e978c9; }
-    .card-bg-preview { width: 100%; height: 8px; border-radius: 8px 8px 2px 2px; margin-bottom: 9px; background: var(--card-bg-color, #fff);}
-    .main-photo-preview { width: 92px; height: 92px; object-fit: cover; border-radius: 1.4rem; margin-bottom: 0.7rem; border: 3px solid #ffbee3; background: #f5f3fa; box-shadow: 0 3px 14px #ecd6ff19;}
-    .card-title { font-size: 1.1rem; font-weight: 600; color: #cc0066; margin: 0.5rem 0 0.2rem 0;}
-    .recipient { font-size: 0.98em; color: #777; margin-bottom: 0.2rem;}
-    .stickers { font-size: 1.2em; margin: 0.18rem 0 0.18rem 0;}
-    .message { font-size: 1em; color: #444; margin: 0.5rem 0 0.2rem 0; word-break: break-word; text-align: center;}
-    .audio-box { margin: 0.2rem 0 0.1rem 0; width: 100%; }
-    .card-btns { margin-top: 0.6rem; display: flex; gap: 14px; justify-content: center; width: 100%;}
-    .edit-btn, .delete-btn, .share-btn {
-      background: linear-gradient(90deg,#e979c7,#95c8ff); color: #fff; border: none;
-      border-radius: 9px; padding: 7px 16px; font-size: 1em; font-weight: 600;
-      cursor: pointer; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px #e5c1ec23;
+    .card-box .card-photo {
+      width: 92px; height: 92px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 0.85rem;
+      border: 4px solid #fff4f4;
+      background: #f5f3fa;
+      box-shadow: 0 3px 16px #ecd6ff1a;
+      position: relative;
+      z-index: 2;
+    }
+    .recipient {
+      font-size: 1.08em;
+      color: #be6e9e;
+      background: #ffe6fa;
+      border-radius: 2em;
+      padding: 6px 20px;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      box-shadow: 0 1px 8px #ffe8fb22;
+    }
+    .voice-badge {
+      display: inline-block;
+      background: linear-gradient(90deg,#ffc6fa,#c8e8fa);
+      color: #af2f90;
+      font-size: 0.97em;
+      font-weight: 600;
+      border-radius: 1em;
+      padding: 3px 10px 3px 8px;
+      margin-bottom: 7px;
+      margin-left: 5px;
+      box-shadow: 0 1px 4px #f3d5fb19;
+      vertical-align: middle;
+    }
+    /* Hover/tap effects */
+    .card-box .extra-info,
+    .card-box .card-btns {
+      opacity: 0; pointer-events: none; transition: opacity 0.18s;
+    }
+    .card-box:hover, .card-box.hovered {
+      box-shadow: 0 12px 46px #ec9ef655, 0 3px 14px #e3e3e3;
+      transform: scale(1.04) translateY(-6px);
+      border: 2.5px solid #fae389;
+      z-index: 5;
+      background: linear-gradient(115deg,#fff8fd 80%, #ffe6f5 100%);
+    }
+    .card-box:hover .extra-info,
+    .card-box.hovered .extra-info,
+    .card-box:hover .card-btns,
+    .card-box.hovered .card-btns {
+      opacity: 1; pointer-events: auto;
+    }
+    .extra-info {
+      width: 100%; margin-top: 5px; text-align: center; z-index: 2;
+      transition: opacity 0.2s;
+    }
+    .card-title {
+      font-size: 1.08em; color: #cc0066; font-weight: 600; margin: 0.09rem 0 0.22rem 0; letter-spacing: 0.01em;
+      transition: transform 0.24s;
+    }
+    .stickers { font-size: 1.2em; margin-bottom: 0.19rem; }
+    .card-btns {
+      margin-top: 0.9rem;
+      display: flex; gap: 16px; justify-content: center; width: 100%;
+    }
+    .edit-btn, .delete-btn {
+      background: linear-gradient(90deg,#e979c7,#95c8ff);
+      color: #fff; border: none;
+      border-radius: 11px; padding: 7px 18px;
+      font-size: 1em; font-weight: 600;
+      cursor: pointer; transition: background 0.21s, box-shadow 0.21s;
+      box-shadow: 0 2px 9px #e5c1ec23;
     }
     .delete-btn { background: linear-gradient(90deg,#ef4855,#ff80b5);}
-    .edit-btn:hover { background: linear-gradient(90deg,#c678b4,#6fa8dc);}
+    .edit-btn:hover { background: linear-gradient(90deg,#b977e7,#6fa8dc);}
     .delete-btn:hover { background: linear-gradient(90deg,#b8143d,#fc6a96);}
-    .share-btn { background: linear-gradient(90deg,#7fe37a,#87e4e9);}
-    .share-btn:hover { background: linear-gradient(90deg,#44ad76,#54c5d1);}
-    .empty-msg { color: #bba3c6; font-size: 1.09em; font-weight: 500; text-align: center; margin-top: 4rem;}
+    /* Card open animation */
+    .card-box.open-anim {
+      animation: cardOpenAnim 1.1s cubic-bezier(.45,1.18,.76,.96) forwards;
+      z-index: 99;
+    }
+    @keyframes cardOpenAnim {
+      0% { transform: scale(1.03) translateY(-6px) rotateY(0); box-shadow: 0 12px 46px #ec9ef655;}
+      40% { transform: scale(1.11) translateY(-18px) rotateY(12deg);}
+      60% { transform: scale(1.14) translateY(-23px) rotateY(-12deg);}
+      80% { transform: scale(1.20) translateY(-32px) rotateY(0);}
+      90% { box-shadow: 0 18px 60px #ffdbe977;}
+      100% { transform: scale(0.85) translateY(-120px) rotateY(0); opacity: 0;}
+    }
+    /* Sparkle confetti (CSS only, for demo) */
+    .sparkle { position: absolute; top: 35%; left: 50%; width: 0; height: 0; pointer-events: none; }
+    .sparkle span {
+      position: absolute; width: 11px; height: 11px; border-radius: 50%;
+      background: radial-gradient(circle at 60% 30%,#fce6fb,#e7d1fa 85%,#fff0 100%);
+      opacity: 0.85;
+      animation: sparkleJump 0.9s cubic-bezier(.46,.14,.58,1.12) 1;
+    }
+    @keyframes sparkleJump {
+      0%   { opacity: 0; transform: scale(0.1) translate(0,0);}
+      45%  { opacity: 1; }
+      90%  { opacity: 0.85;}
+      100% { opacity: 0; transform: scale(1.3) translate(var(--tx),var(--ty));}
+    }
+    .empty-msg {
+      color: #bba3c6; font-size: 1.11em; font-weight: 500; text-align: center; margin-top: 4rem;
+    }
+    .empty-anim {
+      width: 115px; margin: 1.7rem auto 0.9rem auto; display: block;
+      animation: floatAnim 2.6s ease-in-out infinite alternate;
+      filter: drop-shadow(0 4px 18px #ffd5fc55);
+    }
+    @keyframes floatAnim {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-16px);}
+    }
     #loader { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.65); z-index: 222; justify-content: center; align-items: center;}
     #loader .spinner { border: 7px solid #f3f3f3; border-top: 7px solid #da5a9a; border-radius: 50%; width: 54px; height: 54px; animation: spin 1s linear infinite; margin: auto;}
     @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -56,7 +158,10 @@
   <div class="container">
     <h1>Your Latest Cards</h1>
     <div id="cardsList" class="cards-list"></div>
-    <div id="emptyMsg" class="empty-msg" style="display:none;">You haven’t created any cards yet. Make one now!</div>
+    <div id="emptyMsg" class="empty-msg" style="display:none;">
+      <img src="img/empty-card-anim.png" alt="No Cards" class="empty-anim"/>
+      You haven’t created any cards yet.<br>Make one now!
+    </div>
   </div>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -64,7 +169,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
-    // 1. Firebase config EXACTLY as working on card creator page
+    // 1. Firebase config EXACTLY as card-creator
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
@@ -87,6 +192,21 @@
       loadCards(user.uid);
     });
 
+    // Floating sparkle generator for animation
+    function showSparkle(card) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      for (let i = 0; i < 12; i++) {
+        const dot = document.createElement('span');
+        dot.style.setProperty('--tx', `${Math.random()*150-75}px`);
+        dot.style.setProperty('--ty', `${Math.random()*85-60}px`);
+        dot.style.background = i%2 ? 'radial-gradient(circle at 60% 30%,#fde6f8,#fcf4e9 85%,#fff0 100%)' : 'radial-gradient(circle at 60% 30%,#fcdffb,#e7d1fa 85%,#fff0 100%)';
+        sparkle.appendChild(dot);
+      }
+      card.appendChild(sparkle);
+      setTimeout(()=>{ sparkle.remove(); }, 920);
+    }
+
     async function loadCards(uid) {
       try {
         // Fetch latest 3 cards for this user
@@ -96,34 +216,45 @@
           .limit(3)
           .get();
         document.getElementById('loader').style.display = "none";
+        const emptyMsg = document.getElementById('emptyMsg');
         if (cardsSnap.empty) {
-          document.getElementById('emptyMsg').style.display = "block";
+          emptyMsg.style.display = "block";
           return;
+        } else {
+          emptyMsg.style.display = "none";
         }
         const cardsList = document.getElementById('cardsList');
         cardsList.innerHTML = "";
         cardsSnap.forEach(doc => {
           const data = doc.data();
-          // Create card element
+          // Card box
           const card = document.createElement('div');
           card.className = "card-box";
           card.style.setProperty('--card-bg-color', data.cardBg || "#fff");
+          // Only main photo + recipient by default
           card.innerHTML = `
-            <div class="card-bg-preview" style="background:${data.cardBg || '#fff'}"></div>
-            ${data.photoURL ? `<img src="${data.photoURL}" class="main-photo-preview" alt="Photo"/>` : ''}
-            <div class="card-title">${data.cardTitle || "Untitled Card"}</div>
-            <div class="recipient">To: ${data.recipientName || ""}</div>
-            <div class="stickers">${(data.stickers || []).join(' ')}</div>
-            <div class="message">${data.message || ""}</div>
-            <div class="audio-box">
-              ${data.voiceURL ? `<audio controls src="${data.voiceURL}" style="width:95%"></audio>` : ''}
+            ${data.photoURL ? `<img src="${data.photoURL}" class="card-photo" alt="Photo"/>` : '<div class="card-photo" style="background:#eee;"></div>'}
+            <div class="recipient">${data.recipientName || ""}</div>
+            ${data.voiceURL ? `<span class="voice-badge">&#127897; Voice</span>` : ''}
+            <div class="extra-info">
+              <div class="card-title">${data.cardTitle || "Untitled Card"}</div>
+              <div class="stickers">${(data.stickers || []).join(' ')}</div>
             </div>
             <div class="card-btns">
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
-              <button class="share-btn">Share</button>
+              <button class="edit-btn" tabindex="0">Edit</button>
+              <button class="delete-btn" tabindex="0">Delete</button>
             </div>
           `;
+          // Expand/glow and show extra info/buttons on hover/tap
+          card.addEventListener('mouseenter', ()=>card.classList.add('hovered'));
+          card.addEventListener('mouseleave', ()=>card.classList.remove('hovered'));
+          // For mobile tap: tap once to "hover", tap again elsewhere to remove
+          card.addEventListener('touchstart', function(e){
+            if (!card.classList.contains('hovered')) {
+              card.classList.add('hovered');
+              setTimeout(()=>card.classList.remove('hovered'), 1800);
+            }
+          });
           // Delete
           card.querySelector('.delete-btn').onclick = async (e) => {
             e.stopPropagation();
@@ -141,11 +272,15 @@
             localStorage.setItem("editCardId", doc.id);
             window.location.href = "card-creator.html?edit=1";
           };
-          // Share
-          card.querySelector('.share-btn').onclick = (e) => {
-            e.stopPropagation();
-            localStorage.setItem("shareCardId", doc.id);
-            window.location.href = "share-setting.html";
+          // Clicking card triggers animation then redirects (except for buttons)
+          card.onclick = function(e){
+            if (e.target.closest('.edit-btn') || e.target.closest('.delete-btn')) return;
+            card.classList.add('open-anim');
+            showSparkle(card);
+            setTimeout(()=>{
+              localStorage.setItem("shareCardId", doc.id);
+              window.location.href = "share-setting.html";
+            }, 850);
           };
           cardsList.appendChild(card);
         });
