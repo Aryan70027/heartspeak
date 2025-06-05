@@ -2,448 +2,474 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HeartSpeak – Share Card Settings</title>
+  <title>Share Card Settings | HeartSpeak</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Poppins/Montserrat fonts -->
+  <!-- Google Fonts: Poppins, Montserrat -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap" rel="stylesheet">
-  <!-- QRious for QR code -->
-  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-  <!-- Firebase scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <style>
     body {
       margin: 0;
       min-height: 100vh;
       font-family: 'Poppins', 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #ffe0f7 0%, #eafffc 100%);
+      background: linear-gradient(135deg, #ffe9fa 0%, #e1e8fd 100%);
+      position: relative;
       overflow-x: hidden;
     }
+    /* Animated hearts */
     .floating-hearts {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0;
       pointer-events: none;
-    }
-    .floating-hearts span {
       position: absolute;
-      font-size: 2.2rem;
-      opacity: 0.5;
-      animation: floatup 10s linear infinite;
-      filter: blur(0.3px);
+      width: 100vw; height: 100vh;
+      left: 0; top: 0; z-index: 1;
+      overflow: hidden;
     }
-    @keyframes floatup {
-      from { transform: translateY(60vh) scale(1); opacity: 0.6;}
-      to { transform: translateY(-10vh) scale(1.3); opacity: 0.05;}
+    .floating-heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: 2rem;
+      opacity: 0.6;
+      animation: floatUp 8s linear infinite;
     }
-    .container {
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 0.8;}
+      to   { transform: translateY(-90vh) scale(1.5); opacity: 0.1;}
+    }
+    .center-box {
       position: relative;
-      z-index: 1;
       max-width: 430px;
-      margin: 48px auto 0 auto;
-      background: #fff9fd;
-      border-radius: 2.1rem;
-      box-shadow: 0 8px 32px 0 rgba(207,103,202,0.08);
-      padding: 2rem 1.5rem 2.2rem 1.5rem;
-      text-align: center;
-      border: 2px solid #ffe2fa;
+      margin: 40px auto 0 auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 2rem;
+      box-shadow: 0 6px 32px #ecbaf666;
+      padding: 2rem 1.5rem 2rem 1.5rem;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .card-preview {
-      margin: 0 auto 18px auto;
-      background: #fff;
-      border-radius: 1.2rem;
-      box-shadow: 0 3px 14px 0 rgba(209,164,233,0.13);
-      padding: 1.3rem;
       width: 95%;
+      background: #f7f2ff;
+      border-radius: 1.5rem;
+      padding: 1.2rem 1rem 0.8rem 1rem;
+      margin-bottom: 1.2rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
-      justify-content: center;
+      box-shadow: 0 2px 16px #b2a4d744;
+      position: relative;
     }
-    .card-photo {
-      width: 64px; height: 64px;
+    .main-photo {
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
-      border: 2.2px solid #ff94dc;
       object-fit: cover;
-      box-shadow: 0 2px 10px #ffc8ee36;
+      margin-bottom: 0.5rem;
+      border: 3px solid #efdbff;
     }
-    .card-meta {
-      text-align: left;
-      flex: 1;
-    }
-    .card-meta .title {
-      font-size: 1.14rem;
+    .recipient-name {
       font-weight: 700;
-      color: #d047c8;
-      margin-bottom: 0.2rem;
+      font-size: 1.15rem;
+      color: #ca3b8a;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
     }
-    .card-meta .subtitle {
-      font-size: 0.98rem;
-      color: #222;
-      font-weight: 500;
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #ad77ff;
+      margin-bottom: 6px;
     }
-    .section-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.14rem;
-      color: #b9009e;
-      text-align: left;
-      margin: 1.6rem 0 0.7rem 0;
-      letter-spacing: 0.01em;
+    .card-stickers {
+      margin: 0.3rem 0 0.5rem 0;
+      font-size: 1.5rem;
     }
-    .premium-label {
-      display: inline-block;
-      font-size: 0.9rem;
-      color: #fff;
-      background: linear-gradient(90deg,#fd78d6 10%,#6de6e2 100%);
-      border-radius: 1rem;
-      padding: 2px 14px;
+    .card-icons {
+      display: flex; gap: 7px; margin-bottom: 2px;
+    }
+    .card-icons .icon {
+      font-size: 1.15rem;
+      color: #8882e9;
+    }
+    .settings-header {
+      font-size: 1.45rem;
       font-weight: 700;
-      margin-bottom: 8px;
-      margin-top: 0.6rem;
-      letter-spacing: 0.03em;
-      box-shadow: 0 2px 10px #f39cff38;
-      animation: fadeinpop 1.4s;
+      color: #bb2388;
+      text-align: center;
+      margin-bottom: 1.1rem;
     }
-    @keyframes fadeinpop {
-      0% { transform: scale(0.5); opacity: 0; }
-      55% { transform: scale(1.09); opacity: 1;}
-      100% { transform: scale(1); opacity: 1;}
-    }
-    label.radio-custom {
+    .section-label {
+      font-size: 1.08rem;
+      color: #bd2fb2;
+      font-weight: 600;
+      margin: 1rem 0 0.4rem 0;
       display: flex;
       align-items: center;
-      font-size: 1.06rem;
-      cursor: pointer;
-      margin-bottom: 7px;
-      gap: 0.5rem;
-      font-weight: 500;
-      color: #444;
-      user-select: none;
+      gap: 0.45rem;
     }
-    input[type="radio"], input[type="checkbox"] {
-      accent-color: #ff93d8;
-      width: 1.13rem;
-      height: 1.13rem;
-      border-radius: 50%;
-      outline: none;
-      border: 2px solid #fff;
-      margin-right: 8px;
-      transition: box-shadow 0.16s;
-      box-shadow: 0 2px 8px #f39cff2c;
+    .section-label .icon {
+      font-size: 1.15rem;
     }
-    .form-section {
-      margin-bottom: 18px;
-      text-align: left;
+    .option-row {
+      margin-bottom: 0.7rem;
+      display: flex; align-items: center; gap: 0.7rem;
     }
-    .form-section small {
-      font-size: 0.94rem;
-      color: #83808b;
-      margin-left: 1.8rem;
+    .option-row input[type="radio"] {
+      accent-color: #c741bc;
+      margin-right: 0.3em;
+    }
+    .desc {
+      font-size: 0.97em;
+      color: #998aaa;
+      margin-top: 0.15em;
+      margin-left: 2.05em;
+      line-height: 1.25;
+    }
+    .option-row input[type="checkbox"] {
+      accent-color: #c741bc;
+      margin-right: 0.3em;
+    }
+    .premium-btn {
       display: block;
-    }
-    .form-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 9px;
-      flex-wrap: wrap;
-    }
-    .exp-input {
-      width: 60px; border-radius: 7px; border: 1px solid #e4c0ff;
-      padding: 5px 9px; font-size: 1rem;
-      background: #fff4fb;
-      color: #b9009e;
-    }
-    .main-btn, .btn {
-      background: linear-gradient(90deg, #fa61e8 20%, #7aeadf 100%);
+      width: 100%;
+      margin: 1.5rem 0 0.4rem 0;
+      background: linear-gradient(90deg, #f7b9e1 0%, #b3b7ff 100%);
       color: #fff;
       border: none;
-      border-radius: 2rem;
-      padding: 0.95rem 2.1rem;
-      font-size: 1.15rem;
-      font-family: 'Montserrat', sans-serif;
+      font-size: 1.17rem;
       font-weight: 700;
-      margin: 1rem 0.5rem 0.5rem 0.5rem;
+      padding: 0.9em 0;
+      border-radius: 1.2em;
       cursor: pointer;
-      box-shadow: 0 4px 16px #f39cff18;
-      letter-spacing: 0.01em;
-      transition: background 0.14s, transform 0.15s;
-      outline: none;
+      box-shadow: 0 3px 18px #e3b1ee33;
+      transition: box-shadow .18s;
     }
-    .main-btn:active, .btn:active {
-      background: linear-gradient(90deg, #f1aeff 10%, #68ece2 100%);
-      transform: scale(0.97);
+    .premium-btn:active { box-shadow: 0 1px 4px #e3b1ee55; }
+    .row-btns {
+      width: 100%;
+      display: flex;
+      gap: 1.2em;
+      justify-content: space-between;
+      margin-top: 1.1rem;
     }
-    .btn-sm {
-      font-size: 1.01rem;
-      padding: 0.68rem 1.3rem;
-      margin: 0.6rem 0.2rem 0 0.2rem;
-      background: #fff0fd;
-      color: #e738c2;
-      border: 1.2px solid #f3a4e5;
+    .row-btns button {
+      flex: 1 1 0;
+      background: linear-gradient(90deg, #f7b9e1 0%, #b3b7ff 100%);
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 1.2em;
+      padding: 0.8em 0;
+      font-size: 1.08rem;
+      margin-top: 0.2rem;
+      transition: background .14s;
+      cursor: pointer;
     }
-    .checkbox-label {
-      font-size: 1.04rem;
-      margin-left: 0.45rem;
-      color: #7e47a8;
-      font-weight: 500;
-      vertical-align: middle;
-      display: inline-block;
-      user-select: none;
-    }
-    .success-popup {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 100;
-      background: rgba(245,245,255,0.82);
-      align-items: center; justify-content: center;
-      animation: fadeinpop 0.75s;
-    }
-    .success-popup-content {
-      background: #fff;
-      border-radius: 2.2rem;
-      box-shadow: 0 8px 32px #d26af819;
-      padding: 2.2rem 1.6rem 1.6rem 1.6rem;
-      max-width: 380px;
+    .row-btns button:hover { filter: brightness(1.05);}
+    .extra-features {
+      margin-top: 2.4rem;
+      padding: 0.5em 1em;
+      background: #fff6fe;
+      border-radius: 1em;
+      box-shadow: 0 2px 12px #e7d3e9a9;
+      font-size: 1.04em;
+      color: #a37fb7;
       text-align: center;
-      border: 2.5px solid #f4d0f4;
-      position: relative;
-      animation: fadeinpop 1.05s;
     }
-    .success-popup-content .qrcode-canvas {
-      margin: 0 auto 1.1rem auto;
-      border-radius: 1.4rem;
-      border: 3.3px solid #ffb5f3;
-      box-shadow: 0 2px 16px #fba7fa29;
-      background: #fff;
-      padding: 10px;
-      display: inline-block;
-      animation: fadeinpop 1.7s;
-    }
-    .success-popup-content .main-btn {
-      width: 90%;
-      margin: 1.2rem auto 0 auto;
-    }
-    .close-popup {
-      position: absolute;
-      top: 16px; right: 18px;
-      background: none; border: none;
-      font-size: 1.5rem; color: #ce3a85;
-      cursor: pointer;
-      font-weight: 900;
-    }
-    .hide {
-      display: none !important;
+    @media (max-width: 600px) {
+      .center-box { padding: 1.1em 0.3em;}
     }
   </style>
 </head>
 <body>
-  <!-- Floating hearts background -->
+  <!-- Animated floating hearts BG -->
   <div class="floating-hearts" id="hearts-bg"></div>
 
-  <div class="container">
-    <div id="cardPreview" class="card-preview" style="display:none;">
-      <img src="" class="card-photo" id="previewPhoto" alt="Card Photo" />
-      <div class="card-meta">
-        <div class="title" id="previewTitle"></div>
-        <div class="subtitle" id="previewSubtitle"></div>
-      </div>
+  <div class="center-box">
+    <!-- Card Preview (Dynamically filled) -->
+    <div class="card-preview" id="card-preview" style="display:none;">
+      <img id="mainPhotoPreview" class="main-photo" src="" alt="Photo" />
+      <div class="recipient-name" id="previewRecipient"></div>
+      <div class="card-title" id="previewTitle"></div>
+      <div class="card-stickers" id="previewStickers"></div>
+      <div class="card-icons" id="previewIcons"></div>
     </div>
-    <span class="premium-label">Share Settings</span>
-    <form id="shareSettingsForm" autocomplete="off">
-      <div class="form-section">
-        <div class="section-title">Privacy</div>
-        <label class="radio-custom">
-          <input type="radio" name="privacy" value="public" checked />
-          Anyone with the link
-        </label>
-        <small>Send to anyone. No restrictions.</small>
-        <label class="radio-custom">
-          <input type="radio" name="privacy" value="password" />
-          Set password to open card (optional)
-        </label>
-        <input type="password" id="passwordInput" class="exp-input" placeholder="Enter password..." style="display:none; margin-left:1.5rem;"/>
-        <small id="passwordHelp" style="display:none;">Receivers need to enter this password to view your card.</small>
-      </div>
-      <div class="form-section">
-        <div class="section-title">Expiry & Usage</div>
-        <div class="form-row">
-          <label class="radio-custom">
-            <input type="radio" name="expiry" value="none" checked />
-            No expiry
-          </label>
-          <label class="radio-custom">
-            <input type="radio" name="expiry" value="one-time" />
-            One-time view
-          </label>
-          <input type="number" min="1" max="24" step="1" id="oneTimeHours" class="exp-input" value="1" style="display:none;" />
-          <span id="oneTimeHourLabel" style="display:none;font-size:0.93rem; color:#aa20ab; margin-left:4px;">hours</span>
-        </div>
-        <div class="form-row">
-          <label class="radio-custom">
-            <input type="radio" name="expiry" value="days" />
-            Expire after days
-          </label>
-          <input type="number" min="1" max="365" step="1" id="expiryDays" class="exp-input" value="7" style="display:none;" />
-          <span id="expiryDaysLabel" style="display:none;font-size:0.93rem; color:#aa20ab; margin-left:4px;">days</span>
-        </div>
-        <div class="form-row" style="margin-top:7px;">
-          <label for="maxOpens" style="margin-right:9px;font-size:1.04rem;">Maximum Opens (optional):</label>
-          <input type="number" id="maxOpens" class="exp-input" min="1" max="99" placeholder="e.g. 5" />
-        </div>
-        <label class="checkbox-label">
-          <input type="checkbox" id="allowReply" checked />
-          Allow receiver to reply (1 reply only)
-        </label>
-      </div>
-      <button type="submit" class="main-btn" id="generateLinkBtn">Generate Link</button>
-    </form>
-    <button class="btn btn-sm" onclick="window.location.href='preview.html'">Back to Dashboard</button>
-    <button class="btn btn-sm" onclick="window.location.href='card-creator.html'">Create New Card</button>
-  </div>
+    <!-- /Card Preview -->
 
-  <!-- Success Popup -->
-  <div class="success-popup" id="successPopup">
-    <div class="success-popup-content">
-      <button class="close-popup" onclick="document.getElementById('successPopup').style.display='none'">&times;</button>
-      <div id="popupMsg" style="font-size:1.19rem; color:#ce44a6; margin-bottom:1.1rem; font-weight:700;">🎉 Your shareable link is ready!</div>
-      <input type="text" id="popupLink" style="width:94%;margin-bottom:1rem; border-radius:9px; border:1.3px solid #ffb7e7; font-size:1.1rem; padding:0.45rem;" readonly />
-      <button class="btn main-btn" id="copyBtn">Copy Link</button>
-      <div id="popupQR"></div>
-      <div style="font-size:0.97rem;color:#a87bee;margin-top:1.2rem;">Scan the QR code or share the link above!</div>
+    <div class="settings-header">Share Settings</div>
+
+    <!-- Privacy Options -->
+    <div class="section-label"><span class="icon">🔒</span>Privacy</div>
+    <div class="option-row">
+      <input type="radio" name="privacy" id="public" value="public" checked>
+      <label for="public"><b>Anyone with the link</b></label>
+    </div>
+    <div class="desc" style="margin-bottom: 0.8em;">
+      <span>Send to anyone. No restrictions.</span>
+    </div>
+    <div class="option-row">
+      <input type="checkbox" id="setPassword">
+      <label for="setPassword"><span class="icon">🔏</span>Set password to open card (optional)</label>
+    </div>
+
+    <!-- Expiry & Usage Options -->
+    <div class="section-label"><span class="icon">⏰</span>Expiry & Usage</div>
+    <div class="option-row">
+      <input type="radio" name="expiry" id="noExpiry" value="none" checked>
+      <label for="noExpiry">No expiry</label>
+    </div>
+    <div class="option-row">
+      <input type="radio" name="expiry" id="oneTime" value="onetime">
+      <label for="oneTime">One-time view</label>
+      <input type="number" id="oneTimeHours" min="1" max="48" placeholder="Hours" style="width:66px; margin-left:6px;">
+    </div>
+    <div class="option-row">
+      <input type="radio" name="expiry" id="expireDays" value="days">
+      <label for="expireDays">Expire after days</label>
+      <input type="number" id="expireDaysInput" min="1" max="365" placeholder="Days" style="width:66px; margin-left:6px;">
+    </div>
+
+    <!-- Max Opens -->
+    <div class="section-label"><span class="icon">🔢</span>Maximum Opens <span style="font-weight: 400;">(optional)</span></div>
+    <input type="number" id="maxOpens" min="1" max="100" placeholder="e.g. 5" style="width: 99%;padding: 0.5em;font-size:1em;margin-bottom:0.7em;">
+
+    <!-- Allow Reply -->
+    <div class="option-row">
+      <input type="checkbox" id="allowReply" checked>
+      <label for="allowReply">Allow receiver to reply <span style="font-size:0.98em;">(1 reply only)</span></label>
+    </div>
+
+    <button class="premium-btn" id="generateLinkBtn">Generate Link</button>
+    <div class="row-btns">
+      <button onclick="window.location.href='preview.html'">Back to Dashboard</button>
+      <button onclick="window.location.href='card-creator.html'">Create New Card</button>
+    </div>
+    <!-- QR code/Link box will be here, loaded by JS -->
+    <div id="qrBox" style="display:none;text-align:center;margin:1.2em auto;">
+      <canvas id="qrCanvas" style="margin-bottom:0.8em;"></canvas>
+      <input id="shareLink" readonly style="width:99%;padding:0.5em;font-size:1em;text-align:center;" />
+    </div>
+    <!-- Set Password Modal -->
+    <div id="passwordModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:20;background:#0004;backdrop-filter:blur(3px);justify-content:center;align-items:center;">
+      <div style="background:#fff;border-radius:1.2em;padding:1.5em 1.2em;max-width:340px;box-shadow:0 3px 18px #b3b7ff44;">
+        <div style="font-size:1.14em;font-weight:600;color:#c741bc;margin-bottom:0.7em;">Set a password for this card</div>
+        <input type="password" id="passwordInput" placeholder="Enter password" style="width:100%;padding:0.6em;border-radius:0.8em;margin-bottom:0.9em;">
+        <div style="display:flex;gap:1.2em;">
+          <button style="flex:1 1 0;background:#c741bc;color:#fff;border:none;padding:0.7em 0;border-radius:1em;font-weight:600;" onclick="setPassword()">Set Password</button>
+          <button style="flex:1 1 0;background:#e3e3e3;color:#a87aa7;border:none;padding:0.7em 0;border-radius:1em;font-weight:600;" onclick="closePasswordModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- Extra Features (future, premium) -->
+    <div class="extra-features">
+      <span style="font-weight:600;">Extra Premium Features (coming soon):</span>
+      <div>Micro animations, instant success popups, animated stickers, confetti, and more surprises!</div>
     </div>
   </div>
+<!-- PART 2: JS + Firebase + All Logic (Put just after the closing </div> of .center-box, before </body>) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qr.min.js"></script>
+
 <script>
-// 1. Floating Hearts Animation
-function spawnHearts(n=14) {
-  const emojis = ['💕','💖','💗','💝','💘','💞'];
-  const container = document.getElementById('hearts-bg');
-  container.innerHTML = '';
-  for(let i=0; i<n; i++) {
-    const heart = document.createElement('span');
-    heart.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-    heart.style.left = (Math.random()*95) + 'vw';
-    heart.style.animationDelay = (Math.random()*9) + 's';
-    heart.style.fontSize = (2.2 + Math.random()*2.5) + 'rem';
-    heart.style.opacity = 0.33 + Math.random()*0.5;
-    container.appendChild(heart);
-  }
-}
-window.addEventListener('DOMContentLoaded', () => spawnHearts());
-
-// 2. Firebase config — YOUR WORKING ONE!
+/* 1. FIREBASE CONFIG — (Do NOT change your working storageBucket) */
 const firebaseConfig = {
-  apiKey: "AIzaSyAZAgVamMSbMNbw3JgBfocMxZsgeU",
+  apiKey: "AIzaSyAZAgVamMSbNMbw3JBgfocMxZsgeU",
   authDomain: "heartspeak-b6703.firebaseapp.com",
   projectId: "heartspeak-b6703",
-  storageBucket: "heartspeak-b6703.firebasestorage.app",
-  messagingSenderId: "341266618790",
-  appId: "1:341266618790:web-f60536bac144fb815adae7",
-  measurementId: "G-RGVFVSJSPMG"
+  storageBucket: "heartspeak-b6703.firebasestorage.app", // <--- your CORRECT address
+messagingSenderId: "341266618790",
+appId: "1:341266618790:web-f60535bac144fb815adae7",
+measurementId: "G-RGVFSJSPMG"
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-
-  // Get cardId from ?cardId=... in URL
-  const params = new URLSearchParams(window.location.search);
-  cardId = params.get('cardId') || localStorage.getItem('shareCardId');
-  if (!cardId) {
-    document.getElementById('cardPreview').style.display = 'none';
-    alert('No card selected. Please go back and pick a card.');
-    return;
-  }
-  // Save for reload (session)
-  localStorage.setItem('shareCardId', cardId);
-  // Load card preview
-  loadCardPreview(cardId);
+/* LOGIN RULE */
+let user = null;
+auth.onAuthStateChanged(async (u) => {
+    if (!u) {
+        // window.location.href = "login.html"; // <-- Enable if you want forced login
+        user = null;
+    } else {
+        user = u;
+    }
+    checkCardParam();
 });
 
-// 4. Load selected card preview at the top
-async function loadCardPreview(cardId) {
-  try {
-    const doc = await db.collection('cards').doc(cardId).get();
-    if (!doc.exists) {
-      document.getElementById('cardPreview').style.display = 'none';
-      alert("Card not found. Please try again.");
-      return;
+/* CARD PARAM + PREVIEW */
+function checkCardParam() {
+    const params = new URLSearchParams(window.location.search);
+    const cardId = params.get('cardId');
+    if (!cardId) {
+        document.getElementById('nocard').style.display = 'block';
+        document.getElementById('mainContent').style.display = 'none';
+        return;
     }
-    const data = doc.data();
-    // Show card
-    document.getElementById('cardPreview').style.display = '';
-    document.getElementById('previewTitle').innerText = data.title || '';
-    document.getElementById('previewSubtitle').innerText = data.recipientName || '';
-    if (data.mainPhotoUrl) {
-      document.getElementById('previewPhoto').src = data.mainPhotoUrl;
-    } else {
-      document.getElementById('previewPhoto').src = 'img/logo.png';
-    }
-  } catch (err) {
-    document.getElementById('cardPreview').style.display = 'none';
-    alert("Card loading failed: " + err.message);
-  }
+    document.getElementById('nocard').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    loadCardPreview(cardId);
 }
 
-// 5. Option interactivity (expiry, password)
-const privacyRadios = document.querySelectorAll('input[name="privacy"]');
-const passwordInput = document.getElementById('passwordInput');
-const passwordHelp = document.getElementById('passwordHelp');
-privacyRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === "password" && radio.checked) {
-      passwordInput.style.display = '';
-      passwordHelp.style.display = '';
-    } else {
-      passwordInput.style.display = 'none';
-      passwordHelp.style.display = 'none';
+async function loadCardPreview(cardId) {
+    // Show loading...
+    document.getElementById('previewCard').innerHTML = 'Loading...';
+    try {
+        const doc = await db.collection('cards').doc(cardId).get();
+        if (!doc.exists) {
+            document.getElementById('previewCard').innerHTML = "Card not found.";
+            return;
+        }
+        const card = doc.data();
+        // Card Preview HTML
+        document.getElementById('previewCard').innerHTML = `
+          <div class="card-preview">
+            <img src="${card.photoUrl || 'img/default-avatar.png'}" alt="Main Photo" class="preview-photo">
+            <div class="preview-title">${card.title || "Untitled"}</div>
+            <div class="preview-name">${card.recipient || "Recipient"}</div>
+            <div class="preview-stickers">
+              ${(card.stickers || []).map(s => `<span class="sticker">${s}</span>`).join(' ')}
+              ${(card.isLocked ? '🔏' : '')}
+            </div>
+          </div>
+        `;
+    } catch (e) {
+        document.getElementById('previewCard').innerHTML = "Error loading card preview.";
     }
-  });
-});
-const expiryRadios = document.querySelectorAll('input[name="expiry"]');
-const oneTimeHours = document.getElementById('oneTimeHours');
-const oneTimeHourLabel = document.getElementById('oneTimeHourLabel');
-const expiryDays = document.getElementById('expiryDays');
-const expiryDaysLabel = document.getElementById('expiryDaysLabel');
-expiryRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === "one-time" && radio.checked) {
-      oneTimeHours.style.display = '';
-      oneTimeHourLabel.style.display = '';
-      expiryDays.style.display = 'none';
-      expiryDaysLabel.style.display = 'none';
-    } else if (radio.value === "days" && radio.checked) {
-      expiryDays.style.display = '';
-      expiryDaysLabel.style.display = '';
-      oneTimeHours.style.display = 'none';
-      oneTimeHourLabel.style.display = 'none';
-    } else {
-      oneTimeHours.style.display = 'none';
-      oneTimeHourLabel.style.display = 'none';
-      expiryDays.style.display = 'none';
-      expiryDaysLabel.style.display = 'none';
+}
+
+/* HANDLE PASSWORD POPUP */
+document.getElementById('setPasswordBtn').onclick = function() {
+    document.getElementById('passwordModal').style.display = 'flex';
+};
+document.getElementById('closePasswordModal').onclick = function() {
+    document.getElementById('passwordModal').style.display = 'none';
+};
+document.getElementById('savePassword').onclick = function() {
+    let pass = document.getElementById('passwordInput').value;
+    if (pass.length < 3) {
+        alert("Password too short!");
+        return;
     }
-  });
-});
+    document.getElementById('setPasswordBtn').innerHTML = 'Password set 🔏';
+    document.getElementById('setPasswordBtn').dataset.password = pass;
+    document.getElementById('passwordModal').style.display = 'none';
+};
+
+/* HANDLE GENERATE LINK */
+document.getElementById('generateBtn').onclick = async function() {
+    // Gather options
+    const params = new URLSearchParams(window.location.search);
+    const cardId = params.get('cardId');
+    if (!cardId) {
+        alert("No card selected.");
+        return;
+    }
+    let privacy = document.querySelector('input[name=privacy]:checked').value;
+    let expiry = document.querySelector('input[name=expiry]:checked').value;
+    let maxOpens = document.getElementById('maxOpens').value;
+    let allowReply = document.getElementById('allowReply').checked;
+    let password = document.getElementById('setPasswordBtn').dataset.password || '';
+    let oneTimeHour = '';
+    if (expiry === 'one-time') {
+        oneTimeHour = document.getElementById('oneTimeHour').value;
+        if (!oneTimeHour) {
+            alert('Select hour for one-time view.');
+            return;
+        }
+    }
+    // Save share settings
+    await db.collection('cards').doc(cardId).update({
+        shareSettings: {
+            privacy, expiry, maxOpens, allowReply, password, oneTimeHour
+        }
+    });
+    // Generate link
+    let link = `${window.location.origin}/receiver.html?cardId=${cardId}`;
+    if (password) link += "&pw=1";
+    document.getElementById('shareLink').value = link;
+    // QR
+    document.getElementById('qrBox').style.display = 'block';
+    new QRious({
+        element: document.getElementById('qrCanvas'),
+        value: link,
+        size: 180,
+        background: '#fff',
+        foreground: '#A457F1'
+    });
+};
+
+/* MICRO ANIMATION: Success popup */
+function showSuccess(msg) {
+    let s = document.createElement('div');
+    s.className = "success-popup";
+    s.innerText = msg;
+    document.body.appendChild(s);
+    setTimeout(() => { s.remove(); }, 1500);
+}
+
+// You can add more micro animations, popups, confetti, etc. here
+
 </script>
-<!-- Floating hearts BG -->
-<div id="hearts-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;"></div>
-<!-- Card Preview Block -->
-<div id="cardPreview" style="display:none;margin-bottom:2em;">
-  <div style="max-width:340px;background:#fff3fa;padding:1.5em 1em;border-radius:2em;margin:auto;box-shadow:0 3px 28px #ef9a9a2c;">
-    <img id="previewPhoto" src="img/logo.png" style="width:84px;height:84px;object-fit:cover;border-radius:100%;margin-bottom:.6em;">
-    <div id="previewSubtitle" style="font-size:1.18em;color:#ad1457;"></div>
-    <div id="previewTitle" style="font-size:1.4em;color:#C2185B;font-weight:600;"></div>
+<!-- PART 3: Fallbacks, closing tags, and micro-animations -->
+
+<!-- No card selected fallback (hidden unless needed) -->
+<div id="nocard" style="display:none;text-align:center;margin-top:50px;">
+  <div style="font-size:1.2em;font-weight:600;color:#c741bc;margin-bottom:18px;">
+    No card selected.<br>
+    Please go back and <span style="color:#3b5aff;">create a card first!</span>
   </div>
+  <button onclick="window.location.href='preview.html'" style="background:linear-gradient(90deg,#f7b9e1,#b3b7ff);color:white;padding:0.8em 2.2em;border:none;border-radius:1.2em;font-size:1.07em;font-weight:700;box-shadow:0 3px 18px #e3b1ee33;cursor:pointer;">
+    Go Back
+  </button>
 </div>
-<!-- QR & Link UI -->
-<div id="qrBox" style="display:none;text-align:center;margin:2em auto;">
-  <canvas id="qrCanvas" style="margin-bottom:.8em;"></canvas><br>
-  <input id="shareLink" readonly style="width:90%;padding:0.5em 0.5em;font-size:1em;text-align:center;border-radius:.7em;border:1px solid #ba68c8;"/>
-</div>
+
+<!-- Animated floating hearts generator -->
+<script>
+function createFloatingHearts() {
+  const colors = ['#ff4d8b', '#7fa7ff', '#ffe066', '#be90e9', '#ff95e7'];
+  const container = document.getElementById('hearts-bg');
+  for (let i = 0; i < 14; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart';
+    heart.innerText = '💖';
+    heart.style.left = Math.random() * 97 + 'vw';
+    heart.style.animationDelay = (Math.random() * 8) + 's';
+    heart.style.color = colors[Math.floor(Math.random()*colors.length)];
+    container.appendChild(heart);
+  }
+}
+createFloatingHearts();
+</script>
+
+<!-- Success Popup Style -->
+<style>
+.success-popup {
+  position: fixed;
+  bottom: 32px;
+  left: 50%; transform: translateX(-50%);
+  background: #ad77ff;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 600;
+  padding: 0.9em 2em;
+  border-radius: 1.5em;
+  box-shadow: 0 6px 28px #ad77ff35;
+  z-index: 50;
+  animation: fadeInOut 1.5s;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; bottom: 12px;}
+  12% { opacity: 1; bottom: 32px;}
+  88% { opacity: 1; bottom: 32px;}
+  100% { opacity: 0; bottom: 60px;}
+}
+</style>
+
 </body>
 </html>
+
