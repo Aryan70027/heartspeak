@@ -196,12 +196,15 @@
       }
       // Check cardId from URL query
       const params = new URLSearchParams(window.location.search);
-      cardId = params.get("cardid");
-      if (!cardId) {
-        document.getElementById("mainContent").style.display = "none";
-        document.getElementById("noCardMsg").style.display = "block";
-        return;
-      }
+const cardId = params.get("cardId");
+console.log("Loaded cardId:", cardId); 
+
+if (!cardId) {
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("nocardmsg").style.display = "block";
+    return;
+}
+
       document.getElementById("mainContent").style.display = "block";
       document.getElementById("noCardMsg").style.display = "none";
     });
