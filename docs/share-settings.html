@@ -1,380 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Share Card Settings | HeartSpeak</title>
-  <!-- Premium Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Share Settings | HeartSpeak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
-      background: linear-gradient(135deg, #ffd1eb 0%, #e3eaff 100%);
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+      position: relative;
       overflow-x: hidden;
-      position: relative;
     }
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-
-<!-- QRCodeJS (the correct one!) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-  <script>
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.firebasestorage.app",
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFVSSPMG"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
-    /* Floating hearts animation */
-    .heart-anim {
-      position: absolute;
+    .floating-hearts {
       pointer-events: none;
-      opacity: 0.15;
-      animation: floatUp 8s linear infinite;
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      left: 0; top: 0;
+      z-index: 0;
     }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.8);}
-      100% { transform: translateY(-10vh) scale(1);}
+    .floating-hearts span {
+      position: absolute;
+      bottom: -50px;
+      color: #ff79a9;
+      font-size: 2.1em;
+      opacity: 0.72;
+      animation: floatup 9s linear infinite;
     }
-    .center-box {
-      max-width: 410px;
-      margin: 52px auto 0 auto;
-      background: rgba(255,255,255,0.82);
-      border-radius: 32px;
-      box-shadow: 0 6px 38px 0 rgba(190,70,160,0.09), 0 1.5px 9px 0 rgba(80,60,160,0.05);
-      padding: 36px 28px 32px 28px;
-      text-align: center;
+    @keyframes floatup {
+      from {transform: translateY(0) scale(1);}
+      to {transform: translateY(-110vh) scale(1.6);}
+    }
+    .main-container {
+      max-width: 440px;
+      margin: 44px auto;
+      background: #fff;
+      border-radius: 28px;
+      padding: 2.2rem 1.7rem 2rem 1.7rem;
+      box-shadow: 0 10px 32px #da5a9a11, 0 2px 8px #b4aad633;
       position: relative;
-      z-index: 2;
+      z-index: 1;
+      min-height: 540px;
     }
-    .logo-img {
-      width: 74px;
-      margin-bottom: 10px;
-      border-radius: 1.2rem;
-      box-shadow: 0 4px 20px #f0e6f8b9;
+    .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      width: 90px;
+      border-radius: 1.1em;
+      box-shadow: 0 2px 12px #b4aad633;
     }
     h2 {
-      font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
-      color: #d251a4;
-      font-size: 2.1em;
+      text-align: center;
+      color: #da5a9a;
+      font-size: 2em;
       font-weight: 700;
-      margin: 0 0 22px 0;
+      margin-bottom: 18px;
       letter-spacing: 1px;
     }
-    .card-preview {
-      background: rgba(248,244,255,0.99);
-      box-shadow: 0 0 20px #dcb7f526;
-      border-radius: 24px;
-      padding: 20px 16px 16px 16px;
-      margin: 0 auto 28px auto;
-      width: 95%;
-      max-width: 330px;
-      position: relative;
+    .section-title {
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #a858d0;
+      font-size: 1.12em;
+      letter-spacing: 0.3px;
+    }
+    .options-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4em;
+      font-weight: 500;
+      color: #333;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      accent-color: #b864df;
+      margin-right: 7px;
+      transform: scale(1.2);
+      vertical-align: -2px;
+    }
+    input[type="text"], input[type="number"], input[type="password"] {
+      width: 100%;
+      font-size: 1em;
+      padding: 8px 11px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      margin-top: 7px;
+      margin-bottom: 9px;
+    }
+    .action-btn {
+      background: linear-gradient(90deg, #e979c7, #95c8ff);
+      color: #fff;
+      font-size: 1.15em;
+      padding: 12px 0;
+      border: none;
+      border-radius: 18px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: background 0.2s;
+    }
+    .action-btn:hover {
+      background: linear-gradient(90deg, #b766c0, #6fa8dc);
+    }
+    .footer-btns {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 18px;
+    }
+    .footer-btn {
+      flex: 1;
+      background: linear-gradient(90deg, #db7cd4, #9ed6fc);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      padding: 11px 0;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+    .footer-btn:hover {
+      background: linear-gradient(90deg, #b766c0, #6fa8dc);
+    }
+    .qrbox {
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-    .card-img-circle {
-      width: 82px; height: 82px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 13px;
-      box-shadow: 0 2px 12px #b4aad633;
-      border: 4px solid #faf4fa;
-    }
-    .recipient-name {
-      font-size: 1.19em;
-      color: #a45fd9;
-      font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .card-title {
-      color: #f35ca6;
-      font-size: 1.08em;
-      font-weight: 600;
-      margin-bottom: 7px;
-      letter-spacing: 1.1px;
-    }
-    .stickers-row {
-      font-size: 1.36em;
+      margin-top: 24px;
       margin-bottom: 5px;
+      padding: 18px 0 5px 0;
     }
-    /* Settings */
-    .settings-form label {
-      font-size: 1.02em;
-      color: #a041c9;
-      font-weight: 600;
-      margin-top: 9px;
-      margin-bottom: 4px;
-      display: block;
-      text-align: left;
-    }
-    .settings-form .opt-group {
+    #qrcode {
       background: #fff;
-      padding: 12px 18px 9px 18px;
-      border-radius: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 1px 7px #e3c6ee2c;
-      text-align: left;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px #b4aad644;
+      padding: 12px;
+      margin-bottom: 12px;
     }
-    .settings-form .radio-row,
-    .settings-form .check-row {
-      margin-bottom: 7px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .share-link-box {
+      background: #f9f7ff;
+      padding: 9px 13px;
+      border-radius: 9px;
+      font-size: 0.95em;
+      word-break: break-all;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 5px #c5befc22;
+      color: #a858d0;
+      text-align: center;
     }
-    .settings-form input[type="radio"],
-    .settings-form input[type="checkbox"] {
-      accent-color: #da5a9a;
-      width: 18px; height: 18px;
-    }
-    .settings-form input[type="text"], .settings-form input[type="date"] {
-      font-size: 1em;
-      width: 96%;
-      border: 1px solid #e3c8ed;
-      border-radius: 8px;
-      padding: 8px 10px;
-      margin-top: 4px;
-      margin-bottom: 7px;
-      outline: none;
-    }
-    .btn-row {
-      display: flex; gap: 11px; margin-top: 21px; justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-main {
-      background: linear-gradient(90deg,#e979c7,#95c8ff);
-      color: white;
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 1.15em;
-      padding: 12px 38px;
-      border: none;
-      border-radius: 22px;
-      cursor: pointer;
-      font-weight: 700;
-      margin-bottom: 10px;
-      transition: background 0.16s;
-      box-shadow: 0 1.2px 8px #c993e740;
-    }
-    .btn-main:disabled {
-      background: #efd1e7;
-      color: #bbb;
-      cursor: not-allowed;
-    }
-    .btn-sec {
-      background: linear-gradient(90deg,#efefef 10%,#e8e0f5 90%);
-      color: #b463bd;
-      border: none;
-      border-radius: 17px;
-      padding: 10px 22px;
-      font-size: 1em;
-      font-weight: 600;
-      margin-top: 6px;
-      box-shadow: 0 1px 6px #c4a4e22e;
-      cursor: pointer;
-      margin-right: 7px;
-      margin-left: 7px;
-      transition: box-shadow 0.17s;
-    }
-    .btn-sec:active { box-shadow: 0 1px 13px #b47ee626;}
-    /* QR code */
-    .qrcode-wrap {
-      margin: 0 auto 15px auto;
-      width: 134px; height: 134px;
-      background: rgba(255,255,255,0.99);
-      border-radius: 16px;
-      box-shadow: 0 2px 10px #e9bbf92a;
-      display: flex; align-items: center; justify-content: center;
-      border: 2.5px solid #eed7fb;
-    }
-    @media (max-width: 650px) {
-      .center-box { margin: 14vw 0 0 0; padding: 7vw 2vw 8vw 2vw; }
-      .logo-img { width: 59px; }
-      .card-preview { padding: 13px 4vw 12px 4vw;}
+    /* Responsive */
+    @media (max-width: 520px) {
+      .main-container {padding: 1.1rem 3vw;}
+      .qrbox {padding: 9px 0 5px 0;}
     }
   </style>
 </head>
 <body>
-  <!-- Floating hearts -->
-  <img src="https://img.icons8.com/color/48/like--v1.png" class="heart-anim" style="left:10vw;animation-delay:0s;width:38px;">
-  <img src="https://img.icons8.com/color/48/like--v1.png" class="heart-anim" style="left:60vw;animation-delay:1.2s;width:31px;">
-  <img src="https://img.icons8.com/color/48/like--v1.png" class="heart-anim" style="left:85vw;animation-delay:2.6s;width:28px;">
-  <img src="https://img.icons8.com/color/48/like--v1.png" class="heart-anim" style="left:33vw;animation-delay:4.1s;width:42px;">
-  <img src="https://img.icons8.com/color/48/like--v1.png" class="heart-anim" style="left:78vw;animation-delay:5.7s;width:34px;">
-  
-  <div class="center-box" id="mainBox" style="display:none;">
-    <img src="img/logo.png" alt="HeartSpeak Logo" class="logo-img">
-    <h2>Share Your Card</h2>
-    <!-- No Card Selected Box -->
-    <div id="noCardBox" style="display:none;margin:40px auto;">
-      <div style="background:rgba(245,235,255,0.98);padding:35px 14px;border-radius:17px;box-shadow:0 1.5px 13px #d3a8ea19;">
-        <div style="font-size:1.25em;color:#a06bcb;font-weight:600;margin-bottom:12px;">
-          No card selected.
-        </div>
-        <div style="color:#be559a;font-size:1em;">Please go back to Preview and choose a card to continue.</div>
-        <div style="margin-top:23px;">
-          <button class="btn-sec" onclick="window.location.href='preview.html'">Back to Preview</button>
-        </div>
+  <!-- Animated Floating Hearts BG -->
+  <div class="floating-hearts" id="hearts-bg"></div>
+
+  <div class="main-container">
+    <img src="img/logo.png" class="logo" alt="HeartSpeak Logo">
+    <h2>Card Sharing Settings</h2>
+
+    <!-- SHARE SETTINGS FORM -->
+    <form id="shareSettingsForm" autocomplete="off">
+      <div class="section-title">Privacy</div>
+      <div class="options-group">
+        <label><input type="radio" name="privacy" value="anyone" checked> Anyone with link</label>
+        <label><input type="radio" name="privacy" value="private"> Private (require code/email/number)</label>
+        <label style="margin-left:1.5em;">
+          <input type="checkbox" id="setPasswordBox"> Set password to open card (optional)
+        </label>
+        <input type="password" id="passwordInput" placeholder="Enter password..." style="display:none;">
       </div>
+
+      <div class="section-title">Expiry & Usage</div>
+      <div class="options-group">
+        <label><input type="radio" name="expiry" value="none" checked> No expiry</label>
+        <label><input type="radio" name="expiry" value="one"> One-time view</label>
+        <label><input type="radio" name="expiry" value="days"> Expire after days</label>
+        <input type="number" id="expiryDaysInput" min="1" max="99" placeholder="e.g. 5" style="display:none;">
+        <label><input type="radio" name="expiry" value="date"> Expire on date</label>
+        <input type="date" id="expiryDateInput" style="display:none;">
+        <label>Maximum Opens (optional)</label>
+        <input type="number" id="maxOpensInput" min="1" max="99" placeholder="e.g. 5">
+      </div>
+      <div class="options-group">
+        <label>
+          <input type="checkbox" id="allowReplyBox" checked>
+          Allow receiver to reply (1 reply only)
+        </label>
+      </div>
+      <button type="button" class="action-btn" id="generateBtn">Generate Link</button>
+    </form>
+
+    <!-- QR and link will show here -->
+    <div class="qrbox" id="qrbox" style="display:none;">
+      <div id="qrcode"></div>
+      <div class="share-link-box" id="cardLinkBox"></div>
+      <button class="footer-btn" onclick="navigator.clipboard.writeText(document.getElementById('cardLinkBox').textContent)">Copy Link</button>
     </div>
-    <!-- Card Preview & Sharing Options -->
-    <div id="cardSettings" style="display:none;">
-      <div class="card-preview" id="miniCard"></div>
-      <form class="settings-form" id="settingsForm" autocomplete="off">
-        <div class="opt-group">
-          <label>Privacy</label>
-          <div class="radio-row"><input type="radio" name="privacy" value="public" checked>Anyone with link</div>
-          <div class="radio-row"><input type="radio" name="privacy" value="private">Private (require code/email/number)</div>
-          <div class="check-row"><input type="checkbox" id="passwordEnable"><label for="passwordEnable" style="margin:0;font-weight:400;">Set password to open card (optional)</label></div>
-          <input type="text" id="passwordInput" placeholder="Enter password (optional)" style="display:none;">
-        </div>
-        <div class="opt-group">
-          <label>Expiry & Usage</label>
-          <div class="radio-row"><input type="radio" name="expiry" value="no-expiry" checked>No expiry</div>
-          <div class="radio-row"><input type="radio" name="expiry" value="one-time">One-time view</div>
-          <div class="radio-row"><input type="radio" name="expiry" value="days"><span>Expire after days</span>
-            <input type="text" id="daysInput" style="width:55px;" pattern="\d*" placeholder="e.g. 2">
-          </div>
-          <div class="radio-row"><input type="radio" name="expiry" value="date"><span>Expire on date</span>
-            <input type="date" id="dateInput" style="width:130px;">
-          </div>
-        </div>
-        <div class="opt-group">
-          <label>Maximum Opens (optional)</label>
-          <input type="text" id="maxOpensInput" placeholder="e.g. 5" pattern="\d*">
-        </div>
-        <div class="opt-group check-row">
-          <input type="checkbox" id="allowReply" checked>
-          <label for="allowReply" style="margin:0;">Allow receiver to reply (1 reply only)</label>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-main" id="generateBtn">Generate Link</button>
-        </div>
-        <div id="qrBox" style="display:none;margin-bottom:8px;">
-          <div class="qrcode-wrap" id="qrcode"></div>
-          <div style="margin-top:9px;">
-            <input type="text" id="cardLink" readonly style="width:92%;font-size:0.99em;text-align:center;padding:8px 5px;border-radius:8px;border:1px solid #f1bfe4;margin-bottom:6px;">
-            <button type="button" class="btn-sec" onclick="copyCardLink()">Copy Link</button>
-          </div>
-        </div>
-      </form>
-      <div class="btn-row">
-        <button class="btn-sec" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-        <button class="btn-sec" onclick="window.location.href='card-creator.html'">Create New Card</button>
-      </div>
+    <div class="footer-btns">
+      <button class="footer-btn" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+      <button class="footer-btn" onclick="window.location.href='card-creator.html'">Create New Card</button>
     </div>
   </div>
+<!-- Firebase + QR code libraries (put these right before your script for safety) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qr.min.js"></script>
 
+<script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZgVaMT5BMUMsN0bbw31gFbcwXzseGU",
+    authDomain: "heartspeak-bf703.firebaseapp.com",
+    projectId: "heartspeak-bf703",
+    storageBucket: "heartspeak-bf703.appspot.com",
+    messagingSenderId: "341260618790",
+    appId: "1:341260618790:web:f60536bac144fb815aaae7",
+    measurementId: "G-RGVFSSPMG"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-
-    // --- Helper Functions ---
-    function getCardIdFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('id');
+  // 1. Animated hearts BG
+  function createHearts() {
+    const bg = document.getElementById('hearts-bg');
+    for (let i = 0; i < 16; i++) {
+      let s = document.createElement('span');
+      s.innerHTML = '💕';
+      s.style.left = Math.random() * 98 + 'vw';
+      s.style.fontSize = (Math.random() * 1.2 + 1.3) + 'em';
+      s.style.animationDuration = (8 + Math.random() * 3) + 's';
+      bg.appendChild(s);
     }
-    function copyCardLink() {
-      let input = document.getElementById('cardLink');
-      input.select();
-      input.setSelectionRange(0, 99999); // mobile
-      document.execCommand("copy");
-      alert("Link copied!");
-    }
-    document.addEventListener("DOMContentLoaded", function() {
-      document.getElementById('passwordEnable').addEventListener('change', function() {
-        document.getElementById('passwordInput').style.display = this.checked ? 'block' : 'none';
-      });
-      let expiryRadios = document.getElementsByName('expiry');
-      function updateExpiryInputs() {
-        document.getElementById('daysInput').style.display =
-          document.querySelector('input[name="expiry"]:checked').value === "days" ? "inline-block" : "none";
-        document.getElementById('dateInput').style.display =
-          document.querySelector('input[name="expiry"]:checked').value === "date" ? "inline-block" : "none";
-      }
-      for (let radio of expiryRadios) {
-        radio.addEventListener('change', updateExpiryInputs);
-      }
-      updateExpiryInputs();
+  }
+  createHearts();
+
+  // 2. Show/hide inputs (expiry days, date, password)
+  const expiryRadios = document.getElementsByName('expiry');
+  expiryRadios.forEach = Array.prototype.forEach; // For NodeList on some browsers
+  expiryRadios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      document.getElementById('expiryDaysInput').style.display = radio.value === 'days' && radio.checked ? '' : 'none';
+      document.getElementById('expiryDateInput').style.display = radio.value === 'date' && radio.checked ? '' : 'none';
     });
+  });
+  document.getElementById('setPasswordBox').addEventListener('change', function () {
+    document.getElementById('passwordInput').style.display = this.checked ? '' : 'none';
+  });
 
-    // --- Main Logic ---
-    auth.onAuthStateChanged(async function(user) {
-      document.getElementById("mainBox").style.display = "block";
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
-      const cardId = getCardIdFromUrl();
-      if (!cardId) {
-        document.getElementById("noCardBox").style.display = "block";
-        document.getElementById("cardSettings").style.display = "none";
-        return;
-      }
-      const cardDoc = await db.collection("cards").doc(cardId).get();
-      if (!cardDoc.exists) {
-        document.getElementById("noCardBox").style.display = "block";
-        document.getElementById("cardSettings").style.display = "none";
-        return;
-      }
-      const card = cardDoc.data();
-      // Render Card Preview
-      const stickers = card.stickers && card.stickers.length ? card.stickers.map(s=>`<span>${s}</span>`).join(' ') : '';
-      document.getElementById("miniCard").innerHTML = `
-        <img class="card-img-circle" src="${card.photoURL || 'img/logo.png'}" alt="Profile">
-        <div class="recipient-name">${card.recipientName ? card.recipientName.toUpperCase() : ''}</div>
-        <div class="card-title">${card.cardTitle ? card.cardTitle.toUpperCase() : ''}</div>
-        <div class="stickers-row">${stickers}</div>
-      `;
-      document.getElementById("cardSettings").style.display = "block";
+  // 3. Check login, get cardId from query string (?card=...)
+  let currentUser = null;
+  let cardId = null;
+  firebase.auth().onAuthStateChanged(async function(user) {
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+    currentUser = user;
+    // Card ID from query (?card=xyz)
+    const url = new URL(window.location.href);
+    cardId = url.searchParams.get('card');
+    if (!cardId) {
+      alert("No card selected. Please go back to preview.");
+      window.location.href = "preview.html";
+      return;
+    }
+    // Optionally: you can check ownership of the card here before allowing sharing.
+  });
 
-      // Generate Link & QR
-      document.getElementById("generateBtn").onclick = async function() {
-        // Gather sharing options
-        let privacy = document.querySelector('input[name="privacy"]:checked').value;
-        let password = document.getElementById('passwordEnable').checked ? document.getElementById('passwordInput').value.trim() : '';
-        let expiryType = document.querySelector('input[name="expiry"]:checked').value;
-        let expiryDays = document.getElementById('daysInput').value.trim();
-        let expiryDate = document.getElementById('dateInput').value;
-        let maxOpens = document.getElementById('maxOpensInput').value.trim();
-        let allowReply = document.getElementById('allowReply').checked;
+  // 4. Generate link and QR, save sharing settings
+  document.getElementById('generateBtn').onclick = async function(e) {
+    e.preventDefault();
+    if (!cardId || !currentUser) return alert("Please login and select a card.");
+    // Gather settings
+    const privacy = document.querySelector('input[name="privacy"]:checked').value;
+    const setPassword = document.getElementById('setPasswordBox').checked;
+    const password = setPassword ? document.getElementById('passwordInput').value.trim() : null;
+    const expiryType = document.querySelector('input[name="expiry"]:checked').value;
+    const expiryDays = document.getElementById('expiryDaysInput').value;
+    const expiryDate = document.getElementById('expiryDateInput').value;
+    const maxOpens = document.getElementById('maxOpensInput').value;
+    const allowReply = document.getElementById('allowReplyBox').checked;
 
-        let settings = {
-    
-// Save sharing settings in Firestore under the card document
-await db.collection("cards").doc(cardId).update({
-  sharing: settings
-});
+    let settings = {
+      privacy,
+      password: setPassword ? password : null,
+      expiryType,
+      expiryDays: expiryType === "days" && expiryDays ? parseInt(expiryDays) : null,
+      expiryDate: expiryType === "date" && expiryDate ? expiryDate : null,
+      maxOpens: maxOpens ? parseInt(maxOpens) : null,
+      allowReply
+    };
 
-// Create shareable link
-let shareLink = `${window.location.origin}/receiver.html?id=${cardId}`;
-document.getElementById("card-link").value = shareLink;
+    // Save sharing settings in Firestore
+    try {
+      await db.collection("cards").doc(cardId).update({
+        sharing: settings
+      });
 
-// Show QR code (make sure to include a <canvas id="qrcode"></canvas> in your HTML)
-document.getElementById("qrBox").style.display = "block";
-let qr = new QRious({
-  element: document.getElementById("qrcode"),
-  value: shareLink,
-  size: 140,
-  background: "#fff",
-  foreground: "#d251a4",
-  level: "H"
-});
-});
-});
+      // Create shareable link
+      let shareLink = `${window.location.origin}/receiver.html?card=${cardId}`;
+      document.getElementById('cardLinkBox').textContent = shareLink;
+
+      // Show QR code
+      document.getElementById('qrbox').style.display = "flex";
+      const qr = new QRious({
+        element: document.getElementById('qrcode'),
+        value: shareLink,
+        size: 148,
+        background: "#fff",
+        foreground: "#a858d0",
+        level: "H"
+      });
+    } catch (err) {
+      alert("Error saving sharing settings: " + err.message);
+    }
+  }
 </script>
 </body>
 </html>
