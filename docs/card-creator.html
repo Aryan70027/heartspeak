@@ -13,245 +13,226 @@
       min-height: 100vh;
     }
     .container {
-      max-width: 420px;
-      margin: 32px auto;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 24px;
       background: #fff;
       border-radius: 24px;
       box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
-      padding: 32px 28px;
       text-align: center;
     }
-    .container h2 {
-      margin-bottom: 20px;
-      color: #f64e8b;
+    h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: #d63384;
     }
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       text-align: left;
     }
     label {
-      font-weight: 500;
-      margin-bottom: 6px;
       display: block;
-      color: #555;
+      margin-bottom: 5px;
+      font-weight: 500;
     }
-    input[type="text"], textarea {
+    input[type="text"], input[type="file"], textarea {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      font-size: 15px;
-      background: #f6f6ff;
-      margin-bottom: 8px;
+      padding: 8px;
+      border: 1.2px solid #ddd;
+      border-radius: 7px;
+      font-size: 16px;
       font-family: inherit;
+      margin-bottom: 4px;
+      box-sizing: border-box;
     }
     textarea {
       resize: vertical;
-      min-height: 52px;
-      max-height: 120px;
+      min-height: 60px;
+      font-family: inherit;
     }
-    .stickers, .backgrounds {
+    .stickers, .card-bg {
+      margin-bottom: 8px;
       display: flex;
-      gap: 12px;
-      margin: 10px 0;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .sticker-btn {
-      background: #ffe4f5;
-      border: none;
-      border-radius: 12px;
-      font-size: 20px;
-      padding: 6px 10px;
+    .sticker-btn, .bg-btn {
+      padding: 6px 11px;
+      border: 1px solid #e9ecef;
+      border-radius: 5px;
+      background: #f8f9fa;
       cursor: pointer;
-      transition: box-shadow 0.2s;
-    }
-    .sticker-btn.selected {
-      box-shadow: 0 0 0 3px #f64e8b55;
-    }
-    .background-btn {
-      padding: 7px 18px;
-      border-radius: 10px;
-      border: 1px solid #eee;
-      cursor: pointer;
-      background: #e0eaff;
-      color: #222;
-      transition: background 0.2s;
-    }
-    .background-btn.selected {
-      background: #f64e8b;
-      color: #fff;
-      border: 1px solid #f64e8b;
-    }
-    .photo-upload {
-      background: #f9f9ff;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px dashed #ccc;
-      margin: 15px 0 25px;
-      font-size: 15px;
-    }
-    .btn-primary {
-      width: 100%;
-      background: linear-gradient(90deg, #f64e8b, #a980ee);
-      color: #fff;
-      border: none;
-      padding: 12px 0;
       font-size: 18px;
-      border-radius: 10px;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .sticker-btn.selected, .bg-btn.selected {
+      background: #e7c6ff;
+      border-color: #a685e2;
+      box-shadow: 0 2px 8px rgba(166,133,226,0.08);
+    }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #e94057 0%, #8a2387 100%);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 600;
       cursor: pointer;
+      transition: background 0.18s;
       margin-top: 10px;
-      transition: box-shadow 0.2s, background 0.2s;
     }
-    .btn-primary:hover {
-      box-shadow: 0 3px 10px #f64e8b22;
-      background: linear-gradient(90deg, #a980ee, #f64e8b);
-    }
-    .voice-record {
-      display: block;
-      margin: 12px 0 0 0;
-      text-align: left;
-    }
-    @media (max-width: 500px) {
-      .container { padding: 18px 4vw; }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #8a2387 0%, #e94057 100%);
     }
   </style>
 </head>
 <body>
-  <div id="mainContent" style="display:none;">
-    <div class="container">
-      <h2>Create a Card</h2>
-      <form id="cardForm">
-        <div class="form-group">
-          <label for="recipientName">Recipient Name</label>
-          <input type="text" id="recipientName" required>
-        </div>
-        <div class="form-group">
-          <label for="cardTitle">Card Title</label>
-          <input type="text" id="cardTitle" required>
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Add Stickers</label>
-          <div class="stickers">
-            <button type="button" class="sticker-btn" data-sticker="❤️">❤️</button>
-            <button type="button" class="sticker-btn" data-sticker="🎉">🎉</button>
-            <button type="button" class="sticker-btn" data-sticker="🌟">🌟</button>
-            <button type="button" class="sticker-btn" data-sticker="😍">😍</button>
-            <button type="button" class="sticker-btn" data-sticker="🥰">🥰</button>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Card Background</label>
-          <div class="backgrounds">
-            <button type="button" class="background-btn" data-bg="white" style="background:#fff;">White</button>
-            <button type="button" class="background-btn" data-bg="pink" style="background:#ffe4f5;">Pink</button>
-            <button type="button" class="background-btn" data-bg="blue" style="background:#c1d8ff;">Blue</button>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="mainPhoto">Main Photo</label>
-          <div class="photo-upload">
-            <input type="file" id="mainPhoto" accept="image/*">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="voice-record">Voice Message (optional)</label>
-          <button type="button" id="recordVoice" class="btn-primary" style="font-size:14px;padding:8px;">Record Your Voice</button>
-          <span id="voiceStatus"></span>
-        </div>
-        <button type="submit" class="btn-primary">Save Draft & Show Preview</button>
-      </form>
+  <div class="container" id="mainContent" style="display:none;">
+    <h2>Create a Card</h2>
+
+    <!-- Recipient Name -->
+    <div class="form-group">
+      <label for="recipientName">Recipient Name</label>
+      <input type="text" id="recipientName" required>
     </div>
+    <!-- Card Title -->
+    <div class="form-group">
+      <label for="cardTitle">Card Title</label>
+      <input type="text" id="cardTitle" required>
+    </div>
+    <!-- Main Photo -->
+    <div class="form-group">
+      <label for="mainPhoto">Main Photo</label>
+      <input type="file" id="mainPhoto" accept="image/*">
+    </div>
+    <!-- Stickers -->
+    <div class="form-group">
+      <label>Add Stickers</label>
+      <div class="stickers" id="stickersList">
+        <button type="button" class="sticker-btn">😍</button>
+        <button type="button" class="sticker-btn">🎉</button>
+        <button type="button" class="sticker-btn">💖</button>
+        <button type="button" class="sticker-btn">🎵</button>
+        <button type="button" class="sticker-btn">🍕</button>
+      </div>
+    </div>
+    <!-- Card Background -->
+    <div class="form-group">
+      <label>Card Background</label>
+      <div class="card-bg">
+        <button type="button" class="bg-btn" data-bg="white" style="background:#fff;">White</button>
+        <button type="button" class="bg-btn" data-bg="pink" style="background:#ffe1e9;">Pink</button>
+        <button type="button" class="bg-btn" data-bg="blue" style="background:#e7f0fd;">Blue</button>
+      </div>
+    </div>
+    <!-- Message -->
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" rows="4" placeholder="Write your message here..."></textarea>
+    </div>
+    <!-- Voice Recording Button (UI only) -->
+    <div class="form-group">
+      <button type="button" id="recordVoiceBtn" class="submit-btn" style="background:#c1d8ff;color:#222;">🎤 Record Your Voice</button>
+    </div>
+    <!-- Save Draft Button -->
+    <button id="saveDraftBtn" class="submit-btn">Save Draft & Show Preview</button>
   </div>
+
   <!-- Firebase JS SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
   <script>
-    // 1. Firebase config (update bucket as you confirmed)
+    // --- Firebase Config (USE CORRECT BUCKET!) ---
     const firebaseConfig = {
-      apiKey: "AIzaSyAZgVaMTSBMMSn0Nbw31gFbcwXzseGU",
+      apiKey: "AIzaSyAZgVaMT5BMUMsONbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
       projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.firebasestorage.app",
+      storageBucket: "heartspeak-bf703.firebasestorage.app", // CORRECT BUCKET!
       messagingSenderId: "341260618790",
       appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFSSPMG"
+      measurementId: "G-RGVFSSXPMG"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-    // 2. Auth check (fixes redirect bug)
+    // ---- Login Check (fixes infinite redirect bug) ----
     firebase.auth().onAuthStateChanged(function(user) {
       if (!user) {
         window.location.href = "login.html";
       } else {
-        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('mainContent').style.display = "block";
       }
     });
 
-    // 3. Stickers/backgrounds UI
-    let selectedSticker = "";
-    let selectedBG = "white";
+    // ---- Sticker & BG Logic ----
+    let selectedStickers = [];
+    let selectedBG = 'white';
     document.querySelectorAll('.sticker-btn').forEach(btn => {
       btn.onclick = function() {
-        document.querySelectorAll('.sticker-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedSticker = btn.dataset.sticker;
-      }
+        btn.classList.toggle('selected');
+        const emoji = btn.textContent;
+        if (btn.classList.contains('selected')) {
+          if (!selectedStickers.includes(emoji)) selectedStickers.push(emoji);
+        } else {
+          selectedStickers = selectedStickers.filter(e => e !== emoji);
+        }
+      };
     });
-    document.querySelectorAll('.background-btn').forEach(btn => {
+    document.querySelectorAll('.bg-btn').forEach(btn => {
       btn.onclick = function() {
-        document.querySelectorAll('.background-btn').forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        selectedBG = btn.dataset.bg;
-      }
+        selectedBG = btn.getAttribute('data-bg');
+      };
     });
 
-    // 4. Voice record mockup (real implementation is complex)
-    document.getElementById("recordVoice").onclick = function() {
-      document.getElementById("voiceStatus").textContent = "🎤 Voice recording coming soon!";
-    };
-
-    // 5. Save Draft
-    document.getElementById("cardForm").onsubmit = async function(e) {
-      e.preventDefault();
+    // ---- Save Draft & Preview ----
+    document.getElementById('saveDraftBtn').onclick = async function() {
       const user = firebase.auth().currentUser;
       if (!user) {
+        alert("Please login first!");
         window.location.href = "login.html";
         return;
       }
+      // Collect form values
       const recipientName = document.getElementById('recipientName').value.trim();
       const cardTitle = document.getElementById('cardTitle').value.trim();
       const message = document.getElementById('message').value.trim();
-      const mainPhotoFile = document.getElementById('mainPhoto').files[0];
-      // Save photo to Firebase Storage (if present)
+      const fileInput = document.getElementById('mainPhoto');
       let photoURL = "";
-      if (mainPhotoFile) {
-        const photoRef = storage.ref(`cards/${user.uid}/${Date.now()}_${mainPhotoFile.name}`);
-        await photoRef.put(mainPhotoFile);
-        photoURL = await photoRef.getDownloadURL();
+      // Upload photo if selected
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const storageRef = storage.ref('cards/' + user.uid + "/" + Date.now() + "_" + file.name);
+        await storageRef.put(file);
+        photoURL = await storageRef.getDownloadURL();
       }
-      // Save card to Firestore
-      const cardDoc = {
+      // Save to Firestore (as draft)
+      const docRef = await db.collection('cards').add({
         uid: user.uid,
         recipientName,
         cardTitle,
         message,
-        sticker: selectedSticker,
-        background: selectedBG,
+        stickers: selectedStickers,
+        cardBG: selectedBG,
         photoURL,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      const docRef = await db.collection("cards").add(cardDoc);
-      // Save draftId to session/localstorage for preview page
-      localStorage.setItem("lastCardId", docRef.id);
-      // Go to preview
-      window.location.href = "preview.html";
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        draft: true
+      });
+      // Redirect to preview
+      window.location.href = "preview.html?id=" + docRef.id;
+    };
+
+    // (Optional) - Voice recording: UI only, actual recording not implemented here
+    document.getElementById('recordVoiceBtn').onclick = function() {
+      alert("Voice recording feature coming soon!");
     };
   </script>
 </body>
