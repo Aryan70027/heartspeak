@@ -1,21 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test Auth | HeartSpeak</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create a Card | HeartSpeak</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 420px;
+      margin: 32px auto;
+      padding: 32px;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
+      text-align: center;
+    }
+    .container h1 {
+      font-size: 2.2em;
+      color: #da5a9a;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 7px;
+      color: #555;
+    }
+    input[type="text"], input[type="file"], textarea, select {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-bottom: 6px;
+      box-sizing: border-box;
+    }
+    textarea {
+      min-height: 65px;
+      resize: vertical;
+    }
+    .card-backgrounds label {
+      margin-right: 12px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .stickers {
+      margin-bottom: 12px;
+    }
+    .stickers button {
+      background: #f3f0fc;
+      border: 1px solid #e4e2e9;
+      border-radius: 10px;
+      margin: 2px;
+      font-size: 1.4em;
+      cursor: pointer;
+      padding: 5px 8px;
+      transition: box-shadow 0.2s;
+    }
+    .stickers button.selected {
+      box-shadow: 0 2px 8px #f4b3dc;
+      background: #ffe6f2;
+    }
+    #saveDraftBtn {
+      background: linear-gradient(90deg, #e979c7, #95c8ff);
+      color: white;
+      font-size: 1.15em;
+      padding: 12px 0;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 16px;
+      transition: background 0.2s;
+    }
+    #saveDraftBtn:hover {
+      background: linear-gradient(90deg, #c678b4, #6fa8dc);
+    }
+    .recorder-section {
+      margin-bottom: 18px;
+    }
+    #recordBtn, #stopBtn {
+      padding: 8px 15px;
+      border-radius: 10px;
+      border: none;
+      margin-right: 6px;
+      cursor: pointer;
+      background: #ffafd5;
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(218,90,154,0.05);
+    }
+    #stopBtn {
+      background: #6fa8dc;
+    }
+    #audioPreview {
+      display: none;
+      margin-top: 9px;
+      width: 100%;
+    }
+    #loader {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.65);
+      z-index: 222;
+      justify-content: center;
+      align-items: center;
+    }
+    #loader .spinner {
+      border: 7px solid #f3f3f3;
+      border-top: 7px solid #da5a9a;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @media (max-width: 520px) {
+      .container { padding: 18px; }
+      h1 { font-size: 1.4em; }
+    }
+  </style>
 </head>
 <body>
-  <h2 id="status" style="text-align:center; margin-top:50px;">Checking authentication status...</h2>
-  <div style="text-align:center;">
-    <button onclick="logoutUser()" style="margin-top:20px; padding:10px 20px;">Logout</button>
+  <div id="loader"><div class="spinner"></div></div>
+  <div id="mainContent" style="display:none;">
+    <div class="container">
+      <img src="../logo.png" style="width:60px; border-radius:18px; margin-bottom:10px;" alt="HeartSpeak Logo">
+      <h1>Create a Card</h1>
+      <form id="cardForm">
+        <div class="input-group">
+          <label for="recipientName">Recipient Name</label>
+          <input type="text" id="recipientName" required>
+        </div>
+        <div class="input-group">
+          <label for="cardTitle">Card Title</label>
+          <input type="text" id="cardTitle" required>
+        </div>
+        <div class="input-group">
+          <label for="mainPhoto">Main Photo</label>
+          <input type="file" id="mainPhoto" accept="image/*">
+        </div>
+        <div class="input-group">
+          <label>Add Stickers</label>
+          <div class="stickers">
+            <button type="button" class="sticker-btn" data-sticker="❤️">❤️</button>
+            <button type="button" class="sticker-btn" data-sticker="🎉">🎉</button>
+            <button type="button" class="sticker-btn" data-sticker="💐">💐</button>
+            <button type="button" class="sticker-btn" data-sticker="🎁">🎁</button>
+            <button type="button" class="sticker-btn" data-sticker="⭐">⭐</button>
+          </div>
+        </div>
+        <div class="input-group card-backgrounds">
+          <label>Card Background</label>
+          <label><input type="radio" name="cardBg" value="white" checked> White</label>
+          <label><input type="radio" name="cardBg" value="pink"> Pink</label>
+          <label><input type="radio" name="cardBg" value="blue"> Blue</label>
+          <input type="color" id="customBg" title="Custom Color" style="vertical-align:middle;margin-left:7px;width:30px;height:30px;cursor:pointer;">
+        </div>
+        <div class="input-group">
+          <label for="message">Message</label>
+          <textarea id="message" required></textarea>
+        </div>
+        <div class="input-group recorder-section">
+          <label>Record Your Voice</label>
+          <button type="button" id="recordBtn">🎤 Start</button>
+          <button type="button" id="stopBtn" disabled>■ Stop</button>
+          <audio id="audioPreview" controls></audio>
+        </div>
+        <button type="button" id="saveDraftBtn">Save Draft & Show Preview</button>
+      </form>
+    </div>
   </div>
-
   <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
@@ -26,24 +200,123 @@
       measurementId: "G-RGVFVSSPMG"
     };
     firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-    // Check login state
+    // --- Auth Check: show/hide content ---
     firebase.auth().onAuthStateChanged(function(user) {
-      const status = document.getElementById('status');
-      if (user) {
-        status.innerHTML = "<span style='color:green;'>LOGGED IN as: " + user.email + "</span>";
-      } else {
-        status.innerHTML = "<span style='color:red;'>NOT LOGGED IN! (Redirecting...)</span>";
-        setTimeout(() => { window.location.href = "login.html"; }, 2000);
-      }
+      if (!user) { window.location.href = "login.html"; return; }
+      document.getElementById('mainContent').style.display = "block";
     });
 
-    function logoutUser() {
-      firebase.auth().signOut().then(function() {
-        alert("Logged out!");
-        window.location.reload();
-      });
-    }
+    // --- Stickers Logic ---
+    let selectedStickers = [];
+    document.querySelectorAll('.sticker-btn').forEach(btn => {
+      btn.onclick = function() {
+        btn.classList.toggle('selected');
+        const sticker = btn.getAttribute('data-sticker');
+        if (btn.classList.contains('selected')) {
+          selectedStickers.push(sticker);
+        } else {
+          selectedStickers = selectedStickers.filter(s => s !== sticker);
+        }
+      };
+    });
+
+    // --- Card Background (with color picker) ---
+    const customBg = document.getElementById('customBg');
+    customBg.addEventListener('input', function() {
+      document.querySelectorAll('input[name="cardBg"]').forEach(r => r.checked = false);
+    });
+    document.querySelectorAll('input[name="cardBg"]').forEach(r => {
+      r.addEventListener('change', () => { customBg.value = ""; });
+    });
+
+    // --- Voice Recorder ---
+    let mediaRecorder, audioChunks = [], audioBlob, audioURL;
+    const recordBtn = document.getElementById('recordBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const audioPreview = document.getElementById('audioPreview');
+
+    recordBtn.onclick = async () => {
+      if (!navigator.mediaDevices) {
+        alert("Recording not supported!");
+        return;
+      }
+      audioChunks = [];
+      recordBtn.disabled = true;
+      stopBtn.disabled = false;
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        audioURL = URL.createObjectURL(audioBlob);
+        audioPreview.src = audioURL;
+        audioPreview.style.display = 'block';
+        recordBtn.disabled = false;
+        stopBtn.disabled = true;
+      };
+    };
+    stopBtn.onclick = () => { if(mediaRecorder){ mediaRecorder.stop(); } };
+
+    // --- Save Draft & Show Preview ---
+    document.getElementById('saveDraftBtn').onclick = async function(e) {
+      e.preventDefault();
+      const user = firebase.auth().currentUser;
+      if (!user) { window.location.href = "login.html"; return; }
+
+      // UI: Show Loader
+      document.getElementById('loader').style.display = 'flex';
+
+      try {
+        const recipientName = document.getElementById('recipientName').value.trim();
+        const cardTitle = document.getElementById('cardTitle').value.trim();
+        const cardBgRadio = document.querySelector('input[name="cardBg"]:checked');
+        let cardBg = cardBgRadio ? cardBgRadio.value : '';
+        if (!cardBg && customBg.value) cardBg = customBg.value;
+        const message = document.getElementById('message').value.trim();
+        const mainPhotoInput = document.getElementById('mainPhoto');
+        let photoURL = "";
+        let voiceURL = "";
+
+        // Upload photo if exists
+        if (mainPhotoInput.files && mainPhotoInput.files[0]) {
+          const file = mainPhotoInput.files[0];
+          const storageRef = storage.ref().child(`cards/${user.uid}/${Date.now()}_${file.name}`);
+          await storageRef.put(file);
+          photoURL = await storageRef.getDownloadURL();
+        }
+
+        // Upload voice if recorded
+        if (audioBlob) {
+          const voiceRef = storage.ref().child(`cards/${user.uid}/voice_${Date.now()}.webm`);
+          await voiceRef.put(audioBlob);
+          voiceURL = await voiceRef.getDownloadURL();
+        }
+
+        // Save to Firestore
+        await db.collection("cards").add({
+          uid: user.uid,
+          recipientName,
+          cardTitle,
+          cardBg,
+          stickers: selectedStickers,
+          message,
+          photoURL,
+          voiceURL,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // Redirect
+        window.location.href = "preview.html";
+      } catch (err) {
+        alert("Failed to save card: " + err.message);
+      } finally {
+        document.getElementById('loader').style.display = 'none';
+      }
+    };
   </script>
 </body>
 </html>
