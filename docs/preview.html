@@ -1,200 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Your Latest Cards | HeartSpeak</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
-            font-family: 'Poppins', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 32px auto;
-            padding: 24px;
-            background: #fff;
-            border-radius: 28px;
-            box-shadow: 0 10px 24px rgba(180,85,250,0.12), 0 2px 4px rgba(0,0,0,0.03);
-            text-align: center;
-        }
-        .container h2 {
-            color: #d24d9b;
-            margin-bottom: 18px;
-            font-size: 2em;
-            font-weight: 700;
-        }
-        .cards-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-        }
-        .card-box {
-            background: linear-gradient(120deg, #ffe1ee 0%, #e4eeff 100%);
-            border-radius: 22px;
-            box-shadow: 0 2px 24px #f2c5e4, 0 1px 4px rgba(0,0,0,0.08);
-            width: 220px;
-            min-height: 320px;
-            padding: 18px 16px 12px 16px;
-            margin-bottom: 16px;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.13s, box-shadow 0.13s;
-            border: 2px solid #f7e5f5;
-        }
-        .card-box:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 10px 40px #c2baff33, 0 4px 24px #f7a8d9bb;
-            border: 2px solid #a5c8ff;
-        }
-        .main-photo {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border: 2px solid #fff;
-            background: #e8e7e7;
-        }
-        .card-title {
-            font-size: 1.22em;
-            font-weight: 600;
-            color: #5c5b90;
-            margin: 8px 0 2px 0;
-        }
-        .recipient {
-            font-size: 1em;
-            color: #d24d9b;
-            font-weight: 500;
-            margin-bottom: 7px;
-        }
-        .stickers-list {
-            font-size: 1.28em;
-            margin: 3px 0 10px 0;
-        }
-        .message {
-            font-size: 0.98em;
-            margin-bottom: 8px;
-            color: #54546e;
-            background: #f8f3fa;
-            border-radius: 8px;
-            padding: 8px 6px;
-        }
-        .card-bg-label {
-            display: inline-block;
-            font-size: 0.94em;
-            background: #f3f0fc;
-            color: #a59be9;
-            border-radius: 7px;
-            padding: 2px 10px;
-            margin-bottom: 5px;
-        }
-        .card-footer {
-            position: absolute;
-            bottom: 14px;
-            left: 0; right: 0;
-            text-align: center;
-            font-size: 0.85em;
-            color: #b99dc8;
-        }
-        #backBtn {
-            margin: 30px auto 0 auto;
-            display: block;
-            padding: 11px 35px;
-            border-radius: 16px;
-            background: linear-gradient(90deg, #e979c7, #95c8ff);
-            color: white;
-            font-size: 1em;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: background 0.19s;
-        }
-        #backBtn:hover {
-            background: linear-gradient(90deg, #c678b4, #6fa8dc);
-        }
-        @media (max-width: 700px) {
-            .cards-list { flex-direction: column; align-items: center; }
-            .container { padding: 8px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preview Cards | HeartSpeak</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 0 0.5rem 0;
+    }
+    .logo {
+      width: 70px;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 10px #d5c6e988;
+    }
+    .container {
+      max-width: 990px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    h1 {
+      color: #da5a9a;
+      text-align: center;
+      font-size: 2rem;
+      margin: 0.8rem 0 2rem 0;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .cards-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+    }
+    .card-box {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(218,90,154,0.08), 0 1px 3px #eee8;
+      padding: 1.4rem 1rem 1.1rem 1rem;
+      min-width: 270px;
+      max-width: 320px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s, transform 0.12s;
+      cursor: pointer;
+      border: 2.5px solid transparent;
+    }
+    .card-box:hover {
+      box-shadow: 0 8px 32px #f4b3dc55, 0 1.5px 4px #e3e3e3;
+      transform: translateY(-5px) scale(1.015);
+      border: 2.5px solid #e978c9;
+    }
+    .card-bg-preview {
+      width: 100%;
+      height: 8px;
+      border-radius: 8px 8px 2px 2px;
+      margin-bottom: 9px;
+      background: var(--card-bg-color, #fff);
+    }
+    .main-photo-preview {
+      width: 92px;
+      height: 92px;
+      object-fit: cover;
+      border-radius: 1.4rem;
+      margin-bottom: 0.7rem;
+      border: 3px solid #ffbee3;
+      background: #f5f3fa;
+      box-shadow: 0 3px 14px #ecd6ff19;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #cc0066;
+      margin: 0.5rem 0 0.2rem 0;
+    }
+    .recipient {
+      font-size: 0.98em;
+      color: #777;
+      margin-bottom: 0.2rem;
+    }
+    .stickers {
+      font-size: 1.2em;
+      margin: 0.18rem 0 0.18rem 0;
+    }
+    .message {
+      font-size: 1em;
+      color: #444;
+      margin: 0.5rem 0 0.2rem 0;
+      word-break: break-word;
+      text-align: center;
+    }
+    .audio-box {
+      margin: 0.2rem 0 0.1rem 0;
+      width: 100%;
+    }
+    .card-btns {
+      margin-top: 0.6rem;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      width: 100%;
+    }
+    .edit-btn, .delete-btn, .share-btn {
+      background: linear-gradient(90deg,#e979c7,#95c8ff);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 7px 16px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px #e5c1ec23;
+    }
+    .delete-btn {
+      background: linear-gradient(90deg,#ef4855,#ff80b5);
+    }
+    .edit-btn:hover { background: linear-gradient(90deg,#c678b4,#6fa8dc);}
+    .delete-btn:hover { background: linear-gradient(90deg,#b8143d,#fc6a96);}
+    .share-btn { background: linear-gradient(90deg,#7fe37a,#87e4e9);}
+    .share-btn:hover { background: linear-gradient(90deg,#44ad76,#54c5d1);}
+    .empty-msg {
+      color: #bba3c6;
+      font-size: 1.09em;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 4rem;
+    }
+    #loader {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.65);
+      z-index: 222;
+      justify-content: center;
+      align-items: center;
+    }
+    #loader .spinner {
+      border: 7px solid #f3f3f3;
+      border-top: 7px solid #da5a9a;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @media (max-width:600px){
+      .cards-list {flex-direction:column;gap:22px;}
+      .container {padding:7px;}
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="../logo.png" style="width:56px;border-radius:15px;margin-bottom:8px;" alt="HeartSpeak Logo">
-        <h2>Your Latest Cards</h2>
-        <div class="cards-list" id="cardsList">
-            <!-- Cards will be inserted here by JS -->
-        </div>
-        <button id="backBtn" onclick="window.location.href='dashboard.html';">&larr; Back to Dashboard</button>
-    </div>
+  <div id="loader"><div class="spinner"></div></div>
+  <header>
+    <img src="img/logo.png" class="logo" alt="HeartSpeak Logo"/>
+  </header>
+  <div class="container">
+    <h1>Your Latest Cards</h1>
+    <div id="cardsList" class="cards-list"></div>
+    <div id="emptyMsg" class="empty-msg" style="display:none;">You haven’t created any cards yet. Make one now!</div>
+  </div>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      authDomain: "heartspeak-bf703.firebaseapp.com",
+      projectId: "heartspeak-bf703",
+      storageBucket: "heartspeak-bf703.firebasestorage.app",
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7",
+      measurementId: "G-RGVFVSSPMG"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-    <script>
-        // Your correct Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAZgVaMT5BMUMsN0bbw31gFbcwXzseGU",
-            authDomain: "heartspeak-bf703.firebaseapp.com",
-            projectId: "heartspeak-bf703",
-            storageBucket: "heartspeak-bf703.firebasestorage.app",
-            messagingSenderId: "341260618790",
-            appId: "1:341260618790:web:f60536bac144fb815aaae7",
-            measurementId: "G-RGVFSSPMG"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+    // Auth check & fetch cards
+    let currentUser = null;
+    firebase.auth().onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+      currentUser = user;
+      document.getElementById('loader').style.display = "flex";
+      loadCards();
+    });
 
-        // Auth check
-        firebase.auth().onAuthStateChanged(async function(user) {
-            if (!user) {
-                window.location.href = "login.html";
-                return;
+    async function loadCards() {
+      try {
+        // Fetch latest 3 cards only (ordered by createdAt desc)
+        const cardsSnap = await db.collection("cards")
+          .where("uid", "==", currentUser.uid)
+          .orderBy("createdAt", "desc")
+          .limit(3)
+          .get();
+        document.getElementById('loader').style.display = "none";
+        if (cardsSnap.empty) {
+          document.getElementById('emptyMsg').style.display = "block";
+          return;
+        }
+        const cardsList = document.getElementById('cardsList');
+        cardsList.innerHTML = "";
+        cardsSnap.forEach(doc => {
+          const data = doc.data();
+          // Create card element
+          const card = document.createElement('div');
+          card.className = "card-box";
+          card.style.setProperty('--card-bg-color', data.cardBg || "#fff");
+          card.innerHTML = `
+            <div class="card-bg-preview" style="background:${data.cardBg || '#fff'}"></div>
+            ${data.photoURL ? `<img src="${data.photoURL}" class="main-photo-preview" alt="Photo"/>` : ''}
+            <div class="card-title">${data.cardTitle || "Untitled Card"}</div>
+            <div class="recipient">To: ${data.recipientName || ""}</div>
+            <div class="stickers">${(data.stickers || []).join(' ')}</div>
+            <div class="message">${data.message || ""}</div>
+            <div class="audio-box">
+              ${data.voiceURL ? `<audio controls src="${data.voiceURL}" style="width:95%"></audio>` : ''}
+            </div>
+            <div class="card-btns">
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+              <button class="share-btn">Share</button>
+            </div>
+          `;
+          // Delete
+          card.querySelector('.delete-btn').onclick = async (e) => {
+            e.stopPropagation();
+            if(confirm("Delete this card?")) {
+              document.getElementById('loader').style.display = "flex";
+              await db.collection("cards").doc(doc.id).delete();
+              document.getElementById('loader').style.display = "none";
+              card.remove();
+              if (!cardsList.querySelector('.card-box')) document.getElementById('emptyMsg').style.display = "block";
             }
-            // Load cards
-            const cardsListDiv = document.getElementById('cardsList');
-            cardsListDiv.innerHTML = "<div>Loading your cards...</div>";
-
-            try {
-                const querySnapshot = await db.collection("cards")
-                    .where("uid", "==", user.uid)
-                    .orderBy("createdAt", "desc")
-                    .limit(20)
-                    .get();
-
-                if (querySnapshot.empty) {
-                    cardsListDiv.innerHTML = "<div>No cards found. Create one!</div>";
-                    return;
-                }
-
-                let html = "";
-                querySnapshot.forEach(doc => {
-                    const data = doc.data();
-                    html += `
-                        <div class="card-box" onclick="window.location.href='share-setting.html?id=${doc.id}'" title="Click to open share settings">
-                            ${data.photoURL ? `<img src="${data.photoURL}" class="main-photo" alt="Main Photo">` : `<div class="main-photo" style="display:flex;align-items:center;justify-content:center;color:#ccc;font-size:2em;">📷</div>`}
-                            <div class="recipient">To: ${data.recipientName || "Unknown"}</div>
-                            <div class="card-title">${data.cardTitle || "Untitled"}</div>
-                            <div class="stickers-list">${Array.isArray(data.stickers) ? data.stickers.map(s => `<span>${s}</span>`).join(" ") : ""}</div>
-                            <div class="message">${data.message ? data.message.replace(/\n/g, "<br>") : ""}</div>
-                            <div class="card-bg-label">${data.cardBg ? `Theme: ${data.cardBg.charAt(0).toUpperCase() + data.cardBg.slice(1)}` : ""}</div>
-                            <div class="card-footer">${data.createdAt && data.createdAt.toDate ? data.createdAt.toDate().toLocaleString() : ""}</div>
-                        </div>
-                    `;
-                });
-                cardsListDiv.innerHTML = html;
-            } catch (e) {
-                cardsListDiv.innerHTML = "<div>There was an error loading your cards. Please try again.</div>";
-                console.error(e);
-            }
+          };
+          // Edit
+          card.querySelector('.edit-btn').onclick = (e) => {
+            e.stopPropagation();
+            // Store the card ID for editing and go to card-creator.html in edit mode (implement edit mode in your creator page)
+            localStorage.setItem("editCardId", doc.id);
+            window.location.href = "card-creator.html?edit=1";
+          };
+          // Share
+          card.querySelector('.share-btn').onclick = (e) => {
+            e.stopPropagation();
+            localStorage.setItem("shareCardId", doc.id);
+            window.location.href = "share-setting.html";
+          };
+          cardsList.appendChild(card);
         });
-    </script>
+      } catch (err) {
+        document.getElementById('loader').style.display = "none";
+        alert("Error loading cards: " + err.message);
+      }
+    }
+  </script>
 </body>
 </html>
