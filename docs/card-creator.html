@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Latest Cards | HeartSpeak</title>
+  <title>Create a Card | HeartSpeak</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -13,191 +13,246 @@
       min-height: 100vh;
     }
     .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 24px;
+      max-width: 420px;
+      margin: 32px auto;
       background: #fff;
       border-radius: 24px;
       box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
+      padding: 32px 28px;
       text-align: center;
     }
-    .cards-list {
+    .container h2 {
+      margin-bottom: 20px;
+      color: #f64e8b;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+      color: #555;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      font-size: 15px;
+      background: #f6f6ff;
+      margin-bottom: 8px;
+      font-family: inherit;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 52px;
+      max-height: 120px;
+    }
+    .stickers, .backgrounds {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 32px;
-      margin-top: 24px;
+      gap: 12px;
+      margin: 10px 0;
     }
-    .card-box {
-      background: linear-gradient(120deg, #ffebf4 60%, #dbeafe 100%);
-      border-radius: 20px;
-      box-shadow: 0 2px 12px rgba(207,80,170,0.13);
-      padding: 18px 20px 14px 20px;
-      width: 190px;
-      cursor: pointer;
-      transition: transform .17s, box-shadow .17s;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeIn .7s;
-    }
-    .card-box:hover {
-      transform: translateY(-6px) scale(1.04);
-      box-shadow: 0 8px 26px rgba(140, 27, 224, 0.20), 0 2px 6px rgba(0,0,0,0.07);
-      background: linear-gradient(120deg, #ffe3ee 40%, #c7ecff 100%);
-    }
-    .card-img {
-      width: 90px;
-      height: 90px;
-      object-fit: cover;
-      border-radius: 13px;
-      margin-bottom: 10px;
-      background: #f4f4f4;
-      box-shadow: 0 2px 9px rgba(0,0,0,0.06);
-    }
-    .card-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #b61397;
-      margin-bottom: 3px;
-    }
-    .card-recipient {
-      font-size: .98rem;
-      color: #202A44;
-      margin-bottom: 7px;
-      opacity: .84;
-    }
-    .card-message {
-      font-size: .96rem;
-      color: #666;
-      margin-bottom: 10px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      max-width: 120px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .card-box .arrow {
-      position: absolute;
-      right: 15px;
-      bottom: 15px;
-      font-size: 1.1em;
-      color: #b22ee7;
-      opacity: .58;
-      transition: opacity .15s;
-    }
-    .card-box:hover .arrow {
-      opacity: 1;
-      color: #8b0e62;
-    }
-    .main-title {
-      font-size: 2.1rem;
-      font-weight: 700;
-      color: #b61397;
-      margin-bottom: 0.6em;
-      letter-spacing: .5px;
-    }
-    .back-btn {
-      margin-top: 34px;
-      display: inline-block;
-      padding: 8px 32px;
-      font-size: 1rem;
-      border-radius: 22px;
-      background: linear-gradient(100deg, #e8a0ff 10%, #fbc2eb 100%);
+    .sticker-btn {
+      background: #ffe4f5;
       border: none;
-      color: #6d0769;
-      font-weight: 600;
-      box-shadow: 0 2px 9px #fde1fd77;
+      border-radius: 12px;
+      font-size: 20px;
+      padding: 6px 10px;
       cursor: pointer;
-      transition: background .2s;
+      transition: box-shadow 0.2s;
     }
-    .back-btn:hover {
-      background: linear-gradient(100deg, #ffd6fa 0%, #b3b5ff 90%);
-      color: #8b0e62;
+    .sticker-btn.selected {
+      box-shadow: 0 0 0 3px #f64e8b55;
     }
-    @keyframes fadeIn {
-      from { opacity:0; transform: translateY(20px);}
-      to { opacity:1; transform: none;}
+    .background-btn {
+      padding: 7px 18px;
+      border-radius: 10px;
+      border: 1px solid #eee;
+      cursor: pointer;
+      background: #e0eaff;
+      color: #222;
+      transition: background 0.2s;
+    }
+    .background-btn.selected {
+      background: #f64e8b;
+      color: #fff;
+      border: 1px solid #f64e8b;
+    }
+    .photo-upload {
+      background: #f9f9ff;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px dashed #ccc;
+      margin: 15px 0 25px;
+      font-size: 15px;
+    }
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(90deg, #f64e8b, #a980ee);
+      color: #fff;
+      border: none;
+      padding: 12px 0;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 3px 10px #f64e8b22;
+      background: linear-gradient(90deg, #a980ee, #f64e8b);
+    }
+    .voice-record {
+      display: block;
+      margin: 12px 0 0 0;
+      text-align: left;
+    }
+    @media (max-width: 500px) {
+      .container { padding: 18px 4vw; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="img/logo.png" alt="HeartSpeak" style="height:54px; margin-bottom:15px;">
-    <div class="main-title">Your Latest Cards</div>
-    <div class="cards-list" id="cardsList">
-      <!-- Cards will be inserted here by JavaScript -->
+  <div id="mainContent" style="display:none;">
+    <div class="container">
+      <h2>Create a Card</h2>
+      <form id="cardForm">
+        <div class="form-group">
+          <label for="recipientName">Recipient Name</label>
+          <input type="text" id="recipientName" required>
+        </div>
+        <div class="form-group">
+          <label for="cardTitle">Card Title</label>
+          <input type="text" id="cardTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Add Stickers</label>
+          <div class="stickers">
+            <button type="button" class="sticker-btn" data-sticker="❤️">❤️</button>
+            <button type="button" class="sticker-btn" data-sticker="🎉">🎉</button>
+            <button type="button" class="sticker-btn" data-sticker="🌟">🌟</button>
+            <button type="button" class="sticker-btn" data-sticker="😍">😍</button>
+            <button type="button" class="sticker-btn" data-sticker="🥰">🥰</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Card Background</label>
+          <div class="backgrounds">
+            <button type="button" class="background-btn" data-bg="white" style="background:#fff;">White</button>
+            <button type="button" class="background-btn" data-bg="pink" style="background:#ffe4f5;">Pink</button>
+            <button type="button" class="background-btn" data-bg="blue" style="background:#c1d8ff;">Blue</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="mainPhoto">Main Photo</label>
+          <div class="photo-upload">
+            <input type="file" id="mainPhoto" accept="image/*">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="voice-record">Voice Message (optional)</label>
+          <button type="button" id="recordVoice" class="btn-primary" style="font-size:14px;padding:8px;">Record Your Voice</button>
+          <span id="voiceStatus"></span>
+        </div>
+        <button type="submit" class="btn-primary">Save Draft & Show Preview</button>
+      </form>
     </div>
-    <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
   </div>
-
-  <!-- Firebase -->
+  <!-- Firebase JS SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
-    // Your Firebase config (fill in with your real keys)
+    // 1. Firebase config (update bucket as you confirmed)
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
+      apiKey: "AIzaSyAZgVaMTSBMMSn0Nbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
       projectId: "heartspeak-bf703",
       storageBucket: "heartspeak-bf703.firebasestorage.app",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7",
+      measurementId: "G-RGVFSSPMG"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const auth = firebase.auth();
+    const storage = firebase.storage();
 
-    // Fetch and render the last 3 cards for the logged-in user
-    auth.onAuthStateChanged(async user => {
+    // 2. Auth check (fixes redirect bug)
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        document.getElementById('mainContent').style.display = 'block';
+      }
+    });
+
+    // 3. Stickers/backgrounds UI
+    let selectedSticker = "";
+    let selectedBG = "white";
+    document.querySelectorAll('.sticker-btn').forEach(btn => {
+      btn.onclick = function() {
+        document.querySelectorAll('.sticker-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSticker = btn.dataset.sticker;
+      }
+    });
+    document.querySelectorAll('.background-btn').forEach(btn => {
+      btn.onclick = function() {
+        document.querySelectorAll('.background-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedBG = btn.dataset.bg;
+      }
+    });
+
+    // 4. Voice record mockup (real implementation is complex)
+    document.getElementById("recordVoice").onclick = function() {
+      document.getElementById("voiceStatus").textContent = "🎤 Voice recording coming soon!";
+    };
+
+    // 5. Save Draft
+    document.getElementById("cardForm").onsubmit = async function(e) {
+      e.preventDefault();
+      const user = firebase.auth().currentUser;
       if (!user) {
         window.location.href = "login.html";
         return;
       }
-      const cardsList = document.getElementById('cardsList');
-      cardsList.innerHTML = "<div>Loading cards...</div>";
-      try {
-        // Query the last 3 cards created by the user, latest first
-        const querySnapshot = await db.collection("cards")
-          .where("uid", "==", user.uid)
-          .orderBy("createdAt", "desc")
-          .limit(3)
-          .get();
-
-        cardsList.innerHTML = "";
-        if (querySnapshot.empty) {
-          cardsList.innerHTML = "<div style='opacity:.75;font-size:1.1em;color:#6d0769;'>No cards yet. Start by creating one!</div>";
-        } else {
-          querySnapshot.forEach(doc => {
-            const card = doc.data();
-            const cardId = doc.id;
-            const imgSrc = card.mainPhotoUrl || "https://dummyimage.com/120x120/ffb6d5/fff.png&text=No+Photo";
-            const html = `
-              <div class="card-box" onclick="goToShareSettings('${cardId}')">
-                <img src="${imgSrc}" class="card-img" alt="Card image">
-                <div class="card-title">${card.cardTitle || 'Untitled Card'}</div>
-                <div class="card-recipient">To: ${card.recipientName || 'Someone'}</div>
-                <div class="card-message">${card.message ? card.message.slice(0,32) : ''}</div>
-                <div class="arrow" title="Share this card">➔</div>
-              </div>
-            `;
-            cardsList.insertAdjacentHTML('beforeend', html);
-          });
-        }
-      } catch (e) {
-        cardsList.innerHTML = "<div style='color:#d02727;'>Error loading cards.</div>";
-        console.error(e);
+      const recipientName = document.getElementById('recipientName').value.trim();
+      const cardTitle = document.getElementById('cardTitle').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const mainPhotoFile = document.getElementById('mainPhoto').files[0];
+      // Save photo to Firebase Storage (if present)
+      let photoURL = "";
+      if (mainPhotoFile) {
+        const photoRef = storage.ref(`cards/${user.uid}/${Date.now()}_${mainPhotoFile.name}`);
+        await photoRef.put(mainPhotoFile);
+        photoURL = await photoRef.getDownloadURL();
       }
-    });
-
-    // Card click handler
-    function goToShareSettings(cardId) {
-      window.location.href = `share-settings.html?cardId=${cardId}`;
-    }
+      // Save card to Firestore
+      const cardDoc = {
+        uid: user.uid,
+        recipientName,
+        cardTitle,
+        message,
+        sticker: selectedSticker,
+        background: selectedBG,
+        photoURL,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      const docRef = await db.collection("cards").add(cardDoc);
+      // Save draftId to session/localstorage for preview page
+      localStorage.setItem("lastCardId", docRef.id);
+      // Go to preview
+      window.location.href = "preview.html";
+    };
   </script>
 </body>
 </html>
