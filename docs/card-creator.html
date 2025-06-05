@@ -2,186 +2,171 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create a Card | HeartSpeak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+      margin: 0; padding: 0; min-height: 100vh;
       font-family: 'Poppins', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
+      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+      overflow-x: hidden;
     }
+    /* Floating heart animation */
+    .heart-bg {
+      position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events:none;
+      overflow:hidden;
+    }
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.17;
+      animation: floatHeart 9s linear infinite;
+    }
+    @keyframes floatHeart {
+      0% { transform: translateY(100vh) scale(0.7) rotate(-8deg);}
+      70% { opacity: 0.23;}
+      100% { transform: translateY(-15vh) scale(1.13) rotate(12deg); opacity: 0;}
+    }
+    /* Frosted glass form container */
     .container {
-      max-width: 420px;
-      margin: 32px auto;
-      padding: 32px;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
+      max-width: 440px;
+      margin: 45px auto;
+      background: rgba(255,255,255,0.84);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px #e999ff44, 0 2px 8px #bceaff17;
+      padding: 32px 28px 28px 28px;
+      position: relative;
+      z-index: 2;
       text-align: center;
+      backdrop-filter: blur(7px);
     }
     .container h1 {
-      font-size: 2.2em;
-      color: #da5a9a;
-      margin-bottom: 24px;
+      font-size: 2.2em; color: #da5a9a; margin-bottom: 18px;
     }
-    .input-group {
-      margin-bottom: 18px;
-      text-align: left;
+    .logo {
+      width: 72px; border-radius: 1.4rem; margin-bottom: 14px; box-shadow:0 2px 12px #b4aad633;
     }
-    label {
-      display: block;
-      font-weight: 500;
-      margin-bottom: 7px;
-      color: #555;
-    }
+    .input-group { margin-bottom: 20px; text-align: left;}
+    label { display: block; font-weight: 500; margin-bottom: 7px; color: #555;}
     input[type="text"], input[type="file"], textarea, select {
-      width: 100%;
-      padding: 9px 12px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      margin-bottom: 6px;
-      box-sizing: border-box;
+      width: 100%; padding: 11px 14px; font-size: 1em;
+      border-radius: 10px; border: 1.3px solid #ead0ec;
+      background: #f9f3fb; margin-bottom: 4px; box-sizing: border-box;
+      outline: none; transition: border 0.2s, box-shadow 0.2s;
     }
-    textarea {
-      min-height: 65px;
-      resize: vertical;
+    input[type="text"]:focus, textarea:focus {
+      border: 1.7px solid #be8fff; box-shadow: 0 1px 8px #cfa7ff32;
+      background: #fdf8fe;
     }
-    .card-backgrounds label {
-      margin-right: 12px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .stickers {
-      margin-bottom: 12px;
-    }
+    textarea { min-height: 70px; resize: vertical;}
+    .card-backgrounds label { margin-right: 16px; font-size: 1em;}
+    /* Sticker picker */
+    .stickers { margin-bottom: 12px;}
     .stickers button {
       background: #f3f0fc;
       border: 1px solid #e4e2e9;
       border-radius: 10px;
-      margin: 2px;
-      font-size: 1.4em;
-      cursor: pointer;
-      padding: 5px 8px;
-      transition: box-shadow 0.2s;
+      margin: 2px; font-size: 1.35em; cursor: pointer; padding: 6px 10px;
+      transition: box-shadow 0.2s, background 0.15s;
     }
     .stickers button.selected {
-      box-shadow: 0 2px 8px #f4b3dc;
+      box-shadow: 0 2px 10px #f4b3dc;
       background: #ffe6f2;
     }
+    /* Photo preview */
+    .photo-preview {
+      width: 82px; height: 82px; border-radius: 50%; object-fit: cover; background: #f5f3fa; box-shadow: 0 3px 16px #ecd6ff1a; margin-bottom: 10px; margin-top: 7px;
+      display: block;
+    }
+    /* Voice recorder styles */
+    .voice-group {margin-top: 14px;}
+    .voice-btn, .delete-voice-btn {
+      font-size: 1.16em; font-weight: 600;
+      border: none; border-radius: 9px;
+      padding: 10px 20px; margin: 0 6px 7px 0;
+      cursor: pointer; transition: background 0.16s, color 0.13s;
+      box-shadow: 0 2px 9px #e5c1ec23;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .voice-btn { background: linear-gradient(90deg,#e979c7,#95c8ff); color: #fff;}
+    .voice-btn.recording { background: linear-gradient(90deg,#d30d53,#be8fff); color:#fff; animation: pulseRecord 0.9s infinite;}
+    @keyframes pulseRecord { 0%{box-shadow:0 0 0 0 #ee7fa4a2;} 60%{box-shadow:0 0 0 10px #ee7fa401;} 100%{box-shadow:0 0 0 0 #ee7fa401;} }
+    .blink-dot { width:11px;height:11px;border-radius:50%; background:#f3305f; margin-right:7px; display:inline-block; animation: blink 1s steps(2) infinite;}
+    @keyframes blink {0%,100%{opacity:1;} 50%{opacity:0;}}
+    .delete-voice-btn { background: linear-gradient(90deg,#ef4855,#ff80b5); color: #fff;}
+    .audio-bar { width: 98%; margin: 8px 0; }
+    /* Save Draft button */
     #saveDraftBtn {
       background: linear-gradient(90deg, #e979c7, #95c8ff);
       color: white;
-      font-size: 1.15em;
-      padding: 12px 0;
+      font-size: 1.13em;
+      padding: 13px 0;
       border: none;
       border-radius: 16px;
       cursor: pointer;
       width: 100%;
       margin-top: 16px;
       transition: background 0.2s;
+      font-weight: 700;
+      letter-spacing:0.03em;
+      box-shadow:0 2px 14px #dfc5f355;
     }
-    #saveDraftBtn:hover {
-      background: linear-gradient(90deg, #c678b4, #6fa8dc);
-    }
-    .recorder-section {
-      margin-bottom: 18px;
-    }
-    #recordBtn, #stopBtn {
-      padding: 8px 15px;
-      border-radius: 10px;
-      border: none;
-      margin-right: 6px;
-      cursor: pointer;
-      background: #ffafd5;
-      color: #fff;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(218,90,154,0.05);
-    }
-    #stopBtn {
-      background: #6fa8dc;
-    }
-    #audioPreview {
-      display: none;
-      margin-top: 9px;
-      width: 100%;
-    }
-    #loader {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.65);
-      z-index: 222;
-      justify-content: center;
-      align-items: center;
-    }
-    #loader .spinner {
-      border: 7px solid #f3f3f3;
-      border-top: 7px solid #da5a9a;
-      border-radius: 50%;
-      width: 54px;
-      height: 54px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
+    #saveDraftBtn:active { background: linear-gradient(90deg, #c678b4, #6fa8dc);}
+    #loader { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.65); z-index: 99; justify-content: center; align-items: center;}
+    #loader .spinner { border: 7px solid #f3f3f3; border-top: 7px solid #da5a9a; border-radius: 50%; width: 54px; height: 54px; animation: spin 1s linear infinite; margin: auto;}
     @keyframes spin { 100% { transform: rotate(360deg); } }
-    @media (max-width: 520px) {
-      .container { padding: 18px; }
-      h1 { font-size: 1.4em; }
-    }
+    @media (max-width:600px){ .container{padding:9px 3vw;} }
   </style>
 </head>
 <body>
+  <div class="heart-bg" id="hearts-bg"></div>
   <div id="loader"><div class="spinner"></div></div>
-  <div id="mainContent" style="display:none;">
-    <div class="container">
-      <img src="../logo.png" style="width:60px; border-radius:18px; margin-bottom:10px;" alt="HeartSpeak Logo">
-      <h1>Create a Card</h1>
-      <form id="cardForm">
-        <div class="input-group">
-          <label for="recipientName">Recipient Name</label>
-          <input type="text" id="recipientName" required>
+  <div class="container">
+    <img src="img/logo.png" class="logo" alt="HeartSpeak Logo">
+    <h1>Create a Card</h1>
+    <form id="cardForm">
+      <div class="input-group">
+        <label for="recipientName">Recipient Name</label>
+        <input type="text" id="recipientName" required>
+      </div>
+      <div class="input-group">
+        <label for="cardTitle">Card Title</label>
+        <input type="text" id="cardTitle" required>
+      </div>
+      <div class="input-group">
+        <label for="mainPhoto">Main Photo</label>
+        <input type="file" id="mainPhoto" accept="image/*">
+        <img id="photoPreview" class="photo-preview" style="display:none;" alt="Preview"/>
+      </div>
+      <div class="input-group">
+        <label>Add Stickers</label>
+        <div class="stickers">
+          <button type="button" class="sticker-btn" data-sticker="❤️">❤️</button>
+          <button type="button" class="sticker-btn" data-sticker="🎉">🎉</button>
+          <button type="button" class="sticker-btn" data-sticker="💐">💐</button>
+          <button type="button" class="sticker-btn" data-sticker="🎁">🎁</button>
+          <button type="button" class="sticker-btn" data-sticker="⭐">⭐</button>
         </div>
-        <div class="input-group">
-          <label for="cardTitle">Card Title</label>
-          <input type="text" id="cardTitle" required>
-        </div>
-        <div class="input-group">
-          <label for="mainPhoto">Main Photo</label>
-          <input type="file" id="mainPhoto" accept="image/*">
-        </div>
-        <div class="input-group">
-          <label>Add Stickers</label>
-          <div class="stickers">
-            <button type="button" class="sticker-btn" data-sticker="❤️">❤️</button>
-            <button type="button" class="sticker-btn" data-sticker="🎉">🎉</button>
-            <button type="button" class="sticker-btn" data-sticker="💐">💐</button>
-            <button type="button" class="sticker-btn" data-sticker="🎁">🎁</button>
-            <button type="button" class="sticker-btn" data-sticker="⭐">⭐</button>
-          </div>
-        </div>
-        <div class="input-group card-backgrounds">
-          <label>Card Background</label>
-          <label><input type="radio" name="cardBg" value="white" checked> White</label>
-          <label><input type="radio" name="cardBg" value="pink"> Pink</label>
-          <label><input type="radio" name="cardBg" value="blue"> Blue</label>
-          <input type="color" id="customBg" title="Custom Color" style="vertical-align:middle;margin-left:7px;width:30px;height:30px;cursor:pointer;">
-        </div>
-        <div class="input-group">
-          <label for="message">Message</label>
-          <textarea id="message" required></textarea>
-        </div>
-        <div class="input-group recorder-section">
-          <label>Record Your Voice</label>
-          <button type="button" id="recordBtn">🎤 Start</button>
-          <button type="button" id="stopBtn" disabled>■ Stop</button>
-          <audio id="audioPreview" controls></audio>
-        </div>
-        <button type="button" id="saveDraftBtn">Save Draft & Show Preview</button>
-      </form>
-    </div>
+      </div>
+      <div class="input-group card-backgrounds">
+        <label>Card Background</label>
+        <label><input type="radio" name="cardBg" value="white" checked> White</label>
+        <label><input type="radio" name="cardBg" value="pink"> Pink</label>
+        <label><input type="radio" name="cardBg" value="blue"> Blue</label>
+      </div>
+      <div class="input-group">
+        <label for="message">Message</label>
+        <textarea id="message" required></textarea>
+      </div>
+      <div class="input-group voice-group">
+        <label>Record a Voice Message</label><br>
+        <button type="button" class="voice-btn" id="recordBtn"><span id="recIcon">&#127908;</span> <span id="recText">Record Voice</span></button>
+        <audio id="audioPlayback" class="audio-bar" controls style="display:none;"></audio>
+        <button type="button" class="delete-voice-btn" id="deleteVoiceBtn" style="display:none;">&#128465; Delete</button>
+        <button type="button" class="voice-btn" id="reRecordBtn" style="display:none;"><span>&#127908; Record Again</span></button>
+      </div>
+      <button type="button" id="saveDraftBtn">Save Draft & Show Preview</button>
+    </form>
   </div>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -189,6 +174,23 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
+    // Hearts animation background
+    function createHearts(num = 12) {
+      const bg = document.getElementById('hearts-bg');
+      for(let i=0; i<num; i++){
+        const heart = document.createElement('span');
+        heart.className = "heart";
+        heart.innerHTML = "💕";
+        heart.style.left = `${Math.random()*100}vw`;
+        heart.style.fontSize = `${Math.random()*20+22}px`;
+        heart.style.opacity = Math.random()*0.13+0.11;
+        heart.style.animationDuration = `${Math.random()*7+8}s`;
+        heart.style.animationDelay = `${Math.random()*9}s`;
+        bg.appendChild(heart);
+      }
+    }
+    createHearts();
+
     // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
@@ -203,100 +205,115 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-    // --- Auth Check: show/hide content ---
+    let audioBlob = null;
+    let audioURL = "";
+    let recorder, stream;
+
+    // Auth/session logic
     firebase.auth().onAuthStateChanged(function(user) {
-      if (!user) { window.location.href = "login.html"; return; }
-      document.getElementById('mainContent').style.display = "block";
-    });
-
-    // --- Stickers Logic ---
-    let selectedStickers = [];
-    document.querySelectorAll('.sticker-btn').forEach(btn => {
-      btn.onclick = function() {
-        btn.classList.toggle('selected');
-        const sticker = btn.getAttribute('data-sticker');
-        if (btn.classList.contains('selected')) {
-          selectedStickers.push(sticker);
-        } else {
-          selectedStickers = selectedStickers.filter(s => s !== sticker);
-        }
-      };
-    });
-
-    // --- Card Background (with color picker) ---
-    const customBg = document.getElementById('customBg');
-    customBg.addEventListener('input', function() {
-      document.querySelectorAll('input[name="cardBg"]').forEach(r => r.checked = false);
-    });
-    document.querySelectorAll('input[name="cardBg"]').forEach(r => {
-      r.addEventListener('change', () => { customBg.value = ""; });
-    });
-
-    // --- Voice Recorder ---
-    let mediaRecorder, audioChunks = [], audioBlob, audioURL;
-    const recordBtn = document.getElementById('recordBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const audioPreview = document.getElementById('audioPreview');
-
-    recordBtn.onclick = async () => {
-      if (!navigator.mediaDevices) {
-        alert("Recording not supported!");
+      if (!user) {
+        window.location.href = "login.html";
         return;
       }
-      audioChunks = [];
-      recordBtn.disabled = true;
-      stopBtn.disabled = false;
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
-      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-      mediaRecorder.onstop = () => {
-        audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-        audioURL = URL.createObjectURL(audioBlob);
-        audioPreview.src = audioURL;
-        audioPreview.style.display = 'block';
-        recordBtn.disabled = false;
-        stopBtn.disabled = true;
+      // Sticker logic
+      let selectedStickers = [];
+      document.querySelectorAll('.sticker-btn').forEach(btn => {
+        btn.onclick = function() {
+          btn.classList.toggle('selected');
+          const sticker = btn.getAttribute('data-sticker');
+          if (btn.classList.contains('selected')) {
+            selectedStickers.push(sticker);
+          } else {
+            selectedStickers = selectedStickers.filter(s => s !== sticker);
+          }
+        };
+      });
+      // Photo preview
+      document.getElementById('mainPhoto').onchange = function(e){
+        const file = e.target.files[0];
+        if(file){
+          const reader = new FileReader();
+          reader.onload = function(ev){
+            document.getElementById('photoPreview').src = ev.target.result;
+            document.getElementById('photoPreview').style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        }
       };
-    };
-    stopBtn.onclick = () => { if(mediaRecorder){ mediaRecorder.stop(); } };
-
-    // --- Save Draft & Show Preview ---
-    document.getElementById('saveDraftBtn').onclick = async function(e) {
-      e.preventDefault();
-      const user = firebase.auth().currentUser;
-      if (!user) { window.location.href = "login.html"; return; }
-
-      // UI: Show Loader
-      document.getElementById('loader').style.display = 'flex';
-
-      try {
+      // Voice recording logic
+      const recordBtn = document.getElementById('recordBtn');
+      const audioPlayback = document.getElementById('audioPlayback');
+      const deleteVoiceBtn = document.getElementById('deleteVoiceBtn');
+      const reRecordBtn = document.getElementById('reRecordBtn');
+      recordBtn.onclick = async function(){
+        if(recordBtn.classList.contains('recording')) return; // already recording
+        if (navigator.mediaDevices && window.MediaRecorder) {
+          stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          recorder = new MediaRecorder(stream);
+          let chunks = [];
+          recordBtn.classList.add('recording');
+          document.getElementById('recText').textContent = "Recording...";
+          document.getElementById('recIcon').innerHTML = `<span class="blink-dot"></span>`;
+          recorder.ondataavailable = e => chunks.push(e.data);
+          recorder.onstop = e => {
+            audioBlob = new Blob(chunks, { type: 'audio/webm' });
+            audioURL = URL.createObjectURL(audioBlob);
+            audioPlayback.src = audioURL;
+            audioPlayback.style.display = "block";
+            deleteVoiceBtn.style.display = "inline-block";
+            reRecordBtn.style.display = "inline-block";
+            recordBtn.style.display = "none";
+            document.getElementById('recText').textContent = "Record Voice";
+            document.getElementById('recIcon').innerHTML = "&#127908;";
+            stream.getTracks().forEach(track => track.stop());
+          };
+          recorder.start();
+          setTimeout(()=>{ 
+            if(recorder && recorder.state==="recording"){
+              recorder.stop();
+              recordBtn.classList.remove('recording');
+              recordBtn.style.display = "none";
+            }
+          }, 60*1000); // 60s max
+        }
+      };
+      audioPlayback.onended = () => { audioPlayback.currentTime = 0; };
+      deleteVoiceBtn.onclick = function(){
+        audioBlob = null; audioURL = ""; audioPlayback.src = "";
+        audioPlayback.style.display = "none";
+        deleteVoiceBtn.style.display = "none";
+        reRecordBtn.style.display = "none";
+        recordBtn.style.display = "inline-flex";
+      };
+      reRecordBtn.onclick = function(){
+        deleteVoiceBtn.click();
+        recordBtn.click();
+      };
+      // Save Draft
+      document.getElementById('saveDraftBtn').onclick = async function(e) {
+        e.preventDefault();
+        document.getElementById('loader').style.display = "flex";
         const recipientName = document.getElementById('recipientName').value.trim();
         const cardTitle = document.getElementById('cardTitle').value.trim();
-        const cardBgRadio = document.querySelector('input[name="cardBg"]:checked');
-        let cardBg = cardBgRadio ? cardBgRadio.value : '';
-        if (!cardBg && customBg.value) cardBg = customBg.value;
+        const cardBg = document.querySelector('input[name="cardBg"]:checked').value;
         const message = document.getElementById('message').value.trim();
         const mainPhotoInput = document.getElementById('mainPhoto');
         let photoURL = "";
-        let voiceURL = "";
-
-        // Upload photo if exists
+        // Upload photo if selected
         if (mainPhotoInput.files && mainPhotoInput.files[0]) {
           const file = mainPhotoInput.files[0];
           const storageRef = storage.ref().child(`cards/${user.uid}/${Date.now()}_${file.name}`);
           await storageRef.put(file);
           photoURL = await storageRef.getDownloadURL();
         }
-
-        // Upload voice if recorded
-        if (audioBlob) {
-          const voiceRef = storage.ref().child(`cards/${user.uid}/voice_${Date.now()}.webm`);
+        // Upload voice if exists
+        let voiceURL = "";
+        if(audioBlob){
+          const voiceRef = storage.ref().child(`voice/${user.uid}/${Date.now()}_voice.webm`);
           await voiceRef.put(audioBlob);
           voiceURL = await voiceRef.getDownloadURL();
         }
-
-        // Save to Firestore
+        // Save card data to Firestore
         await db.collection("cards").add({
           uid: user.uid,
           recipientName,
@@ -308,15 +325,10 @@
           voiceURL,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-
-        // Redirect
+        document.getElementById('loader').style.display = "none";
         window.location.href = "preview.html";
-      } catch (err) {
-        alert("Failed to save card: " + err.message);
-      } finally {
-        document.getElementById('loader').style.display = 'none';
-      }
-    };
+      };
+    });
   </script>
 </body>
 </html>
