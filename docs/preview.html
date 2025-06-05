@@ -200,16 +200,15 @@
           card.onclick = function(e){
             if (e.target.closest('.edit-btn') || e.target.closest('.delete-btn')) return;
             localStorage.setItem("shareCardId", doc.id);
-            window.location.href = "share-settings.html?cardId=$
-              {doc.id}';
-          };
-          cardsList.appendChild(card);
-        });
-       catch (err) {
-        document.getElementById('loader').style.display = "none";
-        alert("Error loading cards: " + err.message);
-      }
-    }
+window.location.href = `share-settings.html?cardId=${doc.id}`;
+};
+cardsList.appendChild(card);
+});
+} catch (err) {
+  document.getElementById('loader').style.display = "none";
+  alert("Error loading cards: " + err.message);
+}
+  }
   </script>
 </body>
 </html>
