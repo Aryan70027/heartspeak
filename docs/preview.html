@@ -1,96 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Preview Dedication - HeartSpeak</title>
-  <link rel="stylesheet" href="css/styles.css"/>
+  <meta charset="UTF-8">
+  <title>Your Latest Cards | HeartSpeak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: linear-gradient(120deg, #ffe6f0 60%, #fff 100%);
-      min-height: 100vh;
+      background: linear-gradient(135deg, #fff1f7 0%, #c1d8ff 100%);
+      font-family: 'Poppins', Arial, sans-serif;
       margin: 0;
-      font-family: 'Poppins',sans-serif;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 28px rgba(180, 85, 250, 0.10), 0 2px 4px rgba(0,0,0,0.02);
       text-align: center;
     }
-    .logo { height: 80px; margin: 24px auto 12px auto; display:block; }
-    h1 { color: #c06; margin-bottom: 12px; }
-    .cards-container {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin: 2em auto; max-width: 900px;
+    .cards-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 24px;
     }
     .card-box {
-      background: #fff; border-radius: 16px; box-shadow: 0 6px 24px 0 #f5b4d7a0;
-      padding: 24px 16px; width: 270px; display: flex; flex-direction: column; align-items: center;
-      transition: transform 0.2s;
+      background: linear-gradient(120deg, #ffebf4 60%, #dbeafe 100%);
+      border-radius: 20px;
+      box-shadow: 0 2px 12px rgba(207,80,170,0.13);
+      padding: 18px 20px 14px 20px;
+      width: 200px;
+      min-height: 240px;
+      cursor: pointer;
+      transition: transform .17s, box-shadow .17s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn .7s;
+      outline: none;
     }
-    .card-box:hover { transform: translateY(-6px) scale(1.03); }
-    .card-img { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; margin: 12px auto; }
-    .card-stickers { font-size: 1.4em; margin-bottom: 10px;}
-    .card-voice { margin: 10px auto 0 auto;}
-    .card-title { font-size: 1.1em; color: #a00; font-weight:600;}
-    .card-recipient { color: #7c2366; font-weight: 500; margin-bottom:6px; }
-    .card-message { margin: 10px 0; color: #4e0066;}
-    .empty-msg { color: #c06; margin-top: 3em;}
+    .card-box:hover, .card-box:focus {
+      transform: translateY(-6px) scale(1.045);
+      box-shadow: 0 8px 26px rgba(140, 27, 224, 0.20), 0 2px 6px rgba(0,0,0,0.07);
+      background: linear-gradient(120deg, #ffe3ee 40%, #c7ecff 100%);
+    }
+    .card-box .tooltip {
+      display: none;
+      position: absolute;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #dc1e70;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      white-space: nowrap;
+      opacity: 0.93;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .card-box:hover .tooltip,
+    .card-box:focus .tooltip {
+      display: block;
+      animation: fadeInTooltip .22s;
+    }
+    @keyframes fadeInTooltip {
+      from { opacity:0; transform: translateX(-50%) translateY(8px);}
+      to { opacity:.93; transform: translateX(-50%) translateY(0);}
+    }
+    .card-img {
+      width: 92px;
+      height: 92px;
+      object-fit: cover;
+      border-radius: 13px;
+      margin-bottom: 12px;
+      background: #f4f4f4;
+      box-shadow: 0 2px 9px rgba(0,0,0,0.06);
+      border: 2px solid #e1e1f0;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 1.13rem;
+      color: #b61397;
+      margin-bottom: 4px;
+      letter-spacing: 0.2px;
+    }
+    .card-recipient {
+      font-size: 1.01rem;
+      color: #202A44;
+      margin-bottom: 6px;
+      opacity: .82;
+    }
+    .card-message {
+      font-size: .99rem;
+      color: #555;
+      margin-bottom: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 135px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: .88;
+    }
+    .stats-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 7px;
+      font-size: 0.97em;
+      color: #a67ff9;
+      opacity: .81;
+    }
+    .card-box .arrow {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      font-size: 1.21em;
+      color: #b22ee7;
+      opacity: .60;
+      transition: opacity .15s;
+    }
+    .card-box:hover .arrow,
+    .card-box:focus .arrow {
+      opacity: 1;
+      color: #8b0e62;
+    }
+    .main-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #b61397;
+      margin-bottom: 0.6em;
+      letter-spacing: .5px;
+    }
     .back-btn {
-      margin-top:2.5em; padding:1em 2em; border-radius:28px; font-size:1.2em; background:linear-gradient(90deg,#cb3be4,#ff8eb3); color:#fff; border:none; box-shadow:0 2px 16px #eec6e4a0; cursor:pointer; transition:background 0.2s;
+      margin-top: 34px;
+      display: inline-block;
+      padding: 8px 32px;
+      font-size: 1rem;
+      border-radius: 22px;
+      background: linear-gradient(100deg, #e8a0ff 10%, #fbc2eb 100%);
+      border: none;
+      color: #6d0769;
+      font-weight: 600;
+      box-shadow: 0 2px 9px #fde1fd77;
+      cursor: pointer;
+      transition: background .2s;
     }
-    .back-btn:hover { background:linear-gradient(90deg,#ff8eb3,#cb3be4);}
+    .back-btn:hover {
+      background: linear-gradient(100deg, #ffd6fa 0%, #b3b5ff 90%);
+      color: #8b0e62;
+    }
+    @keyframes fadeIn {
+      from { opacity:0; transform: translateY(20px);}
+      to { opacity:1; transform: none;}
+    }
+    @media (max-width: 700px) {
+      .container { max-width:99%; padding:10px; }
+      .cards-list { gap: 13px; }
+      .card-box { width:96vw; max-width:98vw; }
+    }
   </style>
 </head>
 <body>
-  <img src="img/logo.png" class="logo" alt="HeartSpeak"/>
-  <h1>Your Latest Cards</h1>
-  <div id="cards" class="cards-container"></div>
-  <div id="emptyMsg" class="empty-msg" style="display:none;">No cards found yet.<br>After saving a card, it will appear here!</div>
-  <button class="back-btn" onclick="window.location.href='dashboard.html'">&larr; Back to Dashboard</button>
+  <div class="container">
+    <img src="img/logo.png" alt="HeartSpeak" style="height:54px; margin-bottom:15px;">
+    <div class="main-title">Your Latest Cards</div>
+    <div class="cards-list" id="cardsList">
+      <!-- Cards will be inserted here by JavaScript -->
+    </div>
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+  </div>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
-    // ---- FIREBASE INIT ----
+    // ==== Fill in your actual Firebase config ====
     const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      apiKey: "YOUR_API_KEY",
       authDomain: "heartspeak-bf703.firebaseapp.com",
       projectId: "heartspeak-bf703",
       storageBucket: "heartspeak-bf703.firebasestorage.app",
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFVSSPMG"
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
 
-    // ---- SHOW CARDS ----
-    firebase.auth().onAuthStateChanged(async user => {
+    // Util for safe text
+    function escapeHtml(str) {
+      return str ? String(str).replace(/[&<>"']/g, function (m) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+      }) : '';
+    }
+
+    // Render the cards
+    auth.onAuthStateChanged(async user => {
+      const cardsList = document.getElementById('cardsList');
       if (!user) {
-        document.getElementById('emptyMsg').textContent = "Please login to see your cards."; 
-        document.getElementById('emptyMsg').style.display = "block";
+        cardsList.innerHTML = "<div style='color:#ba0c53;opacity:.8;'>Please login to view your cards.</div>";
+        setTimeout(()=>window.location.href="login.html",900);
         return;
       }
-      const ref = db.collection("cards").where("uid","==",user.uid).orderBy("createdAt","desc").limit(3);
-      const snap = await ref.get();
-      if (snap.empty) {
-        document.getElementById('emptyMsg').style.display = "block";
-        return;
+      cardsList.innerHTML = "<div>Loading cards...</div>";
+      try {
+        // Query the last 3 cards created by the user, latest first
+        const querySnapshot = await db.collection("cards")
+          .where("uid", "==", user.uid)
+          .orderBy("createdAt", "desc")
+          .limit(3)
+          .get();
+
+        cardsList.innerHTML = "";
+        if (querySnapshot.empty) {
+          cardsList.innerHTML = "<div style='opacity:.75;font-size:1.1em;color:#6d0769;'>No cards yet. Start by creating one!</div>";
+        } else {
+          querySnapshot.forEach(doc => {
+            const card = doc.data();
+            const cardId = doc.id;
+            const imgSrc = card.mainPhotoUrl || "https://dummyimage.com/120x120/ffb6d5/fff.png&text=No+Photo";
+            // Add stats if they exist (like views/shares)
+            let statsHtml = "";
+            if (card.views || card.shares) {
+              statsHtml += `<div class="stats-row">`;
+              if (card.views) statsHtml += `👁️ ${card.views}`;
+              if (card.shares) statsHtml += `&nbsp;🔗 ${card.shares}`;
+              statsHtml += `</div>`;
+            }
+            const html = `
+              <div class="card-box" tabindex="0" onclick="goToShareSettings('${cardId}')" onkeydown="if(event.key==='Enter'){goToShareSettings('${cardId}')}">
+                <div class="tooltip">Click to share or edit this card</div>
+                <img src="${imgSrc}" class="card-img" alt="Card image">
+                <div class="card-title">${escapeHtml(card.cardTitle || 'Untitled Card')}</div>
+                <div class="card-recipient">To: ${escapeHtml(card.recipientName || 'Someone')}</div>
+                <div class="card-message">${escapeHtml(card.message ? card.message.slice(0,38) : '')}</div>
+                ${statsHtml}
+                <div class="arrow" title="Share this card">➔</div>
+              </div>
+            `;
+            cardsList.insertAdjacentHTML('beforeend', html);
+          });
+        }
+      } catch (e) {
+        cardsList.innerHTML = "<div style='color:#d02727;'>Error loading cards.</div>";
+        console.error(e);
       }
-      let html = "";
-      snap.forEach(doc => {
-        const c = doc.data();
-        html += `
-          <div class="card-box" style="background:${c.bg || "#fff"};">
-            <div class="card-title">${c.title ? c.title : "(No Title)"}</div>
-            <div class="card-recipient">To: ${c.recipient || "(No name)"} </div>
-            ${c.photoURL ? `<img src="${c.photoURL}" class="card-img" alt="photo"/>` : ""}
-            <div class="card-message">${c.message || ""}</div>
-            <div class="card-stickers">${(c.stickers||[]).join(" ")}</div>
-            ${c.voiceURL ? `<div class="card-voice"><audio controls src="${c.voiceURL}"></audio></div>` : ""}
-          </div>
-        `;
-      });
-      document.getElementById('cards').innerHTML = html;
     });
+
+    // Card click handler
+    function goToShareSettings(cardId) {
+      window.location.href = `share-settings.html?cardId=${cardId}`;
+    }
   </script>
 </body>
 </html>
