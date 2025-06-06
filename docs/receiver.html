@@ -1,268 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>HeartSpeak – View Your Card</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <title>Open Your Card | HeartSpeak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { margin: 0; padding: 0; min-height: 100vh;
-      font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.85s cubic-bezier(.7,.7,0,1.04);
-      overflow: hidden;
-      background: linear-gradient(130deg,#fff6f2 0%,#e5e4fa 100%);
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #fee6f6 0%, #c3e1ff 100%);
+      overflow-x: hidden;
     }
-    .showcase-container {
-      position: relative;
-      width: 99vw; max-width: 430px; min-height: 550px;
-      display: flex; align-items: center; justify-content: center;
-      overflow: visible;
+    .floating-hearts {
+      position: fixed;
+      z-index: 0;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      opacity: 0.23;
+      filter: blur(0.4px);
     }
-    .showcase-level {
-      position: absolute;
-      inset: 0;
-      background: rgba(255,255,255,0.98);
-      border-radius: 2rem;
-      box-shadow: 0 8px 40px #b4aad688;
+    .center-content {
+      min-height: 98vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.1rem;
-      padding: 2.5rem 1.5rem 2rem 1.5rem;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(1.04);
-      transition: opacity 0.7s, transform 0.7s;
-      z-index: 1;
-    }
-    .showcase-level.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1);
+      position: relative;
       z-index: 2;
     }
-    .showcase-headline { font-size: 2rem; font-weight: bold; color: #d20c6c; text-shadow: 0 2px 16px #f6bbd855; text-align: center; margin-bottom: 0.6rem; animation: popIn 1s;}
-    .showcase-img { width: 120px; height: 120px; border-radius: 1.5rem; object-fit: cover; box-shadow: 0 2px 12px #d7c0e9; border: 3px solid #d20c6c; background: #fff; }
-    .showcase-msg { font-size: 1.1rem; color: #a651be; text-align: center; margin: 1rem 0 0.7rem 0;}
-    .slide-img { width: 200px; height: 200px; object-fit: cover; border-radius: 1.5rem; margin: 0 4px; box-shadow: 0 2px 12px #d7c0e955; }
-    .showcase-slideshow { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;}
-    .final-celebrate { font-size: 2.1rem; font-weight: bold; color: #e971ab; text-align: center; text-shadow: 0 2px 20px #ffe5ef70; animation: popIn 1s;}
-    .action-btn { background: linear-gradient(90deg,#b250c3,#fbb5dd 80%); color: #fff; font-weight: 600; border: none; border-radius: 2rem; padding: 0.6rem 1.7rem; font-size: 1.09rem; box-shadow: 0 2px 14px #b250c355; cursor: pointer; margin-top: 1.2rem; text-decoration: none; transition: transform 0.13s;}
-    .action-btn:active { transform: scale(.97);}
-    #heartRain, #blueBurst, #sparkleBurst {position:fixed;top:0;left:0;pointer-events:none;z-index:100;}
-    @keyframes popIn { 0% {transform: scale(0.7);} 80% {transform: scale(1.08);} 100% {transform: scale(1);} }
-    @media (max-width: 480px) { .showcase-container { min-height: 350px;} .showcase-headline, .final-celebrate { font-size: 1.2rem; }}
+    #main-container {
+      max-width: 390px;
+      width: 96vw;
+      margin: 3.5em auto 2em auto;
+      border-radius: 2.1em;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 8px 38px #d7c0eb44, 0 2px 6px #f1e7f199;
+      padding: 1.6em 1.3em 1.1em 1.3em;
+      transition: box-shadow .18s;
+      position: relative;
+    }
+    #surpriseBox {
+      width: 160px; height: 160px;
+      margin: 2em auto 1.3em auto;
+      background: linear-gradient(135deg, #c1d8ff 70%, #f06faa 100%);
+      border-radius: 30px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 32px #e5b4df88, 0 1px 5px #aaa2c988;
+      font-size: 2.3em; color: #fff; cursor: pointer;
+      position: relative;
+      transition: transform .2s cubic-bezier(.42,1.31,.77,.77);
+      user-select: none;
+      flex-direction: column;
+      text-align: center;
+    }
+    #surpriseBox:hover { transform: scale(1.03) rotate(-2deg);}
+    #surpriseBox.opened { 
+      animation: popbox .7s cubic-bezier(.47,2.3,.4,1.01);
+      opacity: .78; pointer-events: none;
+    }
+    @keyframes popbox {
+      0% { transform: scale(1) rotate(0);}
+      45% { transform: scale(1.12) rotate(3deg);}
+      100% { transform: scale(0.82) rotate(-7deg);}
+    }
+    .step { display: none; }
+    .card-photo {
+      display: block;
+      margin: 1em auto 0.5em auto;
+      width: 106px; height: 106px;
+      border-radius: 50%; object-fit: cover;
+      box-shadow: 0 2px 12px #c2a8ff55;
+      border: 3px solid #fce38b;
+      background: #fff8f6;
+    }
+    .recipient-name {
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: 600;
+      color: #e7468b;
+      margin-top: .25em;
+      margin-bottom: 1.1em;
+      letter-spacing: 0.02em;
+    }
+    .card-title {
+      color: #88a1ee;
+      font-size: 1.11em;
+      text-align: center;
+      margin: 0.4em 0;
+      letter-spacing: .01em;
+    }
+    .card-message {
+      font-size: 1.08em;
+      text-align: center;
+      color: #5e3560;
+      margin: 0.9em 0 1.6em 0;
+      font-weight: 500;
+      white-space: pre-line;
+    }
+    .card-stickers {
+      text-align: center;
+      font-size: 1.7em;
+      margin: 0.7em 0 0.2em 0;
+    }
+    .voice-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1em 0 1.7em 0;
+    }
+    .footerStep {
+      text-align: center;
+      color: #b25fb2;
+      font-size: 1.11em;
+      margin-top: 2.1em;
+    }
+    .promo {
+      margin: 1.8em auto 0 auto;
+      font-size: 1.12em;
+      color: #a85ec3;
+      text-align: center;
+    }
+    .promo a {
+      color: #f06faa; text-decoration: underline;
+      font-weight: 500;
+      margin-left: 0.12em;
+    }
+    .back-btn {
+      margin: 2em auto 0 auto;
+      display: block;
+      background: #fce38b;
+      color: #ab58a7;
+      font-size: 1em;
+      padding: 0.8em 1.9em;
+      border: none; border-radius: 15px;
+      font-weight: 500;
+      box-shadow: 0 2px 10px #c4b0f755;
+      cursor: pointer;
+      transition: background .16s;
+    }
+    .back-btn:hover { background: #fff9cc; }
+    @media (max-width: 450px) {
+      #main-container { padding: 0.8em 0.4em 0.4em 0.4em; }
+      #surpriseBox { width: 120px; height: 120px; font-size:1.6em;}
+      .card-photo { width: 76px; height: 76px;}
+    }
   </style>
 </head>
 <body>
-  <canvas id="confetti" class="confetti-canvas"></canvas>
-  <canvas id="heartRain" width="0" height="0"></canvas>
-  <canvas id="blueBurst" width="0" height="0"></canvas>
-  <canvas id="sparkleBurst" width="0" height="0"></canvas>
-  <div class="showcase-container">
-    <!-- Level 1 -->
-    <div class="showcase-level" id="level1">
-      <div class="showcase-headline">Happy Birthday, Aryan! 🎉</div>
-      <img src="img/demo-avatar.jpg" class="showcase-img" alt="profile"/>
-      <div class="showcase-msg">Welcome to your premium birthday wish experience!</div>
-      <button class="action-btn" onclick="confettiNext()">Show Surprise &rarr;</button>
-    </div>
-    <!-- Level 2 -->
-    <div class="showcase-level" id="level2">
-      <div class="showcase-headline">You’re Special! 💖</div>
-      <div class="showcase-msg">Wishing you a day filled with love, laughter, and happiness!<br>
-        <span style="font-size:2.3rem;display:block;margin-top:7px;">💖💖💖💖💖</span>
+  <canvas class="floating-hearts"></canvas>
+  <div class="center-content">
+    <div id="main-container">
+      <!-- Surprise Box Step -->
+      <div id="surpriseBox" class="step" style="display:block;">
+        <span style="font-size:3em;">🎁</span>
+        <div style="font-size:1.16em;font-weight:600;margin-top:16px;color:#fff;text-shadow:0 2px 6px #c37cbe88;">Tap to open your surprise</div>
       </div>
-      <button class="action-btn" onclick="heartRainNext()">Next &rarr;</button>
-    </div>
-    <!-- Level 3 -->
-    <div class="showcase-level" id="level3">
-      <div class="showcase-headline">Your Surprise Card</div>
-      <img src="img/demo-front.jpg" class="showcase-img" alt="front"/>
-      <div class="showcase-msg">Back message:<br>"May all your wishes come true. Enjoy your day!"</div>
-      <button class="action-btn" onclick="blueBurstNext()">Next &rarr;</button>
-    </div>
-    <!-- Level 4 -->
-    <div class="showcase-level" id="level4">
-      <div class="showcase-headline">Memory Lane</div>
-      <div class="showcase-slideshow">
-        <img src="img/demo1.jpg" class="slide-img" />
-        <img src="img/demo2.jpg" class="slide-img" />
-        <img src="img/demo3.jpg" class="slide-img" />
-      </div>
-      <div class="showcase-msg">Your best moments together!</div>
-      <button class="action-btn" onclick="sparkleBurstNext()">See Celebration &rarr;</button>
-    </div>
-    <!-- Level 5 -->
-    <div class="showcase-level" id="level5">
-      <div class="final-celebrate">🎉 Celebration Time! 🎉</div>
-      <div class="showcase-msg">Thanks for being part of the magic.<br>Wish sent with 💖 by HeartSpeak.</div>
-      <button class="action-btn" onclick="replayShowcase()">Replay</button>
+      <!-- Next steps rendered via JS -->
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Firebase SDKs (Compat for easier usage) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
-    const bgList = [
-      "linear-gradient(135deg, #ffe8ea 0%, #e5e4fa 100%)",      // Level 1: pink-purple
-      "linear-gradient(135deg, #ffe8fc 0%, #fad6ec 100%)",      // Level 2: soft pink
-      "linear-gradient(135deg, #d7e5ff 0%, #f8f5ff 100%)",      // Level 3: blue-white
-      "linear-gradient(135deg, #d4ffe8 0%, #e8fffd 100%)",      // Level 4: green-turquoise
-      "linear-gradient(135deg, #fffbe8 0%, #ffd6f7 100%)"       // Level 5: gold-pink
-    ];
-    const levels = [
-      document.getElementById('level1'),
-      document.getElementById('level2'),
-      document.getElementById('level3'),
-      document.getElementById('level4'),
-      document.getElementById('level5')
-    ];
-    let idx = 0;
-
-    function setBg(n) {
-      document.body.style.background = bgList[n] || bgList[0];
+    // --- Floating hearts animation background ---
+    const cvs = document.querySelector('.floating-hearts');
+    const ctx = cvs.getContext('2d');
+    let hearts = [];
+    function resize() {
+      cvs.width = window.innerWidth; cvs.height = window.innerHeight;
     }
-
-    function showLevel(n) {
-      levels.forEach((lv,i)=>lv.classList.toggle('active', i===n));
-      // Clean up all effect canvases
-      document.getElementById('heartRain').width = 0;
-      document.getElementById('blueBurst').width = 0;
-      document.getElementById('sparkleBurst').width = 0;
-      setBg(n);
-      if(n===0 || n===4) fireConfetti();
+    function makeHeart() {
+      let x = Math.random() * cvs.width;
+      let y = cvs.height + 30 + Math.random() * 80;
+      let s = 16 + Math.random() * 26;
+      let spd = 1 + Math.random() * 2.7;
+      let color = ["#e7468b","#6f8be8","#fdc2d7","#fce38b","#63bcf4","#cc68a5"][Math.floor(Math.random()*6)];
+      return {x, y, s, spd, color, phase: Math.random()*6.28};
     }
-
-    // Confetti for Level 1/5
-    function fireConfetti() {
-      confetti({
-        particleCount: 120,
-        spread: 120,
-        startVelocity: 48,
-        origin: { y: 0.65 }
-      });
+    function drawHeart(h) {
+      ctx.save();
+      ctx.translate(h.x, h.y);
+      ctx.rotate(Math.sin(h.phase) * 0.13);
+      ctx.beginPath();
+      let s = h.s / 20;
+      ctx.moveTo(0,0);
+      ctx.bezierCurveTo(s,-s*2.3,s*2.7,-s*2.2,s*2.7,0);
+      ctx.bezierCurveTo(s*2.7,s*2.5,s,s*2.7,0,s*4);
+      ctx.bezierCurveTo(-s,s*2.7,-s*2.7,s*2.5,-s*2.7,0);
+      ctx.bezierCurveTo(-s*2.7,-s*2.2,-s,-s*2.3,0,0);
+      ctx.fillStyle = h.color;
+      ctx.globalAlpha = 0.23 + 0.77 * Math.abs(Math.cos(h.phase));
+      ctx.fill();
+      ctx.restore();
     }
-
-    // Heart rain for Level 2
-    function heartRainNext() {
-      const canvas = document.getElementById('heartRain');
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      const ctx = canvas.getContext('2d');
-      let hearts = [];
-      for(let i=0;i<26;i++) hearts.push({
-        x:Math.random()*canvas.width,
-        y:Math.random()*-50,
-        speed:1.7+Math.random()*1.7,
-        size:32+Math.random()*17,
-        alpha:0.7+Math.random()*0.3
-      });
-      let frames = 0;
-      function draw() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        hearts.forEach(h=>{
-          ctx.globalAlpha = h.alpha;
-          ctx.font = h.size+"px serif";
-          ctx.fillText("💖",h.x,h.y);
-          h.y += h.speed;
-          if(h.y > canvas.height+30) h.y = Math.random()*-60;
-        });
-        frames++;
-        if(frames < 80) requestAnimationFrame(draw);
-        else {canvas.width=0; nextLevel();}
+    function animate() {
+      ctx.clearRect(0,0,cvs.width,cvs.height);
+      for(let h of hearts) {
+        h.y -= h.spd; h.x += Math.sin(h.phase) * 0.6; h.phase += 0.01 + Math.random()*0.007;
+        drawHeart(h);
       }
-      draw();
+      hearts = hearts.filter(h=>h.y > -40);
+      while (hearts.length < 25) hearts.push(makeHeart());
+      requestAnimationFrame(animate);
+    }
+    window.addEventListener('resize', resize);
+    resize(); animate();
+
+    // --- Main Logic for Card Reveal ---
+    // 1. Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      authDomain: "heartspeak-bf703.firebaseapp.com",
+      projectId: "heartspeak-bf703",
+      storageBucket: "heartspeak-bf703.firebasestorage.app", // your correct bucket
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    // 2. Utility: Get cardId from query param
+    function getCardIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('cardId');
+    }
+    // 3. Step system
+    let cardData = null;
+    let currentStep = 0;
+    const steps = [];
+
+    function goToStep(n) {
+      document.querySelectorAll('.step').forEach(e => e.style.display = "none");
+      if (steps[n]) steps[n].style.display = "block";
+      currentStep = n;
     }
 
-    // Blue burst for Level 3
-    function blueBurstNext() {
-      const canvas = document.getElementById('blueBurst');
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      const ctx = canvas.getContext('2d');
-      let hearts = [];
-      for(let i=0;i<16;i++) {
-        let angle = (Math.PI*2*i)/16;
-        hearts.push({
-          x:canvas.width/2,
-          y:canvas.height/2,
-          dx:Math.cos(angle)*7*(2+Math.random()),
-          dy:Math.sin(angle)*7*(2+Math.random()),
-          size:38+Math.random()*8,
-          alpha:0.65+Math.random()*0.35
-        });
+    // 4. Main: Load card, handle surprise/opening, then show each section
+    async function loadCardAndSetup() {
+      const cardId = getCardIdFromURL();
+      if (!cardId) {
+        document.getElementById('main-container').innerHTML = `<div style="text-align:center;color:#cf2c7b;font-weight:600;font-size:1.11em;margin:3.8em auto 2em auto;">
+        🚫 No card selected. <br><a href="preview.html" style="color:#6f8be8;">Go back to preview</a></div>`;
+        return;
       }
-      let frames = 0;
-      function draw() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        hearts.forEach(h=>{
-          ctx.globalAlpha = h.alpha;
-          ctx.font = h.size+"px serif";
-          ctx.fillStyle = "#2196F3";
-          ctx.fillText("💙",h.x,h.y);
-          h.x += h.dx;
-          h.y += h.dy;
-          h.dy += 0.18;
-        });
-        frames++;
-        if(frames < 40) requestAnimationFrame(draw);
-        else {canvas.width=0; nextLevel();}
+      // Step 1: Surprise Box
+      const surpriseBox = document.getElementById('surpriseBox');
+      steps[0] = surpriseBox;
+      goToStep(0);
+
+      // Step 2: Load card from Firestore
+      let doc;
+      try {
+        doc = await db.collection("cards").doc(cardId).get();
+      } catch (e) {
+        document.getElementById('main-container').innerHTML = `<div style="text-align:center;color:#cf2c7b;font-weight:600;font-size:1.11em;margin:3.8em auto 2em auto;">
+        Error loading card.<br>${e.message}</div>`;
+        return;
       }
-      draw();
+      if (!doc.exists) {
+        document.getElementById('main-container').innerHTML = `<div style="text-align:center;color:#cf2c7b;font-weight:600;font-size:1.11em;margin:3.8em auto 2em auto;">
+        🚫 Card not found.<br><a href="preview.html" style="color:#6f8be8;">Go back to preview</a></div>`;
+        return;
+      }
+      cardData = doc.data();
+
+      // Step 2: Card reveal step
+      const cardStep = document.createElement('div');
+      cardStep.className = "step";
+      // Card main photo & name
+      let photoHtml = "";
+      if (cardData.photoURL) {
+        photoHtml = `<img src="${cardData.photoURL}" class="card-photo" alt="Photo">`;
+      } else {
+        photoHtml = `<div class="card-photo" style="background:#fbe5ef;color:#c69dc3;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:3em;">👤</span></div>`;
+      }
+      let stickerHtml = "";
+      if (Array.isArray(cardData.stickers) && cardData.stickers.length > 0) {
+        stickerHtml = `<div class="card-stickers">${cardData.stickers.join(" ")}</div>`;
+      }
+      // Build card step inner HTML
+      cardStep.innerHTML = `
+        ${photoHtml}
+        <div class="recipient-name">${cardData.recipientName || "Someone Special"}</div>
+        <div class="card-title">${cardData.cardTitle ? cardData.cardTitle : ""}</div>
+        ${stickerHtml}
+        <div class="card-message">${cardData.message ? cardData.message : ""}</div>
+        <div class="voice-player" id="voicePlayer" style="display:none;"></div>
+        <button class="back-btn" onclick="window.location.href='preview.html'">← Back</button>
+      `;
+      steps[1] = cardStep;
+      document.getElementById('main-container').appendChild(cardStep);
+
+      // Step 3: Footer/promo
+      const promoStep = document.createElement('div');
+      promoStep.className = "step footerStep";
+      promoStep.innerHTML = `
+        <div class="promo">
+          <b>Card made with HeartSpeak 💌</b><br>
+          <span style="font-size:0.98em;">Create your own surprise for free:</span><br>
+          <a href="register.html">Sign up now</a>
+        </div>
+      `;
+      steps[2] = promoStep;
+      document.getElementById('main-container').appendChild(promoStep);
+
+      // Handle voice if present
+      if (cardData.voiceURL) {
+        cardStep.querySelector('#voicePlayer').innerHTML = `
+          <audio controls style="width:90%">
+            <source src="${cardData.voiceURL}" type="audio/webm">
+            Your browser does not support the audio element.
+          </audio>
+        `;
+        cardStep.querySelector('#voicePlayer').style.display = "flex";
+      }
+
+      // Animation: On surprise click, show card
+      surpriseBox.onclick = () => {
+        surpriseBox.classList.add("opened");
+        setTimeout(() => goToStep(1), 700);
+      };
+      // When user clicks Back in card, show promo
+      cardStep.querySelector('.back-btn').onclick = () => {
+        goToStep(2);
+      };
     }
 
-    // Sparkle/green burst for Level 4
-    function sparkleBurstNext() {
-      const canvas = document.getElementById('sparkleBurst');
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      const ctx = canvas.getContext('2d');
-      let stars = [];
-      for(let i=0;i<22;i++) {
-        let angle = (Math.PI*2*i)/22;
-        stars.push({
-          x:canvas.width/2,
-          y:canvas.height/2,
-          dx:Math.cos(angle)*7*(2+Math.random()),
-          dy:Math.sin(angle)*7*(2+Math.random()),
-          size:32+Math.random()*11,
-          alpha:0.55+Math.random()*0.45
-        });
-      }
-      let frames = 0;
-      function draw() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        stars.forEach(s=>{
-          ctx.globalAlpha = s.alpha;
-          ctx.font = s.size+"px serif";
-          ctx.fillStyle = "#21cf6a";
-          ctx.fillText("✨",s.x,s.y);
-          s.x += s.dx;
-          s.y += s.dy;
-          s.dy += 0.11;
-        });
-        frames++;
-        if(frames < 40) requestAnimationFrame(draw);
-        else {canvas.width=0; nextLevel();}
-      }
-      draw();
-    }
-
-    function confettiNext() { nextLevel(); }
-
-    function nextLevel() {
-      if(idx<levels.length-1) {
-        idx++;
-        showLevel(idx);
-      }
-    }
-    function replayShowcase() {
-      idx=0;
-      showLevel(idx);
-    }
-    // Start on load
-    window.onload = function() {
-      idx=0;
-      showLevel(0);
-    }
+    window.onload = loadCardAndSetup;
   </script>
 </body>
 </html>
