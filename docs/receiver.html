@@ -1,336 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Open Your Card | HeartSpeak</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Open Your Surprise | HeartSpeak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/styles.css" />
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
       font-family: 'Poppins', Arial, sans-serif;
-      background: linear-gradient(135deg, #fee6f6 0%, #c3e1ff 100%);
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffe5f8 0%, #d9e8ff 100%);
       overflow-x: hidden;
     }
-    .floating-hearts {
+    .hearts-bg {
       position: fixed;
+      width: 100vw;
+      height: 100vh;
+      left: 0; top: 0;
       z-index: 0;
-      top: 0; left: 0; width: 100vw; height: 100vh;
       pointer-events: none;
-      opacity: 0.23;
-      filter: blur(0.4px);
+      overflow: hidden;
     }
-    .center-content {
-      min-height: 98vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 2;
-    }
-    #main-container {
-      max-width: 390px;
-      width: 96vw;
-      margin: 3.5em auto 2em auto;
-      border-radius: 2.1em;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 8px 38px #d7c0eb44, 0 2px 6px #f1e7f199;
-      padding: 1.6em 1.3em 1.1em 1.3em;
-      transition: box-shadow .18s;
-      position: relative;
-    }
-    #surpriseBox {
-      width: 160px; height: 160px;
-      margin: 2em auto 1.3em auto;
-      background: linear-gradient(135deg, #c1d8ff 70%, #f06faa 100%);
-      border-radius: 30px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 32px #e5b4df88, 0 1px 5px #aaa2c988;
-      font-size: 2.3em; color: #fff; cursor: pointer;
-      position: relative;
-      transition: transform .2s cubic-bezier(.42,1.31,.77,.77);
-      user-select: none;
-      flex-direction: column;
+    .receiver-container {
+      max-width: 420px;
+      margin: 48px auto 0;
+      background: rgba(255,255,255,0.98);
+      border-radius: 22px;
+      box-shadow: 0 10px 36px #f48fb188, 0 2px 4px rgba(0,0,0,0.04);
       text-align: center;
+      padding: 40px 24px 32px;
+      position: relative;
+      z-index: 1;
     }
-    #surpriseBox:hover { transform: scale(1.03) rotate(-2deg);}
-    #surpriseBox.opened { 
-      animation: popbox .7s cubic-bezier(.47,2.3,.4,1.01);
-      opacity: .78; pointer-events: none;
+    .logo {
+      width: 65px;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px #dcb3ee33;
+      margin-bottom: 10px;
     }
-    @keyframes popbox {
-      0% { transform: scale(1) rotate(0);}
-      45% { transform: scale(1.12) rotate(3deg);}
-      100% { transform: scale(0.82) rotate(-7deg);}
+    .gift-lottie {
+      margin: 22px auto 18px;
+      width: 150px;
+      height: 150px;
+      cursor: pointer;
+      background: none;
     }
-    .step { display: none; }
-    .card-photo {
-      display: block;
-      margin: 1em auto 0.5em auto;
-      width: 106px; height: 106px;
-      border-radius: 50%; object-fit: cover;
-      box-shadow: 0 2px 12px #c2a8ff55;
-      border: 3px solid #fce38b;
-      background: #fff8f6;
+    .circle-photo {
+      margin: 25px auto 14px;
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 16px #efb1f1, 0 1px 4px #9dc9fb33;
+      display: none;
+      transition: box-shadow 0.4s;
+      border: 4px solid #fff;
     }
     .recipient-name {
-      text-align: center;
       font-size: 1.3em;
-      font-weight: 600;
-      color: #e7468b;
-      margin-top: .25em;
-      margin-bottom: 1.1em;
-      letter-spacing: 0.02em;
+      font-weight: bold;
+      color: #cd1775;
+      margin-bottom: 2px;
+      display: none;
     }
     .card-title {
-      color: #88a1ee;
-      font-size: 1.11em;
-      text-align: center;
-      margin: 0.4em 0;
-      letter-spacing: .01em;
-    }
-    .card-message {
-      font-size: 1.08em;
-      text-align: center;
-      color: #5e3560;
-      margin: 0.9em 0 1.6em 0;
+      font-size: 1.05em;
+      color: #71739c;
       font-weight: 500;
-      white-space: pre-line;
+      margin-bottom: 22px;
+      display: none;
     }
-    .card-stickers {
-      text-align: center;
-      font-size: 1.7em;
-      margin: 0.7em 0 0.2em 0;
+    .msg-box {
+      display: none;
+      padding: 28px 15px 20px;
+      border-radius: 18px;
+      background: #fff7fc;
+      box-shadow: 0 3px 13px #efb1f1aa;
+      min-height: 85px;
+      margin: 0 auto 18px;
+      font-size: 1.13em;
+      color: #bc2175;
+      text-align: left;
+      position: relative;
     }
-    .voice-player {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 1em 0 1.7em 0;
+    .envelope-bg {
+      position: absolute;
+      right: 13px; bottom: 10px;
+      width: 45px;
+      opacity: 0.16;
+      pointer-events: none;
+      z-index: 0;
     }
-    .footerStep {
-      text-align: center;
-      color: #b25fb2;
-      font-size: 1.11em;
-      margin-top: 2.1em;
+    .voice-block {
+      display: none;
+      margin: 15px auto 8px;
     }
-    .promo {
-      margin: 1.8em auto 0 auto;
-      font-size: 1.12em;
-      color: #a85ec3;
-      text-align: center;
-    }
-    .promo a {
-      color: #f06faa; text-decoration: underline;
+    .play-again {
+      display: none;
+      color: #b92370;
       font-weight: 500;
-      margin-left: 0.12em;
-    }
-    .back-btn {
-      margin: 2em auto 0 auto;
-      display: block;
-      background: #fce38b;
-      color: #ab58a7;
-      font-size: 1em;
-      padding: 0.8em 1.9em;
-      border: none; border-radius: 15px;
-      font-weight: 500;
-      box-shadow: 0 2px 10px #c4b0f755;
+      margin: 0 auto 18px;
       cursor: pointer;
-      transition: background .16s;
+      padding: 6px 18px;
+      background: #fce7f3;
+      border-radius: 10px;
+      border: none;
+      transition: background 0.2s;
     }
-    .back-btn:hover { background: #fff9cc; }
-    @media (max-width: 450px) {
-      #main-container { padding: 0.8em 0.4em 0.4em 0.4em; }
-      #surpriseBox { width: 120px; height: 120px; font-size:1.6em;}
-      .card-photo { width: 76px; height: 76px;}
+    .play-again:hover { background: #f9c2e7; }
+    .next-btn {
+      background: linear-gradient(90deg,#d86fc8,#6ab7ff);
+      color: white;
+      font-size: 1.17em;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 0;
+      width: 100%;
+      margin: 18px 0 0;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #d1c4e980;
+      font-weight: 600;
+      transition: background 0.23s;
+    }
+    .next-btn[disabled] { opacity: 0.65; pointer-events: none; }
+    .footer {
+      margin-top: 33px;
+      color: #ad3f7b;
+      font-size: 0.99em;
+      letter-spacing: 0.03em;
+      opacity: 0.9;
+    }
+    .footer a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .pw-modal-bg {
+      display: none;
+      position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(37,20,48,0.21);
+      z-index: 22;
+      align-items: center; justify-content: center;
+    }
+    .pw-modal {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 5px 30px #d686f766;
+      padding: 34px 28px;
+      text-align: center;
+      max-width: 320px;
+      margin: auto;
+      font-size: 1.09em;
+    }
+    .pw-modal input[type="password"] {
+      font-size: 1.1em;
+      border: 1px solid #f0b2e9;
+      border-radius: 8px;
+      padding: 9px 12px;
+      width: 85%;
+      margin: 18px 0 14px;
+      outline: none;
+    }
+    .pw-modal .btn {
+      background: linear-gradient(90deg,#e66fad,#95c8ff);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 9px;
+      padding: 9px 19px;
+      font-size: 1.04em;
+      cursor: pointer;
+    }
+    .pw-modal .pw-error {
+      color: #e3245b;
+      font-size: 0.99em;
+      margin-bottom: 6px;
+    }
+    @media (max-width: 540px) {
+      .receiver-container { max-width: 99vw; padding: 24px 4vw; }
     }
   </style>
 </head>
 <body>
-  <canvas class="floating-hearts"></canvas>
-  <div class="center-content">
-    <div id="main-container">
-      <!-- Surprise Box Step -->
-      <div id="surpriseBox" class="step" style="display:block;">
-        <span style="font-size:3em;">🎁</span>
-        <div style="font-size:1.16em;font-weight:600;margin-top:16px;color:#fff;text-shadow:0 2px 6px #c37cbe88;">Tap to open your surprise</div>
+  <!-- Animated hearts background -->
+  <canvas class="hearts-bg"></canvas>
+
+  <div class="receiver-container">
+    <img src="img/logo.png" class="logo" alt="HeartSpeak Logo" />
+    <!-- Gift box animation (Lottie) -->
+    <div id="giftStep">
+      <div id="giftLottieWrap">
+        <!-- Lottie will go here -->
+        <lottie-player id="giftLottie"
+          src="https://lottie.host/ca862fcb-c657-49ca-929c-2207e62a5fd4/5z1MP3vgw8.json"
+          background="transparent"
+          speed="1.2"
+          style="width: 150px; height: 150px;"
+          loop autoplay>
+        </lottie-player>
       </div>
-      <!-- Next steps rendered via JS -->
+      <button id="openGiftBtn" class="next-btn" style="margin-top:12px;">Open Your Surprise</button>
+    </div>
+    <img id="cardPhoto" class="circle-photo" src="" alt="Photo" />
+    <div id="recipientName" class="recipient-name"></div>
+    <div id="cardTitle" class="card-title"></div>
+    <div id="msgBox" class="msg-box">
+      <span id="msgText"></span>
+      <img src="img/envelope.png" class="envelope-bg" alt="Envelope">
+    </div>
+    <div id="voiceBlock" class="voice-block"></div>
+    <button id="playAgainBtn" class="play-again">🔁 Play Again</button>
+    <button id="nextBtn" class="next-btn" style="display:none;">Next</button>
+
+    <div class="footer">
+      <span>Card made with <b>HeartSpeak</b> 💌</span> &mdash;
+      <a href="dashboard.html">Create your own card</a>
     </div>
   </div>
-  <!-- Firebase SDKs (Compat for easier usage) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-  <script>
-    // --- Floating hearts animation background ---
-    const cvs = document.querySelector('.floating-hearts');
-    const ctx = cvs.getContext('2d');
-    let hearts = [];
-    function resize() {
-      cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-    }
-    function makeHeart() {
-      let x = Math.random() * cvs.width;
-      let y = cvs.height + 30 + Math.random() * 80;
-      let s = 16 + Math.random() * 26;
-      let spd = 1 + Math.random() * 2.7;
-      let color = ["#e7468b","#6f8be8","#fdc2d7","#fce38b","#63bcf4","#cc68a5"][Math.floor(Math.random()*6)];
-      return {x, y, s, spd, color, phase: Math.random()*6.28};
-    }
-    function drawHeart(h) {
-      ctx.save();
-      ctx.translate(h.x, h.y);
-      ctx.rotate(Math.sin(h.phase) * 0.13);
-      ctx.beginPath();
-      let s = h.s / 20;
-      ctx.moveTo(0,0);
-      ctx.bezierCurveTo(s,-s*2.3,s*2.7,-s*2.2,s*2.7,0);
-      ctx.bezierCurveTo(s*2.7,s*2.5,s,s*2.7,0,s*4);
-      ctx.bezierCurveTo(-s,s*2.7,-s*2.7,s*2.5,-s*2.7,0);
-      ctx.bezierCurveTo(-s*2.7,-s*2.2,-s,-s*2.3,0,0);
-      ctx.fillStyle = h.color;
-      ctx.globalAlpha = 0.23 + 0.77 * Math.abs(Math.cos(h.phase));
-      ctx.fill();
-      ctx.restore();
-    }
+
+  <!-- Password Modal -->
+  <div class="pw-modal-bg" id="pwModalBg">
+    <div class="pw-modal">
+      <div style="font-weight:600; font-size:1.15em;">This card is protected 🔒</div>
+      <div style="margin-top:6px;">Enter password to view</div>
+      <div class="pw-error" id="pwError" style="display:none;"></div>
+      <input type="password" id="pwInput" maxlength="32" placeholder="Enter password" autocomplete="off" />
+      <div>
+        <button class="btn" id="pwSubmitBtn">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lottie player CDN -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script>
+  // 1. --- Firebase Setup (use your correct config!) ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+    authDomain: "heartspeak-bf703.firebaseapp.com",
+    projectId: "heartspeak-bf703",
+    storageBucket: "heartspeak-bf703.firebasestorage.app",
+    messagingSenderId: "341260618790",
+    appId: "1:341260618790:web:f60536bac144fb815aaae7",
+    measurementId: "G-RGVFVSSPMG"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
+  // 2. --- Helper: Get cardId from URL ---
+  function getParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || '';
+  }
+  const cardId = getParam('cardId');
+  let cardData = null;
+  let revealedStep = 0;
+
+  // 3. --- Animated Hearts Background ---
+  function heartRain() {
+    const canvas = document.querySelector('.hearts-bg');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W = window.innerWidth, H = window.innerHeight;
+    canvas.width = W; canvas.height = H;
+    const heartEmoji = ['❣️','💝','💚','💖','💙','💜','❤️','🧡','💛','💘'];
+    let hearts = Array.from({length: 24}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      size: 30 + Math.random() * 20,
+      speed: 1.1 + Math.random() * 2.1,
+      emoji: heartEmoji[Math.floor(Math.random() * heartEmoji.length)]
+    }));
     function animate() {
-      ctx.clearRect(0,0,cvs.width,cvs.height);
-      for(let h of hearts) {
-        h.y -= h.spd; h.x += Math.sin(h.phase) * 0.6; h.phase += 0.01 + Math.random()*0.007;
-        drawHeart(h);
+      ctx.clearRect(0, 0, W, H);
+      for (let h of hearts) {
+        ctx.font = `${h.size}px serif`;
+        ctx.globalAlpha = 0.75;
+        ctx.fillText(h.emoji, h.x, h.y);
+        h.y += h.speed;
+        if (h.y > H + 40) {
+          h.x = Math.random() * W;
+          h.y = -30 - Math.random() * 60;
+          h.size = 30 + Math.random() * 20;
+          h.emoji = heartEmoji[Math.floor(Math.random() * heartEmoji.length)];
+        }
       }
-      hearts = hearts.filter(h=>h.y > -40);
-      while (hearts.length < 25) hearts.push(makeHeart());
       requestAnimationFrame(animate);
     }
-    window.addEventListener('resize', resize);
-    resize(); animate();
+    animate();
+    window.addEventListener('resize', ()=> {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W; canvas.height = H;
+    });
+  }
+  heartRain();
 
-    // --- Main Logic for Card Reveal ---
-    // 1. Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.firebasestorage.app", // your correct bucket
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+  // 4. --- State Control ---
+  const giftStep = document.getElementById('giftStep');
+  const openGiftBtn = document.getElementById('openGiftBtn');
+  const cardPhoto = document.getElementById('cardPhoto');
+  const recipientName = document.getElementById('recipientName');
+  const cardTitle = document.getElementById('cardTitle');
+  const msgBox = document.getElementById('msgBox');
+  const msgText = document.getElementById('msgText');
+  const nextBtn = document.getElementById('nextBtn');
+  const playAgainBtn = document.getElementById('playAgainBtn');
+  const voiceBlock = document.getElementById('voiceBlock');
+  const pwModalBg = document.getElementById('pwModalBg');
+  const pwInput = document.getElementById('pwInput');
+  const pwError = document.getElementById('pwError');
+  const pwSubmitBtn = document.getElementById('pwSubmitBtn');
 
-    // 2. Utility: Get cardId from query param
-    function getCardIdFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('cardId');
+  // 5. --- Main: Load Card Data ---
+  async function loadCard() {
+    if (!cardId) {
+      alert("No card selected. Please check your link!");
+      window.location.href = "dashboard.html";
+      return;
     }
-    // 3. Step system
-    let cardData = null;
-    let currentStep = 0;
-    const steps = [];
-
-    function goToStep(n) {
-      document.querySelectorAll('.step').forEach(e => e.style.display = "none");
-      if (steps[n]) steps[n].style.display = "block";
-      currentStep = n;
+    // 1. Get card data
+    const doc = await db.collection('cards').doc(cardId).get();
+    if (!doc.exists) {
+      alert("This card was not found or has expired.");
+      window.location.href = "dashboard.html";
+      return;
     }
+    cardData = doc.data();
 
-    // 4. Main: Load card, handle surprise/opening, then show each section
-    async function loadCardAndSetup() {
-      const cardId = getCardIdFromURL();
-      if (!cardId) {
-        document.getElementById('main-container').innerHTML = `<div style="text-align:center;color:#cf2c7b;font-weight:600;font-size:1.11em;margin:3.8em auto 2em auto;">
-        🚫 No card selected. <br><a href="preview.html" style="color:#6f8be8;">Go back to preview</a></div>`;
-        return;
-      }
-      // Step 1: Surprise Box
-      const surpriseBox = document.getElementById('surpriseBox');
-      steps[0] = surpriseBox;
-      goToStep(0);
+    // 2. If card is password protected, show modal first
+    if (cardData.password) {
+      pwModalBg.style.display = "flex";
+      pwError.style.display = "none";
+      pwInput.value = "";
+      pwInput.focus();
+    } else {
+      showStep(0);
+    }
+  }
+  loadCard();
 
-      // Step 2: Load card from Firestore
-      let doc;
-      try {
-        doc = await db.collection("cards").doc(cardId).get();
-      } catch (e) {
-        document.getElementById('main-container').innerHTML = `<div style="text-align:center;color:#cf2c7b;font-weight:600;font-size:1.11em;margin:3.8em auto 2em auto;">
-        Error loading card.<br>${e.message}</div>`;
-        return;
-      }
-      if (!doc.exists) {
-        document.getElementById('main-container').innerHTML = `<div style="text-align:center;color:#cf2c7b;font-weight:600;font-size:1.11em;margin:3.8em auto 2em auto;">
-        🚫 Card not found.<br><a href="preview.html" style="color:#6f8be8;">Go back to preview</a></div>`;
-        return;
-      }
-      cardData = doc.data();
+  // 6. --- Password Modal Logic ---
+  pwSubmitBtn.onclick = () => {
+    const input = pwInput.value.trim();
+    if (!input) {
+      pwError.textContent = "Please enter the password!";
+      pwError.style.display = "block";
+      return;
+    }
+    if (input === cardData.password) {
+      pwModalBg.style.display = "none";
+      showStep(0);
+    } else {
+      pwError.textContent = "Incorrect password. Try again.";
+      pwError.style.display = "block";
+      pwInput.value = "";
+    }
+  };
+  pwInput.addEventListener('keyup', (e) => { if (e.key === "Enter") pwSubmitBtn.click(); });
 
-      // Step 2: Card reveal step
-      const cardStep = document.createElement('div');
-      cardStep.className = "step";
-      // Card main photo & name
-      let photoHtml = "";
+  // 7. --- Step Logic ---
+  openGiftBtn.onclick = () => showStep(1);
+  nextBtn.onclick = () => showStep(revealedStep + 1);
+  playAgainBtn.onclick = playVoice;
+
+  function showStep(step) {
+    revealedStep = step;
+    // Hide all
+    giftStep.style.display = "none";
+    cardPhoto.style.display = "none";
+    recipientName.style.display = "none";
+    cardTitle.style.display = "none";
+    msgBox.style.display = "none";
+    voiceBlock.style.display = "none";
+    nextBtn.style.display = "none";
+    playAgainBtn.style.display = "none";
+    // 0: Gift Box
+    if (step === 0) {
+      giftStep.style.display = "block";
+    }
+    // 1: Photo + Name + Title
+    else if (step === 1) {
       if (cardData.photoURL) {
-        photoHtml = `<img src="${cardData.photoURL}" class="card-photo" alt="Photo">`;
-      } else {
-        photoHtml = `<div class="card-photo" style="background:#fbe5ef;color:#c69dc3;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:3em;">👤</span></div>`;
+        cardPhoto.src = cardData.photoURL;
+        cardPhoto.style.display = "block";
       }
-      let stickerHtml = "";
-      if (Array.isArray(cardData.stickers) && cardData.stickers.length > 0) {
-        stickerHtml = `<div class="card-stickers">${cardData.stickers.join(" ")}</div>`;
-      }
-      // Build card step inner HTML
-      cardStep.innerHTML = `
-        ${photoHtml}
-        <div class="recipient-name">${cardData.recipientName || "Someone Special"}</div>
-        <div class="card-title">${cardData.cardTitle ? cardData.cardTitle : ""}</div>
-        ${stickerHtml}
-        <div class="card-message">${cardData.message ? cardData.message : ""}</div>
-        <div class="voice-player" id="voicePlayer" style="display:none;"></div>
-        <button class="back-btn" onclick="window.location.href='preview.html'">← Back</button>
-      `;
-      steps[1] = cardStep;
-      document.getElementById('main-container').appendChild(cardStep);
-
-      // Step 3: Footer/promo
-      const promoStep = document.createElement('div');
-      promoStep.className = "step footerStep";
-      promoStep.innerHTML = `
-        <div class="promo">
-          <b>Card made with HeartSpeak 💌</b><br>
-          <span style="font-size:0.98em;">Create your own surprise for free:</span><br>
-          <a href="register.html">Sign up now</a>
-        </div>
-      `;
-      steps[2] = promoStep;
-      document.getElementById('main-container').appendChild(promoStep);
-
-      // Handle voice if present
-      if (cardData.voiceURL) {
-        cardStep.querySelector('#voicePlayer').innerHTML = `
-          <audio controls style="width:90%">
-            <source src="${cardData.voiceURL}" type="audio/webm">
-            Your browser does not support the audio element.
-          </audio>
-        `;
-        cardStep.querySelector('#voicePlayer').style.display = "flex";
-      }
-
-      // Animation: On surprise click, show card
-      surpriseBox.onclick = () => {
-        surpriseBox.classList.add("opened");
-        setTimeout(() => goToStep(1), 700);
-      };
-      // When user clicks Back in card, show promo
-      cardStep.querySelector('.back-btn').onclick = () => {
-        goToStep(2);
-      };
+      recipientName.textContent = cardData.recipientName || "";
+      cardTitle.textContent = cardData.cardTitle || "";
+      recipientName.style.display = "block";
+      cardTitle.style.display = "block";
+      nextBtn.textContent = "Next";
+      nextBtn.style.display = "block";
     }
+    // 2: Message & Audio
+    else if (step === 2) {
+      typewriter(cardData.message || "", msgText, ()=>{
+        if (cardData.voiceURL) {
+          voiceBlock.innerHTML = `<audio id="voiceAudio" src="${cardData.voiceURL}" autoplay></audio>`;
+          voiceBlock.style.display = "block";
+          document.getElementById('voiceAudio').onended = () => playAgainBtn.style.display = "inline-block";
+        } else {
+          voiceBlock.innerHTML = "";
+          voiceBlock.style.display = "none";
+        }
+        nextBtn.style.display = "none";
+        playAgainBtn.style.display = cardData.voiceURL ? "inline-block" : "none";
+      });
+      msgBox.style.display = "block";
+      // Envelope icon is always visible for letter feel
+    }
+  }
 
-    window.onload = loadCardAndSetup;
-  </script>
+  // 8. --- Typewriter Effect ---
+  function typewriter(text, el, cb) {
+    el.innerHTML = "";
+    let i = 0;
+    function type() {
+      el.innerHTML = text.slice(0, i) + '<span style="opacity:.23;">|</span>';
+      i++;
+      if (i <= text.length && i < 201) setTimeout(type, 23 + Math.random()*40);
+      else { el.innerHTML = text.slice(0,200); if (cb) cb(); }
+    }
+    type();
+  }
+
+  // 9. --- Voice Replay ---
+  function playVoice() {
+    if (!cardData || !cardData.voiceURL) return;
+    playAgainBtn.style.display = "none";
+    voiceBlock.innerHTML = `<audio id="voiceAudio" src="${cardData.voiceURL}" autoplay></audio>`;
+    document.getElementById('voiceAudio').onended = () => playAgainBtn.style.display = "inline-block";
+  }
+</script>
 </body>
 </html>
