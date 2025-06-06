@@ -13,7 +13,19 @@
       background: linear-gradient(135deg, #ffe5f8 0%, #d9e8ff 100%);
       overflow-x: hidden;
     }
-    .hearts-bg {
+    .main-photo-premium{
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shodow:0 4px 16px
+        rgba(0,0,0,0.12), 0 1.5px 8px
+        rgba(255,0,128,0.15);
+      border: 3px solid #fff;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+        .hearts-bg {
       position: fixed;
       width: 100vw;
       height: 100vh;
@@ -187,7 +199,7 @@
   <canvas class="hearts-bg"></canvas>
 
   <div class="receiver-container">
-    <img src="img/logo.png" class="logo" alt="HeartSpeak Logo" />
+    <img src="USER_MAIN_PHOTO_URL"alt="User Main Photo" class="main-photo-premium" />
     <!-- Gift box animation (Lottie) -->
     <div id="giftStep">
       <div id="giftLottieWrap">
