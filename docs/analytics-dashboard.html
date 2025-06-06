@@ -2,49 +2,369 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Analytics • HeartSpeak</title>
+  <title>Analysis Dashboard | HeartSpeak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(120deg,#ffe5f8 0%,#d9e8ff 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+    .hearts-bg {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .dashboard-container {
+      max-width: 960px;
+      margin: 42px auto 0;
+      background: rgba(255,255,255,0.98);
+      border-radius: 24px;
+      box-shadow: 0 10px 38px #e19be6aa, 0 2px 4px rgba(0,0,0,0.04);
+      padding: 42px 32px 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .logo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .dashboard-logo {
+      width: 74px;
+      border-radius: 17px;
+      box-shadow: 0 2px 12px #dcb3ee33;
+      margin-right: 12px;
+    }
+    .dashboard-title {
+      font-size: 2.1em;
+      font-weight: 700;
+      color: #cb258b;
+      letter-spacing: 0.01em;
+      margin-bottom: 3px;
+    }
+    .at-a-glance {
+      display: flex;
+      gap: 22px;
+      margin: 24px 0 38px 0;
+      justify-content: center;
+    }
+    .stat-box {
+      background: #fff5fc;
+      border-radius: 15px;
+      box-shadow: 0 3px 13px #efb1f1aa;
+      padding: 20px 36px 12px;
+      text-align: center;
+      min-width: 100px;
+    }
+    .stat-label { font-size: 0.97em; color: #cb258b; }
+    .stat-num { font-size: 2.1em; font-weight: bold; color: #4845af; margin: 6px 0 2px; }
+    .cards-section, .replies-section {
+      margin-bottom: 36px;
+    }
+    .section-title {
+      font-size: 1.33em;
+      color: #ae2e7b;
+      font-weight: bold;
+      margin-bottom: 17px;
+      letter-spacing: .02em;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+      gap: 22px;
+      margin-bottom: 18px;
+    }
+    .premium-card {
+      background: linear-gradient(135deg, #fff1f7 70%, #e0f0ff 100%);
+      border-radius: 18px;
+      box-shadow: 0 4px 18px #d4bbef27;
+      padding: 22px 16px 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      transition: box-shadow 0.22s;
+    }
+    .premium-card:hover { box-shadow: 0 8px 28px #b385fa42; }
+    .card-photo {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 16px #efb1f1, 0 1px 4px #9dc9fb33;
+      margin-bottom: 9px;
+      border: 3.2px solid #fff;
+      background: #f7e8ff;
+    }
+    .card-recipient {
+      font-weight: 600; color: #be2c76; font-size: 1.03em;
+      margin-bottom: 2px;
+    }
+    .card-title {
+      color: #71739c; font-size: 0.97em;
+      margin-bottom: 8px;
+    }
+    .card-stats {
+      display: flex;
+      gap: 11px;
+      font-size: 0.93em;
+      color: #5c6bc0;
+      margin-top: 5px;
+      opacity: .87;
+    }
+    .card-stats span { display: flex; align-items: center; gap: 2.5px; }
+    .no-cards {
+      color: #bfb3cc; text-align: center; padding: 17px 0 2px;
+      font-size: 1.1em;
+    }
+    .replies-list {
+      display: flex; flex-direction: column; gap: 16px;
+      margin-bottom: 13px;
+    }
+    .reply-item {
+      background: #f9f7fe;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px #eab3ef29;
+      padding: 15px 17px 12px;
+      position: relative;
+    }
+    .reply-sender { font-weight: 500; color: #a55; font-size: 1.01em; margin-bottom: 4px;}
+    .reply-msg { color: #41316a; font-size: 1.09em; margin-bottom: 3px;}
+    .reply-timestamp { font-size: 0.89em; color: #a8aac4;}
+    .reply-img, .reply-video {
+      margin-top: 7px;
+      border-radius: 9px;
+      max-width: 130px;
+      max-height: 130px;
+      object-fit: cover;
+      box-shadow: 0 2px 10px #edb3ef28;
+      cursor: pointer;
+    }
+    .footer {
+      margin-top: 38px;
+      color: #ad3f7b;
+      font-size: 0.98em;
+      letter-spacing: 0.02em;
+      opacity: 0.94;
+      text-align: center;
+    }
+    .footer a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    @media (max-width: 700px) {
+      .dashboard-container { padding: 20px 3vw 23px; }
+      .at-a-glance { flex-direction: column; gap: 9px; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <div class="heart-animation"></div>
-
-  <header class="site-header">
-    <img src="img/logo.png" alt="HeartSpeak" class="logo" />
-  </header>
-
-  <main class="container analytics-page">
-    <section class="analytics-overview">
-      <h2>View Analytics</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h3>Total Views</h3>
-          <p id="totalViews">--</p>
-        </div>
-        <div class="stat-card">
-          <h3>Unique Visitors</h3>
-          <p id="uniqueVisitors">--</p>
-        </div>
-        <div class="stat-card">
-          <h3>Top Device</h3>
-          <p id="topDevice">--</p>
-        </div>
+  <canvas class="hearts-bg"></canvas>
+  <div class="dashboard-container">
+    <div class="logo-row">
+      <img src="img/logo.png" class="dashboard-logo" alt="HeartSpeak Logo" />
+      <span class="dashboard-title">Analysis Dashboard</span>
+    </div>
+    <div class="at-a-glance" id="statsRow">
+      <div class="stat-box">
+        <div class="stat-label">Cards Sent</div>
+        <div class="stat-num" id="statCards">-</div>
       </div>
-    </section>
-
-    <section class="notifications-settings">
-      <h2>Notifications</h2>
-      <div class="form-group">
-        <input type="checkbox" id="realTimeEmail" />
-        <label for="realTimeEmail">Real-Time Email Alerts</label>
+      <div class="stat-box">
+        <div class="stat-label">Total Views</div>
+        <div class="stat-num" id="statViews">-</div>
       </div>
-      <div class="form-group">
-        <input type="checkbox" id="dailyDigest" />
-        <label for="dailyDigest">Daily Digest</label>
+      <div class="stat-box">
+        <div class="stat-label">Replies</div>
+        <div class="stat-num" id="statReplies">-</div>
       </div>
-    </section>
-  </main>
+    </div>
 
-  <script src="js/scripts.js"></script>
+    <div class="cards-section">
+      <div class="section-title">Your Cards</div>
+      <div class="cards-grid" id="cardsGrid">
+        <!-- Cards will be loaded here -->
+      </div>
+      <div class="no-cards" id="noCardsMsg" style="display:none;">No cards created yet.</div>
+    </div>
+
+    <div class="replies-section">
+      <div class="section-title">Received Replies</div>
+      <div class="replies-list" id="repliesList">
+        <!-- Replies will be loaded here -->
+      </div>
+      <div class="no-cards" id="noRepliesMsg" style="display:none;">No replies yet.</div>
+    </div>
+
+    <div class="footer">
+      <span>Made with <b>HeartSpeak</b> 💌</span> &mdash;
+      <a href="dashboard.html">Create a new card</a>
+    </div>
+  </div>
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script>
+  // --- Firebase config: use your correct bucket! ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+    authDomain: "heartspeak-bf703.firebaseapp.com",
+    projectId: "heartspeak-bf703",
+    storageBucket: "heartspeak-bf703.firebasestorage.app",
+    messagingSenderId: "341260618790",
+    appId: "1:341260618790:web:f60536bac144fb815aaae7",
+    measurementId: "G-RGVFVSSPMG"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // --- Helper: get UID (no login rule, just query param or localStorage for now) ---
+  function getUid() {
+    // 1. If you pass UID in query string for demo, use that
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('uid')) return params.get('uid');
+    // 2. Try localStorage (if set from login/register)
+    if (localStorage.getItem('heartspeak_uid')) return localStorage.getItem('heartspeak_uid');
+    // 3. Otherwise, prompt
+    let u = prompt("Enter your UID to view dashboard:");
+    if (u) {
+      localStorage.setItem('heartspeak_uid', u);
+      return u;
+    }
+    return null;
+  }
+  const uid = getUid();
+
+  // --- Premium hearts background animation ---
+  function heartRain() {
+    const canvas = document.querySelector('.hearts-bg');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W = window.innerWidth, H = window.innerHeight;
+    canvas.width = W; canvas.height = H;
+    const heartEmoji = ['❣️','💝','💚','💖','💙','💜','❤️','🧡','💛','💘'];
+    let hearts = Array.from({length: 35}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      size: 33 + Math.random() * 26,
+      speed: 1.1 + Math.random() * 2.1,
+      emoji: heartEmoji[Math.floor(Math.random() * heartEmoji.length)]
+    }));
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      for (let h of hearts) {
+        ctx.font = `${h.size}px serif`;
+        ctx.globalAlpha = 0.73;
+        ctx.fillText(h.emoji, h.x, h.y);
+        h.y += h.speed;
+        if (h.y > H + 40) {
+          h.x = Math.random() * W;
+          h.y = -30 - Math.random() * 60;
+          h.size = 33 + Math.random() * 26;
+          h.emoji = heartEmoji[Math.floor(Math.random() * heartEmoji.length)];
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+    window.addEventListener('resize', ()=> {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W; canvas.height = H;
+    });
+  }
+  heartRain();
+
+  // --- Dashboard logic: Load Cards and Replies ---
+  async function loadDashboard() {
+    if (!uid) {
+      alert("No UID found! Please login or provide UID.");
+      return;
+    }
+    document.getElementById('statCards').textContent = "0";
+    document.getElementById('statViews').textContent = "0";
+    document.getElementById('statReplies').textContent = "0";
+    document.getElementById('cardsGrid').innerHTML = "";
+    document.getElementById('repliesList').innerHTML = "";
+
+    let cardCount = 0, viewCount = 0, replyCount = 0;
+    let cards = [];
+    // 1. Load all cards created by user
+    const cardsSnap = await db.collection('cards').where('uid', '==', uid).orderBy('createdAt', 'desc').get();
+    cardCount = cardsSnap.size;
+    if (cardCount === 0) document.getElementById('noCardsMsg').style.display = "block";
+    else document.getElementById('noCardsMsg').style.display = "none";
+
+    cardsSnap.forEach(doc => {
+      let c = doc.data();
+      c.id = doc.id;
+      cards.push(c);
+      viewCount += (c.views || 0);
+      // Render card
+      let el = document.createElement('div');
+      el.className = 'premium-card';
+      el.innerHTML = `
+        <img class="card-photo" src="${c.photoURL || 'img/logo.png'}" alt="Photo" />
+        <div class="card-recipient">${c.recipientName || '—'}</div>
+        <div class="card-title">${c.cardTitle || ''}</div>
+        <div class="card-stats">
+          <span>👁️ ${c.views || 0}</span>
+          <span>💬 ${c.replyCount || 0}</span>
+        </div>
+      `;
+      el.onclick = ()=>window.location.href=`share-settings.html?cardId=${c.id}`;
+      document.getElementById('cardsGrid').appendChild(el);
+    });
+
+    document.getElementById('statCards').textContent = cardCount;
+    document.getElementById('statViews').textContent = viewCount;
+
+    // 2. Load all replies to user's cards
+    let replies = [];
+    let cardsIds = cards.map(c=>c.id);
+    if (cardsIds.length > 0) {
+      // batch load: replies collection, field cardId in (cardsIds)
+      const batchSize = 10;
+      for (let i = 0; i < cardsIds.length; i += batchSize) {
+        let batchIds = cardsIds.slice(i, i+batchSize);
+        const qSnap = await db.collection('replies').where('cardId','in',batchIds).orderBy('timestamp','desc').get();
+        qSnap.forEach(doc => {
+          replies.push(doc.data());
+        });
+      }
+    }
+    replyCount = replies.length;
+    document.getElementById('statReplies').textContent = replyCount;
+    if (replyCount === 0) document.getElementById('noRepliesMsg').style.display = "block";
+    else document.getElementById('noRepliesMsg').style.display = "none";
+
+    replies.sort((a,b)=>b.timestamp?.seconds-a.timestamp?.seconds);
+    replies.forEach(rep=>{
+      let d = new Date((rep.timestamp?.seconds || 0)*1000);
+      let el = document.createElement('div');
+      el.className = "reply-item";
+      el.innerHTML = `
+        <div class="reply-sender">${rep.senderName || 'Anonymous'}</div>
+        <div class="reply-msg">${rep.message || ''}</div>
+        ${rep.imgURL ? `<img class="reply-img" src="${rep.imgURL}" alt="img" />` : ""}
+        ${rep.videoURL ? `<video class="reply-video" src="${rep.videoURL}" controls></video>` : ""}
+        <div class="reply-timestamp">${d.toLocaleString()}</div>
+      `;
+      document.getElementById('repliesList').appendChild(el);
+    });
+  }
+  loadDashboard();
+</script>
 </body>
 </html>
