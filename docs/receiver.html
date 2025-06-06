@@ -1,485 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Open Your Surprise | HeartSpeak</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #ffe5f8 0%, #d9e8ff 100%);
-      overflow-x: hidden;
-    }
-    .main-photo-premium{
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shodow:0 4px 16px
-        rgba(0,0,0,0.12), 0 1.5px 8px
-        rgba(255,0,128,0.15);
-      border: 3px solid #fff;
-      background: #fff;
-      margin-bottom: 10px;
-    }
-        .hearts-bg {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      left: 0; top: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .receiver-container {
-      max-width: 420px;
-      margin: 48px auto 0;
-      background: rgba(255,255,255,0.98);
-      border-radius: 22px;
-      box-shadow: 0 10px 36px #f48fb188, 0 2px 4px rgba(0,0,0,0.04);
-      text-align: center;
-      padding: 40px 24px 32px;
-      position: relative;
-      z-index: 1;
-    }
-    .logo {
-      width: 65px;
-      border-radius: 16px;
-      box-shadow: 0 2px 10px #dcb3ee33;
-      margin-bottom: 10px;
-    }
-    .gift-lottie {
-      margin: 22px auto 18px;
-      width: 150px;
-      height: 150px;
-      cursor: pointer;
-      background: none;
-    }
-    .circle-photo {
-      margin: 25px auto 14px;
-      width: 105px;
-      height: 105px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 4px 16px #efb1f1, 0 1px 4px #9dc9fb33;
-      display: none;
-      transition: box-shadow 0.4s;
-      border: 4px solid #fff;
-    }
-    .recipient-name {
-      font-size: 1.3em;
-      font-weight: bold;
-      color: #cd1775;
-      margin-bottom: 2px;
-      display: none;
-    }
-    .card-title {
-      font-size: 1.05em;
-      color: #71739c;
-      font-weight: 500;
-      margin-bottom: 22px;
-      display: none;
-    }
-    .msg-box {
-      display: none;
-      padding: 28px 15px 20px;
-      border-radius: 18px;
-      background: #fff7fc;
-      box-shadow: 0 3px 13px #efb1f1aa;
-      min-height: 85px;
-      margin: 0 auto 18px;
-      font-size: 1.13em;
-      color: #bc2175;
-      text-align: left;
-      position: relative;
-    }
-    .envelope-bg {
-      position: absolute;
-      right: 13px; bottom: 10px;
-      width: 45px;
-      opacity: 0.16;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .voice-block {
-      display: none;
-      margin: 15px auto 8px;
-    }
-    .play-again {
-      display: none;
-      color: #b92370;
-      font-weight: 500;
-      margin: 0 auto 18px;
-      cursor: pointer;
-      padding: 6px 18px;
-      background: #fce7f3;
-      border-radius: 10px;
-      border: none;
-      transition: background 0.2s;
-    }
-    .play-again:hover { background: #f9c2e7; }
-    .next-btn {
-      background: linear-gradient(90deg,#d86fc8,#6ab7ff);
-      color: white;
-      font-size: 1.17em;
-      border: none;
-      border-radius: 12px;
-      padding: 13px 0;
-      width: 100%;
-      margin: 18px 0 0;
-      cursor: pointer;
-      box-shadow: 0 2px 8px #d1c4e980;
-      font-weight: 600;
-      transition: background 0.23s;
-    }
-    .next-btn[disabled] { opacity: 0.65; pointer-events: none; }
-    .footer {
-      margin-top: 33px;
-      color: #ad3f7b;
-      font-size: 0.99em;
-      letter-spacing: 0.03em;
-      opacity: 0.9;
-    }
-    .footer a {
-      color: #6c63ff;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .pw-modal-bg {
-      display: none;
-      position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
-      background: rgba(37,20,48,0.21);
-      z-index: 22;
-      align-items: center; justify-content: center;
-    }
-    .pw-modal {
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 5px 30px #d686f766;
-      padding: 34px 28px;
-      text-align: center;
-      max-width: 320px;
-      margin: auto;
-      font-size: 1.09em;
-    }
-    .pw-modal input[type="password"] {
-      font-size: 1.1em;
-      border: 1px solid #f0b2e9;
-      border-radius: 8px;
-      padding: 9px 12px;
-      width: 85%;
-      margin: 18px 0 14px;
-      outline: none;
-    }
-    .pw-modal .btn {
-      background: linear-gradient(90deg,#e66fad,#95c8ff);
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 9px;
-      padding: 9px 19px;
-      font-size: 1.04em;
-      cursor: pointer;
-    }
-    .pw-modal .pw-error {
-      color: #e3245b;
-      font-size: 0.99em;
-      margin-bottom: 6px;
-    }
-    @media (max-width: 540px) {
-      .receiver-container { max-width: 99vw; padding: 24px 4vw; }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/receiver.css">
 </head>
 <body>
   <!-- Animated hearts background -->
   <canvas class="hearts-bg"></canvas>
 
- <div class="receiver-container">
-  <button id="openGiftBtn"
-    style="
-      margin: 32px auto 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      outline: none;
-    ">
-    <!-- HeartSpeak logo as emoji (optional, or just remove this line) -->
-    <span style="font-size:56px; margin-bottom:18px;">💖</span>
-    <div style="
-        width: 120px;
-        height: 120px;
-        background: linear-gradient(145deg, #fae1f4 50%, #ffe3c3 100%);
-        border-radius: 24px;
-        box-shadow: 0 4px 24px #f7c1f080;
-        display: flex;
-        align-items: center;
-        justify-content: center;">
-      <span style="font-size:64px;">🎁</span>
-    </div>
-    <span style="
-      margin-top: 16px;
-      font-size: 22px;
-      font-weight: 600;
-      color: white;
-      background: linear-gradient(90deg, #a18cd1 0, #fbc2eb 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: block;
-      ">Open Your Surprise</span>
-  </button>
+  <div class="receiver-container">
+    <!-- Main photo or logo -->
+    <img id="mainPhoto" src="img/logo.png" alt="HeartSpeak Logo" class="main-photo-premium" />
 
+    <!-- Simple gift box emoji -->
+    <div class="simple-gift-box" id="giftboxBtn" style="cursor:pointer; width:120px; height:120px; margin:auto;">
+      <span style="font-size:70px;">🎁</span>
+    </div>
+
+    <button id="openGiftBtn" class="next-btn" style="margin-top:12px; background: linear-gradient(90deg,#f571e6,#62bcfb);color:#fff;font-size:1.3em;">Open Your Surprise</button>
+
+    <!-- Card Content (hidden by default) -->
+    <div id="cardContent" style="display:none;">
+      <img id="cardphoto" class="circle-photo" src="" alt="photo" />
+      <div id="recipientName" class="recipient-name"></div>
+      <div id="cardTitle" class="card-title"></div>
+
+      <!-- Audio voice (auto play, hidden controls) -->
+      <div id="voiceBlock" class="voice-block" style="display:none;">
+        <audio id="voiceAudio" src="" autoplay></audio>
+        <button id="playAgainBtn" style="display:none;">🔁 Play Again</button>
       </div>
-      <button id="openGiftBtn" class="next-btn" style="margin-top:12px;">Open Your Surprise</button>
+      <!-- Next Step Button -->
+      <button id="nextBtn" class="next-btn" style="display:none;">Next</button>
     </div>
-    <img id="cardPhoto" class="circle-photo" src="" alt="Photo" />
-    <div id="recipientName" class="recipient-name"></div>
-    <div id="cardTitle" class="card-title"></div>
-    <div id="msgBox" class="msg-box">
-      <span id="msgText"></span>
-      <img src="img/envelope.png" class="envelope-bg" alt="Envelope">
-    </div>
-    <div id="voiceBlock" class="voice-block"></div>
-    <button id="playAgainBtn" class="play-again">🔁 Play Again</button>
-    <button id="nextBtn" class="next-btn" style="display:none;">Next</button>
 
+    <!-- Message Step (hidden by default) -->
+    <div id="msgStep" class="msg-box" style="display:none;">
+      <span id="msgText"></span>
+      <img src="img/envelope.png" class="envelope" alt="Envelope">
+      <!-- Reply feature -->
+      <div id="replySection" style="margin-top:18px;">
+        <textarea id="replyInput" maxlength="200" placeholder="Send your reply (text, or upload image/video below)" style="width:90%;border-radius:10px;"></textarea>
+        <br>
+        <input type="file" id="replyFile" accept="image/,video/" style="margin-top:7px;">
+        <button id="sendReplyBtn" style="margin-top:10px;">Send Reply</button>
+        <span id="replyStatus"></span>
+      </div>
+    </div>
+
+    <!-- Footer -->
     <div class="footer">
-      <span>Card made with <b>HeartSpeak</b> 💌</span> &mdash;
-      <a href="dashboard.html">Create your own card</a>
+      Card made with <b>HeartSpeak</b> 💌 — <a href="https://aryan70027.github.io/heartspeak/" style="color:#5a6dff;">Create your own card</a>
     </div>
   </div>
 
   <!-- Password Modal -->
-  <div class="pw-modal-bg" id="pwModalBg">
-    <div class="pw-modal">
-      <div style="font-weight:600; font-size:1.15em;">This card is protected 🔒</div>
-      <div style="margin-top:6px;">Enter password to view</div>
-      <div class="pw-error" id="pwError" style="display:none;"></div>
-      <input type="password" id="pwInput" maxlength="32" placeholder="Enter password" autocomplete="off" />
-      <div>
-        <button class="btn" id="pwSubmitBtn">Unlock</button>
-      </div>
+  <div class="pw-modal-bg" id="pwModalBG" style="display:none;">
+    <div class="pw-modal big" id="pwModal">
+      <div style="font-size:1.25em;">This card is protected <span>🔒</span></div>
+      <input id="pwInput" maxlength="32" placeholder="Enter password" autocomplete="off" type="password" style="margin:16px 0; padding:8px; border-radius:6px;">
+      <button class="btn" id="pwSubmitBtn">Unlock</button>
+      <div id="pwError" style="color:red;margin-top:7px;display:none;">Wrong password!</div>
     </div>
   </div>
+  <!-- Firebase SDKs (do not change) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <!-- Firebase Config (update with your config if changed) -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxPAZwmH5pjMUM5NODwbA0vDxvwz5cGU",
+      authDomain: "heartspeak-b1703.firebaseapp.com",
+      projectId: "heartspeak-b1703",
+      storageBucket: "heartspeak-b1703.firebasestorage.app",  // IMPORTANT!
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+  </script>
+  <script>
+const cardId = new URLSearchParams(window.location.search).get('cardId');
+let cardData = null;
+let replyFileData = null;
 
-  
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-<script>
-  // 1. --- Firebase Setup (use your correct config!) ---
-  const firebaseConfig = {
-    apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-    authDomain: "heartspeak-bf703.firebaseapp.com",
-    projectId: "heartspeak-bf703",
-    storageBucket: "heartspeak-bf703.firebasestorage.app",
-    messagingSenderId: "341260618790",
-    appId: "1:341260618790:web:f60536bac144fb815aaae7",
-    measurementId: "G-RGVFVSSPMG"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+// DOM elements
+const giftboxBtn = document.getElementById('giftboxBtn');
+const openGiftBtn = document.getElementById('openGiftBtn');
+const cardContent = document.getElementById('cardContent');
+const cardphoto = document.getElementById('cardphoto');
+const mainPhoto = document.getElementById('mainPhoto');
+const recipientName = document.getElementById('recipientName');
+const cardTitle = document.getElementById('cardTitle');
+const voiceBlock = document.getElementById('voiceBlock');
+const voiceAudio = document.getElementById('voiceAudio');
+const playAgainBtn = document.getElementById('playAgainBtn');
+const nextBtn = document.getElementById('nextBtn');
+const msgStep = document.getElementById('msgStep');
+const msgText = document.getElementById('msgText');
+const replySection = document.getElementById('replySection');
+const replyInput = document.getElementById('replyInput');
+const replyFile = document.getElementById('replyFile');
+const sendReplyBtn = document.getElementById('sendReplyBtn');
+const replyStatus = document.getElementById('replyStatus');
 
-  // 2. --- Helper: Get cardId from URL ---
-  function getParam(name) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name) || '';
-  }
-  const cardId = getParam('cardId');
-  let cardData = null;
-  let revealedStep = 0;
+// Password modal
+const pwModalBG = document.getElementById('pwModalBG');
+const pwInput = document.getElementById('pwInput');
+const pwSubmitBtn = document.getElementById('pwSubmitBtn');
+const pwError = document.getElementById('pwError');
 
-  // 3. --- Animated Hearts Background ---
-  function heartRain() {
-    const canvas = document.querySelector('.hearts-bg');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W = window.innerWidth, H = window.innerHeight;
-    canvas.width = W; canvas.height = H;
-    const heartEmoji = ['❣️','💝','💚','💖','💙','💜','❤️','🧡','💛','💘'];
-    let hearts = Array.from({length: 24}, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      size: 30 + Math.random() * 20,
-      speed: 1.1 + Math.random() * 2.1,
-      emoji: heartEmoji[Math.floor(Math.random() * heartEmoji.length)]
-    }));
-    function animate() {
-      ctx.clearRect(0, 0, W, H);
-      for (let h of hearts) {
-        ctx.font = `${h.size}px serif`;
-        ctx.globalAlpha = 0.75;
-        ctx.fillText(h.emoji, h.x, h.y);
-        h.y += h.speed;
-        if (h.y > H + 40) {
-          h.x = Math.random() * W;
-          h.y = -30 - Math.random() * 60;
-          h.size = 30 + Math.random() * 20;
-          h.emoji = heartEmoji[Math.floor(Math.random() * heartEmoji.length)];
-        }
+// Show password modal if card is protected
+function checkPassword(card) {
+  if (card.password) {
+    pwModalBG.style.display = "flex";
+    pwSubmitBtn.onclick = async function() {
+      if (pwInput.value === card.password) {
+        pwModalBG.style.display = "none";
+        showGiftStep();
+      } else {
+        pwError.style.display = "block";
       }
-      requestAnimationFrame(animate);
     }
-    animate();
-    window.addEventListener('resize', ()=> {
-      W = window.innerWidth; H = window.innerHeight;
-      canvas.width = W; canvas.height = H;
-    });
+  } else {
+    showGiftStep();
   }
-  heartRain();
+}
 
-  // 4. --- State Control ---
-  const giftStep = document.getElementById('giftStep');
-  const openGiftBtn = document.getElementById('openGiftBtn');
-  openGiftBtn.onclick = function() {
-    // Example: hide gift step and show card details
-    giftstep.style.display = "none";
-    cardPhoto.style.display = "block";
-    recipientName.style.display = "block";
-    cardtitle.style.display = "block";
-    // ...add more if you want to show/hide other sections!
-};
-  const cardPhoto = document.getElementById('cardPhoto');
-  const recipientName = document.getElementById('recipientName');
-  const cardTitle = document.getElementById('cardTitle');
-  const msgBox = document.getElementById('msgBox');
-  const msgText = document.getElementById('msgText');
-  const nextBtn = document.getElementById('nextBtn');
-  const playAgainBtn = document.getElementById('playAgainBtn');
-  const voiceBlock = document.getElementById('voiceBlock');
-  const pwModalBg = document.getElementById('pwModalBg');
-  const pwInput = document.getElementById('pwInput');
-  const pwError = document.getElementById('pwError');
-  const pwSubmitBtn = document.getElementById('pwSubmitBtn');
+// Show initial box step
+function showGiftStep() {
+  document.getElementById('giftboxBtn').style.display = "";
+  openGiftBtn.style.display = "";
+  cardContent.style.display = "none";
+  msgStep.style.display = "none";
+}
 
-  // 5. --- Main: Load Card Data ---
-  async function loadCard() {
-    if (!cardId) {
-      alert("No card selected. Please check your link!");
-      window.location.href = "dashboard.html";
-      return;
+// Open box event (step 1)
+openGiftBtn.onclick = giftboxBtn.onclick = function() {
+  document.getElementById('giftboxBtn').style.display = "none";
+  openGiftBtn.style.display = "none";
+  showCardContent();
+}
+
+function showCardContent() {
+  cardContent.style.display = "";
+  if (cardData) {
+    if (cardData.photoURL) {
+      cardphoto.src = cardData.photoURL;
+      mainPhoto.src = cardData.photoURL;
     }
-    // 1. Get card data
-    const doc = await db.collection('cards').doc(cardId).get();
-    if (!doc.exists) {
-      alert("This card was not found or has expired.");
-      window.location.href = "dashboard.html";
-      return;
+    recipientName.textContent = cardData.recipientName || '';
+    cardTitle.textContent = cardData.cardTitle || '';
+    if (cardData.voiceURL) {
+      voiceBlock.style.display = "";
+      voiceAudio.src = cardData.voiceURL;
+      voiceAudio.play();
+      playAgainBtn.style.display = "";
+      playAgainBtn.onclick = () => voiceAudio.play();
     }
-    cardData = doc.data();
-
-    // 2. If card is password protected, show modal first
-    if (cardData.password) {
-      pwModalBg.style.display = "flex";
-      pwError.style.display = "none";
-      pwInput.value = "";
-      pwInput.focus();
-    } else {
-      showStep(0);
+    nextBtn.style.display = "";
+    nextBtn.onclick = function() {
+      cardContent.style.display = "none";
+      showMessageStep();
     }
   }
-  loadCard();
+}
 
-  // 6. --- Password Modal Logic ---
-  pwSubmitBtn.onclick = () => {
-    const input = pwInput.value.trim();
-    if (!input) {
-      pwError.textContent = "Please enter the password!";
-      pwError.style.display = "block";
-      return;
-    }
-    if (input === cardData.password) {
-      pwModalBg.style.display = "none";
-      showStep(0);
-    } else {
-      pwError.textContent = "Incorrect password. Try again.";
-      pwError.style.display = "block";
-      pwInput.value = "";
-    }
-  };
-  pwInput.addEventListener('keyup', (e) => { if (e.key === "Enter") pwSubmitBtn.click(); });
-
-  // 7. --- Step Logic ---
-  openGiftBtn.onclick = () => showStep(1);
-  nextBtn.onclick = () => showStep(revealedStep + 1);
-  playAgainBtn.onclick = playVoice;
-
-  function showStep(step) {
-    revealedStep = step;
-    // Hide all
-    giftStep.style.display = "none";
-    cardPhoto.style.display = "none";
-    recipientName.style.display = "none";
-    cardTitle.style.display = "none";
-    msgBox.style.display = "none";
-    voiceBlock.style.display = "none";
-    nextBtn.style.display = "none";
-    playAgainBtn.style.display = "none";
-    // 0: Gift Box
-    if (step === 0) {
-      giftStep.style.display = "block";
-    }
-    // 1: Photo + Name + Title
-    else if (step === 1) {
-      if (cardData.photoURL) {
-        cardPhoto.src = cardData.photoURL;
-        cardPhoto.style.display = "block";
-      }
-      recipientName.textContent = cardData.recipientName || "";
-      cardTitle.textContent = cardData.cardTitle || "";
-      recipientName.style.display = "block";
-      cardTitle.style.display = "block";
-      nextBtn.textContent = "Next";
-      nextBtn.style.display = "block";
-    }
-    // 2: Message & Audio
-    else if (step === 2) {
-      typewriter(cardData.message || "", msgText, ()=>{
-        if (cardData.voiceURL) {
-          voiceBlock.innerHTML = `<audio id="voiceAudio" src="${cardData.voiceURL}" autoplay></audio>`;
-          voiceBlock.style.display = "block";
-          document.getElementById('voiceAudio').onended = () => playAgainBtn.style.display = "inline-block";
-        } else {
-          voiceBlock.innerHTML = "";
-          voiceBlock.style.display = "none";
-        }
-        nextBtn.style.display = "none";
-        playAgainBtn.style.display = cardData.voiceURL ? "inline-block" : "none";
-      });
-      msgBox.style.display = "block";
-      // Envelope icon is always visible for letter feel
-    }
+// Typewriter effect for message
+function typeWriter(text, element, i = 0) {
+  if (i < text.length) {
+    element.innerHTML += text.charAt(i);
+    setTimeout(() => typeWriter(text, element, i + 1), 30);
   }
+}
 
-  // 8. --- Typewriter Effect ---
-  function typewriter(text, el, cb) {
-    el.innerHTML = "";
-    let i = 0;
-    function type() {
-      el.innerHTML = text.slice(0, i) + '<span style="opacity:.23;">|</span>';
-      i++;
-      if (i <= text.length && i < 201) setTimeout(type, 23 + Math.random()*40);
-      else { el.innerHTML = text.slice(0,200); if (cb) cb(); }
-    }
-    type();
-  }
+// Show message step (step 2)
+function showMessageStep() {
+  msgStep.style.display = "";
+  msgText.innerHTML = "";
+  typeWriter(cardData.message || '', msgText);
+}
 
-  // 9. --- Voice Replay ---
-  function playVoice() {
-    if (!cardData || !cardData.voiceURL) return;
-    playAgainBtn.style.display = "none";
-    voiceBlock.innerHTML = `<audio id="voiceAudio" src="${cardData.voiceURL}" autoplay></audio>`;
-    document.getElementById('voiceAudio').onended = () => playAgainBtn.style.display = "inline-block";
+// ========== REPLY FEATURE ==========
+
+// Handle file select (image/video <1MB)
+replyFile.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file && file.size > 1024 * 1024) {
+    replyStatus.textContent = "File too large (max 1MB)";
+    replyFile.value = "";
+    replyFileData = null;
+  } else {
+    replyFileData = file;
+    replyStatus.textContent = "";
   }
+});
+
+sendReplyBtn.onclick = async function() {
+  replyStatus.textContent = "Sending...";
+  let replyURL = null;
+  if (replyFileData) {
+    const ext = replyFileData.name.split('.').pop();
+    const storageRef = storage.ref(cards/${cardId}/replies/${Date.now()}.${ext});
+    await storageRef.put(replyFileData);
+    replyURL = await storageRef.getDownloadURL();
+  }
+  // Save reply to Firestore
+  await db.collection("cards").doc(cardId).collection("replies").add({
+    text: replyInput.value,
+    fileURL: replyURL || null,
+    fileType: replyFileData ? replyFileData.type : null,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+  replyStatus.textContent = "Reply sent! 🎉";
+  replyInput.value = "";
+  replyFile.value = "";
+  replyFileData = null;
+}
+
+// ========== FETCH CARD DATA ==========
+
+async function loadCard() {
+  if (!cardId) {
+    alert("Card ID missing.");
+    return;
+  }
+  const cardDoc = await db.collection("cards").doc(cardId).get();
+  if (!cardDoc.exists) {
+    alert("Card not found.");
+    return;
+  }
+  cardData = cardDoc.data();
+  checkPassword(cardData);
+}
+
+loadCard();
 </script>
 </body>
 </html>
