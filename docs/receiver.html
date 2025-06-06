@@ -341,6 +341,14 @@
   // 4. --- State Control ---
   const giftStep = document.getElementById('giftStep');
   const openGiftBtn = document.getElementById('openGiftBtn');
+  openGiftBtn.onclick = function() {
+    // Example: hide gift step and show card details
+    giftstep.style.display = "none";
+    cardPhoto.style.display = "block";
+    recipientName.style.display = "block";
+    cardtitle.style.display = "block";
+    // ...add more if you want to show/hide other sections!
+};
   const cardPhoto = document.getElementById('cardPhoto');
   const recipientName = document.getElementById('recipientName');
   const cardTitle = document.getElementById('cardTitle');
