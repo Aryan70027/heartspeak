@@ -1,33 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HeartSpeak | Home</title>
-  <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartSpeak - Express Your Heart</title>
+    <!-- Google Fonts for premium look -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd8e3 0%, #ffe2ae 55%, #f3d1ff 100%);
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 32px auto;
+            background: rgba(255, 255, 255, 0.30);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            border-radius: 30px;
+            padding: 36px 18px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            backdrop-filter: blur(9px);
+        }
+
+        .brand-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            box-shadow: 0 2px 14px rgba(253, 176, 139, 0.11);
+            background: white;
+            object-fit: cover;
+            margin-bottom: 6px;
+        }
+        .brand-name {
+            font-family: 'Pacifico', cursive;
+            color: #FF6789;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 12px #ffd8e2;
+        }
+
+        .brand-story {
+            width: 100%;
+            min-height: 54px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.08rem;
+            color: #88517d;
+            font-weight: 500;
+            margin-bottom: 14px;
+            background: rgba(255,255,255,0.32);
+            border-radius: 18px;
+            padding: 10px 16px;
+            box-shadow: 0 2px 14px 0 rgba(255, 235, 238, 0.16);
+        }
+
+        .main-visual {
+            margin: 18px 0 14px 0;
+        }
+        .envelope-img {
+            width: 110px;
+            max-width: 90vw;
+            border-radius: 20px;
+            box-shadow: 0 2px 18px 0 rgba(255, 204, 203, 0.11);
+        }
+
+        .features {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            margin: 16px 0;
+        }
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.99rem;
+            color: #b265ad;
+            font-weight: 500;
+            margin: 0 2px;
+        }
+        .feature-item img {
+            width: 38px;
+            height: 38px;
+            margin-bottom: 5px;
+            border-radius: 13px;
+            box-shadow: 0 1px 5px 0 rgba(255, 222, 245, 0.14);
+            background: #fff;
+            padding: 5px;
+        }
+
+        .get-started-btn {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 16px 0;
+            width: 92%;
+            border: none;
+            border-radius: 17px;
+            background: linear-gradient(90deg, #ff92d0 0%, #ffc368 100%);
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(255, 179, 156, 0.13);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .get-started-btn:hover {
+            background: linear-gradient(90deg, #ffc368 0%, #ff92d0 100%);
+            box-shadow: 0 10px 30px 0 rgba(255, 122, 147, 0.12);
+        }
+
+        footer {
+            margin-top: 22px;
+            text-align: center;
+            color: #a683a7;
+            font-size: 0.98rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                max-width: 99vw;
+                padding: 18px 3vw 14px 3vw;
+                border-radius: 14px;
+            }
+            .brand-story {
+                font-size: 1rem;
+                padding: 7px 7vw;
+            }
+            .get-started-btn {
+                font-size: 1.12rem;
+                padding: 14px 0;
+            }
+            .features {
+                margin: 10px 0;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Background animation -->
-  <div class="heart-animation"></div>
+    <div class="container">
+        <!-- Logo and Brand Name -->
+        <div class="brand-header">
+            <!-- Replace with your actual logo image -->
+            <img src="logo.png" alt="HeartSpeak Logo" class="logo">
+            <h1 class="brand-name">HeartSpeak</h1>
+        </div>
 
-  <!-- Top Logo Header -->
-  <header class="site-header">
-    <img src="img/logo.png" alt="HeartSpeak Logo" class="logo">
-  </header>
+        <!-- Typewriter Brand Story -->
+        <div class="brand-story">
+            <span id="typewriter"></span>
+        </div>
 
-  <!-- Hero Section -->
-  <div class="hero-container">
-    <div class="hero-image">
-      <img src="img/logo.png" alt="HeartSpeak" />
+        <!-- Main Visual / Animation (static image for now) -->
+        <div class="main-visual">
+            <!-- Replace with your own illustration for envelope/card -->
+            <img src="envelope-illustration.png" alt="Envelope" class="envelope-img">
+        </div>
+
+        <!-- Feature Highlights -->
+        <div class="features">
+            <div class="feature-item">
+                <img src="icon-card.png" alt="Card Icon">
+                <span>Create cards</span>
+            </div>
+            <div class="feature-item">
+                <img src="icon-proposal.png" alt="Proposal Icon">
+                <span>Send proposals</span>
+            </div>
+            <div class="feature-item">
+                <img src="icon-music.png" alt="Music Icon">
+                <span>Add music/photos</span>
+            </div>
+        </div>
+
+        <!-- Get Started Button -->
+        <a href="register.html" class="get-started-btn">Get Started</a>
+
+        <!-- Footer -->
+        <footer>
+            <span>Made with ❤️ in India</span>
+        </footer>
     </div>
-    <div class="hero-content">
-      <h1>Speak from the Heart</h1>
-      <p>Create heartfelt digital greetings in seconds.</p>
-      <button class="primary-btn" onclick="location.href='register.html'">Dedicate</button>
-    </div>
-  </div>
 
-  <script src="js/scripts.js"></script>
+    <!-- Typewriter Effect Script -->
+    <script>
+        // List of brand story lines (edit/add your own!)
+        const stories = [
+            "Have you ever wanted to express your feelings… but couldn’t find the right words?",
+            "Some feelings are too precious for ordinary words. HeartSpeak lets you turn them into something unforgettable.",
+            "Every feeling deserves to be celebrated. Every story deserves to be shared.",
+            "Imagine a place where your feelings find a voice… Welcome to HeartSpeak."
+        ];
+
+        // Pick a random story every time
+        const story = stories[Math.floor(Math.random() * stories.length)];
+        const typewriter = document.getElementById('typewriter');
+
+        let i = 0;
+        function typeEffect() {
+            if (i < story.length) {
+                typewriter.innerHTML += story.charAt(i);
+                i++;
+                setTimeout(typeEffect, 30);
+            }
+        }
+        typeEffect();
+    </script>
 </body>
 </html>
-
