@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard – HeartSpeak</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
   <style>
-    /* RESET & VARIABLES */
+    /* RESET & THEME VARIABLES */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      /* 2nd mockup gradient */
-      --bg-gradient: linear-gradient(135deg,
+      /* adjusted gradient—less hot-pink, more gold/peach → soft purple */
+      --bg-gradient: linear-gradient(
+        135deg,
         #FFD369 0%,
-        #FFC368 40%,
-        #FF92D0 70%,
+        #FFC368 50%,
         #FBB5DD 100%
       );
       --container-bg: rgba(255,255,255,0.45);
@@ -25,11 +28,15 @@
       --gold: #ffd369;
       --pink: #ff92d0;
     }
+
+    /* BODY */
     body {
       font-family: 'Poppins', sans-serif;
       background: var(--bg-gradient);
       min-height: 100vh;
-      display: flex; align-items: flex-start; justify-content: center;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
       padding: 1rem;
     }
     a { text-decoration: none; color: inherit; }
@@ -42,7 +49,6 @@
       border: 1px solid var(--container-border);
       border-radius: 24px;
       box-shadow: 0 8px 32px rgba(31,38,135,0.07);
-      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
       padding: 2.5rem 1.5rem 2rem;
       display: flex; flex-direction: column; align-items: center;
@@ -63,11 +69,11 @@
       margin-left: 8px; font-size: 1rem;
     }
 
-    /* LOGO TITLE */
+    /* TITLE */
     .logo-title {
       font-family: 'Pacifico', cursive;
       font-size: 2.2rem; color: var(--gold);
-      text-align: center; margin-bottom: 1rem;
+      margin-bottom: 1rem;
       text-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
@@ -77,8 +83,7 @@
       background: linear-gradient(90deg, var(--pink) 0%, var(--gold) 100%);
       color: #fff; font-weight: 600; text-align: center;
       border-radius: 12px; box-shadow: 0 6px 18px rgba(255,179,156,0.2);
-      margin-bottom: 0.75rem;
-      transition: background 0.3s;
+      margin-bottom: 0.75rem; transition: background 0.3s;
     }
     .upgrade-banner:hover {
       background: linear-gradient(90deg, var(--gold) 0%, var(--pink) 100%);
@@ -86,17 +91,16 @@
 
     /* TAGLINE */
     .tagline {
-      font-size: 1rem; color: #fff; text-align: center;
-      margin-bottom: 1.5rem; text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      color: #fff; text-align: center;
+      font-size: 1rem; margin-bottom: 1.5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
 
-    /* BUTTON GRID */
+    /* GRID OF BUTTONS */
     .button-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      width: 100%;
-      margin-bottom: 2rem;
+      grid-template-columns: repeat(2,1fr);
+      gap: 1rem; width: 100%; margin-bottom: 2rem;
     }
     .button-grid a {
       display: flex; align-items: center;
@@ -110,74 +114,75 @@
     .button-grid a:hover { background: var(--btn-hover); }
     .button-grid img {
       width: 32px; height: 32px;
-      margin-right: 0.75rem;
-      flex-shrink: 0;
+      margin-right: 0.75rem; flex-shrink: 0;
     }
 
-    /* LOGOUT BUTTON */
+    /* LOGOUT */
     #logoutBtn {
       background: transparent; color: #fff;
-      border: 2px solid #fff;
-      border-radius: 20px;
-      padding: 0.75rem 2.5rem;
-      font-size: 1rem; font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
+      border: 2px solid #fff; border-radius: 20px;
+      padding: 0.75rem 2.5rem; font-weight: 600;
+      cursor: pointer; transition: background 0.3s, color 0.3s;
     }
     #logoutBtn:hover {
       background: #fff; color: var(--purple);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 480px) {
-      .dashboard-container { padding: 2rem 1rem 1.5rem; }
-      .logo-title { font-size: 1.8rem; }
-      .tagline { font-size: 0.95rem; }
+    /* RESPONSIVE TWEAKS */
+    @media (max-width:480px) {
+      .dashboard-container { padding:2rem 1rem 1.5rem; }
+      .logo-title { font-size:1.8rem; }
+      .tagline { font-size:0.95rem; }
     }
   </style>
+  <!-- Firebase SDKs (needed for auth) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!-- your dashboard logic -->
+  <script src="dashboard.js" defer></script>
 </head>
 <body>
-
   <div class="dashboard-container">
-    <!-- 1) Profile (click to user.html) -->
+    <!-- 1) Profile link -->
     <a id="userProfile" href="user.html">
-      <img src="img/logo.png" alt="HeartSpeak Logo" />
-      <span id="userName"></span>
+      <img src="img/logo.png" alt="HeartSpeak Logo">
+      <span id="userName">Loading…</span>
     </a>
 
-    <!-- 2) Logo Title (centered) -->
+    <!-- 2) Title -->
     <div class="logo-title">HeartSpeak</div>
 
-    <!-- 3) Upgrade Premium banner -->
+    <!-- 3) Upgrade banner -->
     <a href="upgrade.html" class="upgrade-banner">Upgrade Premium</a>
 
     <!-- 4) Tagline -->
     <div class="tagline">Share love and dedication from the heart.</div>
 
-    <!-- 5) Action Buttons -->
+    <!-- 5) Action buttons -->
     <div class="button-grid">
       <a href="card-creator.html">
-        <img src="img/create-card-icon.png" alt="Create Card" />
+        <img src="img/create-card-icon.png" alt="">
         <span>Create Card</span>
       </a>
       <a href="send-proposal.html">
-        <img src="img/send-proposal-icon.png" alt="Send Proposal" />
+        <img src="img/send-proposal-icon.png" alt="">
         <span>Send Proposal</span>
       </a>
       <a href="preview.html">
-        <img src="img/preview-dedication-icon.png" alt="Preview Dedication" />
+        <img src="img/preview-dedication-icon.png" alt="">
         <span>Preview Dedication</span>
       </a>
       <a href="analytics-dashboard.html">
-        <img src="img/view-analysis-icon.png" alt="View Analysis" />
+        <img src="img/view-analysis-icon.png" alt="">
         <span>View Analysis</span>
       </a>
       <a href="template-gallery.html">
-        <img src="img/template-gallery-icon.png" alt="Template Gallery" />
+        <img src="img/template-gallery-icon.png" alt="">
         <span>Template Gallery</span>
       </a>
       <a href="upgrade.html">
-        <img src="img/upgrade-premium-icon.png" alt="Upgrade Premium" />
+        <img src="img/upgrade-premium-icon.png" alt="">
         <span>Upgrade Premium</span>
       </a>
     </div>
@@ -185,42 +190,5 @@
     <!-- 6) Logout -->
     <button id="logoutBtn">Logout</button>
   </div>
-
-  <!-- FIREBASE SDKs & LOGIC -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.appspot.com",
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFVSSPMG"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    let currentUID = null;
-    auth.onAuthStateChanged(async user => {
-      if (!user) return window.location.href = 'login.html';
-      currentUID = user.uid;
-      let name = user.email;
-      try {
-        const doc = await db.collection("users").doc(user.uid).get();
-        if (doc.exists && doc.data().username) {
-          name = doc.data().username;
-        }
-      } catch {}
-      document.getElementById('userName').textContent = name;
-    });
-
-    document.getElementById('logoutBtn').onclick = () => {
-      auth.signOut().then(() => window.location.href = 'login.html');
-    };
-  </script>
 </body>
 </html>
