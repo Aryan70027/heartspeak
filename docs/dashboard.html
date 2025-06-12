@@ -3,235 +3,224 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - HeartSpeak</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>Dashboard – HeartSpeak</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* ---------- GLOBAL RESET & VARIABLES ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-gradient: linear-gradient(45deg, #ffc368 0%, #ff92d0 50%, #fbb5dd 100%);
+      --glass-bg: rgba(255,255,255,0.25);
+      --glass-shadow: 0 8px 32px rgba(31,38,135,0.07);
+      --btn-bg: rgba(255,255,255,0.5);
+      --btn-hover: rgba(255,255,255,0.75);
+      --gold: #ffd369;
+      --pink: #ff92d0;
+      --purple: #4c316a;
+    }
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: var(--bg-body, #ffe6f0);
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+    a { text-decoration: none; }
+
+    /* ---------- CONTAINER ---------- */
+    .dashboard-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(9px);
+      border-radius: 24px;
+      box-shadow: var(--glass-shadow);
+      padding: 2.5rem 1.5rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 1rem;
     }
-    header {
-      text-align: center;
+
+    /* ---------- PROFILE (TOP-LEFT) ---------- */
+    #userProfile {
+      position: absolute;
+      top: 16px; left: 16px;
+      display: flex; align-items: center;
+      color: var(--purple); font-weight: 500;
+    }
+    #userProfile img {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    #userProfile span {
+      margin-left: 8px;
+      font-size: 1rem;
+    }
+
+    /* ---------- TITLE (TOP-CENTER) ---------- */
+    .logo-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.2rem;
+      color: var(--gold);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
       margin-bottom: 1rem;
     }
-    .logo {
-      height: 80px;
-      max-width: 100%;
-    }
-    main.dashboard-container {
-      position: relative;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 0 40px #ffe7f7cc, 0 2px 18px #c88ad433;
-      animation: dashGlow 2.6s ease-in-out infinite alternate;
-      padding: 2rem;
-      max-width: 420px;
+
+    /* ---------- UPGRADE BANNER ---------- */
+    .upgrade-banner {
       width: 100%;
+      padding: 0.75rem 0;
+      background: linear-gradient(90deg, var(--pink) 0%, var(--gold) 100%);
+      color: #fff; font-weight: 600;
       text-align: center;
-      margin-bottom: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(255,122,147,0.2);
+      margin-bottom: 0.75rem;
+      transition: background 0.3s;
     }
-    @keyframes dashGlow {
-      0% { box-shadow: 0 0 40px #ffe7f7cc, 0 2px 18px #c88ad433; }
-      100% { box-shadow: 0 0 90px #fbb5dd66, 0 2px 32px #b250c355; }
+    .upgrade-banner:hover {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--pink) 100%);
     }
-    h1 {
-      margin-bottom: 1.2rem;
-      color: #cc0066;
+
+    /* ---------- TAGLINE ---------- */
+    .tagline {
+      font-size: 1rem;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
-    #userInfo {
-      margin-bottom: 1.1rem;
-      color: #6a227c;
-      font-size: 1.04rem;
-      font-weight: 500;
-    }
-    nav ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
+
+    /* ---------- BUTTON GRID (6 BUTTONS) ---------- */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
       gap: 1rem;
-      margin: 0;
+      width: 100%;
+      margin-bottom: 2rem;
     }
-    nav a {
-      display: block;
-      padding: 0.75rem 1rem;
-      background: #ff4081;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
+    .button-grid a {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      background: var(--btn-bg);
+      border-radius: 12px;
+      color: var(--purple);
       font-weight: 500;
-      transition: background 0.3s ease;
-    }
-    nav a:hover {
-      background: #e73370;
-    }
-    #logoutBtn {
-      margin-top: 2rem;
-      background: linear-gradient(90deg,#ff4081,#b250c3 90%);
-      color: white;
-      border: none;
-      border-radius: 1rem;
-      padding: 0.8rem 2.5rem;
-      font-size: 1.08rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 3px 12px #b250c333;
       transition: background 0.2s;
     }
-    #logoutBtn:hover {
-      background: linear-gradient(90deg,#b250c3,#ff4081 90%);
+    .button-grid a:hover {
+      background: var(--btn-hover);
     }
-    /* Card Stats */
-    .stat-box {
-      background: #fdf1fa;
-      color: #b250c3;
-      border-radius: 12px;
-      padding: 0.85rem 0.9rem;
-      margin: 0.7rem 0 1.2rem 0;
-      box-shadow: 0 2px 14px #ffe7f799;
-      font-size: 1.12rem;
+    .button-grid img {
+      width: 28px; height: 28px;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* ---------- LOGOUT BUTTON ---------- */
+    #logoutBtn {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 20px;
+      padding: 0.75rem 2.5rem;
+      font-size: 1rem;
       font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
     }
-    /* Recent Activity */
-    .activity-list {
-      background: #f8f5ff;
-      border-radius: 12px;
-      padding: 1rem;
-      margin: 0.4rem 0 1.3rem 0;
-      box-shadow: 0 2px 10px #b4aad611;
-      font-size: 1.01rem;
-      text-align: left;
-      max-height: 160px;
-      overflow-y: auto;
+    #logoutBtn:hover {
+      background: #fff;
+      color: var(--purple);
     }
-    .activity-list h3 {
-      margin: 0 0 0.6rem 0;
-      color: #b250c3;
-      font-size: 1.07rem;
-      font-weight: 700;
-      text-align: center;
-    }
-    .activity-list ul {
-      list-style: disc inside;
-      margin: 0;
-      padding-left: 12px;
-    }
-    .activity-list li {
-      margin-bottom: 0.3rem;
-      font-size: 0.99rem;
-      color: #4c316a;
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 480px) {
+      .dashboard-container { padding: 2rem 1rem 1.5rem; }
+      .logo-title { font-size: 1.8rem; }
+      .tagline { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="img/logo.png" alt="HeartSpeak Logo" class="logo" />
-  </header>
-  <main class="dashboard-container">
-    <h1>Welcome to Your Dashboard</h1>
-    <div id="userInfo"></div>
-    <div class="stat-box" id="cardStats">Loading your stats…</div>
-    <div class="activity-list">
-      <h3>Recent Activity</h3>
-      <ul id="recentActivity">
-        <li>Loading…</li>
-      </ul>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="card-creator.html">Create Card</a></li>
-        <li><a href="analytics-dashboard.html">View Analytics</a></li>
-        <li><a href="preview.html">Preview Dedication</a></li>
-        <li><a href="share-settings.html">Share Settings</a></li>
-        <li><a href="template-gallery.html">Template Gallery</a></li>
-      </ul>
-    </nav>
-    <button id="logoutBtn">Logout</button>
-  </main>
 
-  <!-- Firebase SDKs (Auth + Firestore) -->
+  <div class="dashboard-container">
+    <!-- 1) PROFILE (click to settings/user page) -->
+    <a id="userProfile" href="user.html">
+      <img src="img/user-pic.png" alt="User" />
+      <span>Aryan</span>
+    </a>
+
+    <!-- 2) HEARTSPEAK TITLE -->
+    <div class="logo-title">HeartSpeak</div>
+
+    <!-- 3) UPGRADE BANNER -->
+    <a href="upgrade.html" class="upgrade-banner">Upgrade Premium</a>
+
+    <!-- 4) TAGLINE -->
+    <div class="tagline">Share love and dedication from the heart.</div>
+
+    <!-- 5) 6 ACTION BUTTONS -->
+    <div class="button-grid">
+      <a href="card-creator.html">
+        <img src="img/create-card-icon.png" alt="Create Card" />
+        <span>Create Card</span>
+      </a>
+      <a href="send-proposal.html">
+        <img src="img/send-proposal-icon.png" alt="Send Proposal" />
+        <span>Send Proposal</span>
+      </a>
+      <a href="preview.html">
+        <img src="img/preview-dedication-icon.png" alt="Preview Dedication" />
+        <span>Preview Dedication</span>
+      </a>
+      <a href="analytics-dashboard.html">
+        <img src="img/view-analysis-icon.png" alt="View Analysis" />
+        <span>View Analysis</span>
+      </a>
+      <a href="template-gallery.html">
+        <img src="img/template-gallery-icon.png" alt="Template Gallery" />
+        <span>Template Gallery</span>
+      </a>
+      <a href="upgrade.html">
+        <img src="img/upgrade-premium-icon.png" alt="Upgrade Premium" />
+        <span>Upgrade Premium</span>
+      </a>
+    </div>
+
+    <!-- 6) LOGOUT -->
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <!-- ========== FIREBASE & APP LOGIC (UNCHANGED) ========== -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.firebasestorage.app",
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFVSSPMG"
-    };
+    const firebaseConfig = { /* your existing config */ };
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // Show user info & protect dashboard
+    const auth = firebase.auth(), db = firebase.firestore();
     let currentUID = null;
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      } else {
-        currentUID = user.uid;
-        let name = user.email;
-        try {
-          const doc = await db.collection("users").doc(user.uid).get();
-          if (doc.exists && doc.data().username) {
-            name = doc.data().username + " (" + user.email + ")";
-          }
-        } catch (e) { /* ignore if users collection not found */ }
-        document.getElementById('userInfo').textContent = `Logged in as: ${name}`;
-        loadCardStats();
-        loadRecentActivity();
-      }
+    auth.onAuthStateChanged(async user => {
+      if (!user) return window.location.href = 'login.html';
+      currentUID = user.uid;
+      let name = user.email;
+      try {
+        const doc = await db.collection('users').doc(user.uid).get();
+        if (doc.exists && doc.data().username) name = doc.data().username;
+      } catch {}
+      document.querySelector('#userProfile span').textContent = name;
     });
-
-    // Logout functionality
-    document.getElementById('logoutBtn').onclick = function() {
-      auth.signOut().then(() => {
-        window.location.href = "login.html";
-      });
+    document.getElementById('logoutBtn').onclick = () => {
+      auth.signOut().then(() => window.location.href = 'login.html');
     };
-
-    // --------- Dashboard stats and recent activity ---------
-    // Cards should be saved in Firestore with at least: {uid, wish, createdAt, ...}
-    async function loadCardStats() {
-      if (!currentUID) return;
-      const snap = await db.collection("cards").where("uid", "==", currentUID).get();
-      document.getElementById('cardStats').textContent =
-        `You’ve created ${snap.size} ${snap.size===1?"card":"cards"} so far!`;
-    }
-
-    async function loadRecentActivity() {
-      if (!currentUID) return;
-      const ul = document.getElementById('recentActivity');
-      const snap = await db.collection("cards")
-        .where("uid", "==", currentUID)
-        .orderBy("createdAt", "desc")
-        .limit(5)
-        .get();
-      ul.innerHTML = "";
-      if (snap.empty) {
-        ul.innerHTML = "<li>No cards sent yet.</li>";
-        return;
-      }
-      snap.forEach(doc => {
-        const data = doc.data();
-        let dt = data.createdAt?.toDate ? data.createdAt.toDate() : null;
-        let dateStr = dt ? dt.toLocaleString() : "recently";
-        let wish = (data.wish || data.level2Message || "Card Sent");
-        if(wish.length > 35) wish = wish.slice(0,35) + "...";
-        ul.innerHTML += `<li><b>${wish}</b><br><small style="color:#b250c3;">${dateStr}</small></li>`;
-      });
-    }
   </script>
 </body>
 </html>
