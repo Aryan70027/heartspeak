@@ -5,21 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard – HeartSpeak</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
     /* RESET & VARIABLES */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     :root {
-      --bg-gradient: linear-gradient(135deg,
-        #FFD369 0%,
-        #FFC368 40%,
-        #FF92D0 70%,
-        #FBB5DD 100%
+      /* 2nd mockup: warm gold → peach → pink-purple */
+      --bg-gradient: linear-gradient(
+        135deg,
+        #ffd369 0%,
+        #ffc368 40%,
+        #ff92d0 70%,
+        #fbb5dd 100%
       );
-      --glass-bg: rgba(255,255,255,0.30);
-      --glass-shadow: 0 8px 32px rgba(31,38,135,0.07);
-      --btn-bg: rgba(255,255,255,0.5);
-      --btn-hover: rgba(255,255,255,0.7);
+      --container-bg: rgba(255, 255, 255, 0.45);
+      --container-border: rgba(255, 255, 255, 0.5);
+      --btn-bg: rgba(255, 255, 255, 0.5);
+      --btn-hover: rgba(255, 255, 255, 0.7);
       --purple: #4c316a;
       --gold: #ffd369;
       --pink: #ff92d0;
@@ -29,82 +39,100 @@
       background: var(--bg-gradient);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: flex-start;
+      justify-content: center;
       padding: 1rem;
     }
-    a { text-decoration: none; color: inherit; }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
+    /* DASHBOARD CARD */
     .dashboard-container {
       position: relative;
       width: 100%;
       max-width: 420px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(9px);
+      background: var(--container-bg);
+      border: 1px solid var(--container-border);
       border-radius: 24px;
-      box-shadow: var(--glass-shadow);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+      /* ensure backdrop-blur works in WebKit */
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
       padding: 2.5rem 1.5rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* Profile (top-left) */
+    /* PROFILE (top-left) */
     #userProfile {
       position: absolute;
-      top: 16px; left: 16px;
+      top: 16px;
+      left: 16px;
       display: flex;
       align-items: center;
       color: var(--purple);
       font-weight: 500;
     }
     #userProfile img {
-      width: 40px; height: 40px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     #userProfile span {
       margin-left: 8px;
       font-size: 1rem;
     }
 
-    /* Logo title */
+    /* LOGO TITLE */
     .logo-title {
       font-family: 'Pacifico', cursive;
       font-size: 2.2rem;
       color: var(--gold);
       text-align: center;
       margin-bottom: 1rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Upgrade banner */
+    /* UPGRADE BANNER */
     .upgrade-banner {
       width: 100%;
       padding: 0.75rem 0;
-      background: linear-gradient(90deg, var(--pink) 0%, var(--gold) 100%);
+      background: linear-gradient(
+        90deg,
+        var(--pink) 0%,
+        var(--gold) 100%
+      );
       color: #fff;
       font-weight: 600;
       text-align: center;
       border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(255,179,156,0.2);
+      box-shadow: 0 6px 18px rgba(255, 179, 156, 0.2);
       margin-bottom: 0.75rem;
       transition: background 0.3s;
     }
     .upgrade-banner:hover {
-      background: linear-gradient(90deg, var(--gold) 0%, var(--pink) 100%);
+      background: linear-gradient(
+        90deg,
+        var(--gold) 0%,
+        var(--pink) 100%
+      );
     }
 
-    /* Tagline */
+    /* TAGLINE */
     .tagline {
       font-size: 1rem;
       color: #fff;
       text-align: center;
       margin-bottom: 1.5rem;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     }
 
-    /* Button grid */
+    /* BUTTON GRID */
     .button-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -126,12 +154,13 @@
       background: var(--btn-hover);
     }
     .button-grid img {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       margin-right: 0.75rem;
       flex-shrink: 0;
     }
 
-    /* Logout button */
+    /* LOGOUT BUTTON */
     #logoutBtn {
       background: transparent;
       color: #fff;
@@ -148,33 +177,41 @@
       color: var(--purple);
     }
 
-    /* Responsive */
+    /* RESPONSIVE */
     @media (max-width: 480px) {
-      .dashboard-container { padding: 2rem 1rem 1.5rem; }
-      .logo-title { font-size: 1.8rem; }
-      .tagline { font-size: 0.95rem; }
+      .dashboard-container {
+        padding: 2rem 1rem 1.5rem;
+      }
+      .logo-title {
+        font-size: 1.8rem;
+      }
+      .tagline {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="dashboard-container">
-    <!-- 1) User profile top-left -->
+    <!-- 1) Profile (click to user.html) -->
     <a id="userProfile" href="user.html">
-      <img src="img/user-pic.png" alt="User" />
+      <img src="img/user-pic.png" alt="User Profile" />
       <span>Aryan</span>
     </a>
 
     <!-- 2) Logo title -->
     <div class="logo-title">HeartSpeak</div>
 
-    <!-- 3) Upgrade banner -->
+    <!-- 3) Upgrade Premium banner -->
     <a href="upgrade.html" class="upgrade-banner">Upgrade Premium</a>
 
     <!-- 4) Tagline -->
-    <div class="tagline">Share love and dedication from the heart.</div>
+    <div class="tagline">
+      Share love and dedication from the heart.
+    </div>
 
-    <!-- 5) Main action button grid -->
+    <!-- 5) Action buttons -->
     <div class="button-grid">
       <a href="card-creator.html">
         <img src="img/create-card-icon.png" alt="Create Card" />
@@ -202,45 +239,24 @@
       </a>
     </div>
 
-    <!-- 6) Logout button -->
+    <!-- 6) Logout -->
     <button id="logoutBtn">Logout</button>
   </div>
 
-  <!-- FIREBASE SDKs & LOGIC (unchanged) -->
+  <!-- FIREBASE SDKs (unchanged) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.appspot.com",
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7",
-      measurementId: "G-RGVFVSSPMG"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    let currentUID = null;
-    auth.onAuthStateChanged(async user => {
-      if (!user) return window.location.href = 'login.html';
-      currentUID = user.uid;
-      let name = user.email;
-      try {
-        const doc = await db.collection("users").doc(user.uid).get();
-        if (doc.exists && doc.data().username) {
-          name = doc.data().username;
-        }
-      } catch {}
-      document.querySelector('#userProfile span').textContent = name;
-    });
-
-    document.getElementById('logoutBtn').onclick = () => {
-      auth.signOut().then(() => window.location.href = 'login.html');
-    };
+  apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+  authDomain: "heartspeak-bf703.firebaseapp.com",
+  projectId: "heartspeak-bf703",
+  storageBucket: "heartspeak-bf703.appspot.com",
+  messagingSenderId: "341260618790",
+  appId: "1:341260618790:web:f60536bac144fb815aaae7",
+  measurementId: "G-RGVFVSSPMG"
+};
   </script>
 </body>
 </html>
