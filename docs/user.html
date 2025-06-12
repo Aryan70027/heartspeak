@@ -4,8 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>User Profile – HeartSpeak</title>
+
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
   <style>
     /* RESET & VARIABLES */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,6 +20,7 @@
       --purple: #4c316a;
       --btn-bg: rgba(255,255,255,0.5);
       --btn-hover: rgba(255,255,255,0.75);
+      --gold: #ffd369;
     }
     body {
       font-family: 'Poppins', sans-serif;
@@ -24,152 +29,209 @@
       display: flex; justify-content: center; align-items: flex-start;
       padding: 1rem;
     }
-    a { text-decoration: none; color: inherit; }
+
+    /* CONTAINER */
     .profile-container {
       width: 100%; max-width: 420px;
       background: var(--glass-bg); backdrop-filter: blur(9px);
       border-radius: 24px; box-shadow: var(--glass-shadow);
-      padding: 2rem 1.5rem; margin-top: 1rem;
-      display: flex; flex-direction: column; align-items: center;
+      padding: 2rem 1.5rem 2.5rem;
       position: relative;
     }
-    .profile-container h2 {
-      font-family: 'Pacifico', cursive;
-      font-size: 2rem; color: #ffd369;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    /* PROFILE PICTURE + UPLOAD BUTTON */
+    #header {
+      position: relative; text-align: center; margin-bottom: 1rem;
     }
-    /* Profile picture */
     #profilePic {
       width: 100px; height: 100px;
       border-radius: 50%; object-fit: cover;
       border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 0.5rem;
     }
-    #uploadLabel {
-      display: inline-block; margin-bottom: 1.5rem;
-      background: var(--btn-bg); padding: 0.5rem 1rem;
-      border-radius: 12px; cursor: pointer;
-      transition: background 0.2s;
+    #fileInput {
+      display: none;
     }
-    #uploadLabel:hover { background: var(--btn-hover); }
-    #fileInput { display: none; }
+    #uploadBtn {
+      position: absolute; bottom: 0; right: calc(50% - 50px);
+      background: var(--btn-bg); border-radius: 50%;
+      width:  thirty-six   36px; height: thirty-six   36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s;
+    }
+    #uploadBtn:hover {
+      background: var(--btn-hover);
+    }
+    #uploadBtn i {
+      color: var(--purple); font-size: 1rem;
+    }
 
-    /* Info fields */
-    .info-group {
-      width: 100%; margin-bottom: 1rem;
+    /* TITLE */
+    .logo-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.2rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .info-group label {
-      display: block; margin-bottom: 0.3rem;
-      color: var(--purple); font-weight: 500;
+
+    /* USER NAME DISPLAY */
+    #displayName {
+      text-align: center;
+      font-size: 1.4rem;
+      color: var(--purple);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
     }
-    .info-group input {
-      width: 100%; padding: 0.6rem 0.8rem;
-      border: none; border-radius: 8px;
-      font-size: 1rem;
-      backdrop-filter: blur(6px);
+
+    /* INFO ROWS */
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background: var(--btn-bg);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      color: var(--purple);
+      font-weight: 500;
+    }
+    .info-row:last-of-type { margin-bottom: 1.5rem; }
+    .info-row .label { }
+    .info-row .value { color: #333; }
+
+    /* LINK ROWS */
+    .link-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--btn-bg);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      color: var(--purple);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .link-row:last-of-type { margin-bottom: 0; }
+    .link-row i.fa-arrow-right {
       color: var(--purple);
     }
-    .info-group input[readonly] {
-      opacity: 0.8;
+    .link-row img {
+      width: 20px; height: 20px; margin-right: 0.75rem;
     }
 
-    /* Password change */
-    .info-group.password {
-      margin-top: 1rem; margin-bottom: 0.5rem;
+    /* UPDATE PASSWORD ROW */
+    .pw-row {
+      display: flex; align-items: center;
+      background: var(--btn-bg);
+      padding: 0.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .pw-row input {
+      flex: 1;
+      border: none; background: transparent;
+      font-size: 1rem; color: var(--purple);
+      padding: 0.5rem;
+    }
+    .pw-row button {
+      background: var(--purple);
+      color: #fff; border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .pw-row button:hover {
+      opacity: 0.9;
     }
 
-    /* Section headings */
-    .section {
-      width: 100%; margin-top: 1.5rem;
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .logo-title { font-size: 1.8rem; }
+      #displayName { font-size: 1.2rem; }
     }
-    .section h3 {
-      color: var(--purple); margin-bottom: 0.6rem;
-      font-size: 1.1rem; font-weight: 600;
-    }
-    /* Help & Support */
-    .help { margin-bottom: 1.5rem; }
-    .help p { color: #fff; margin-bottom: 0.25rem; }
-
-    /* Referral */
-    .referral { margin-bottom: 1.5rem; color: #fff; }
-
-    /* Connected Accounts */
-    .connected { margin-bottom: 1.5rem; color: #fff; }
-
-    /* Billing */
-    .billing a {
-      display: block; width: fit-content;
-      background: var(--btn-bg); padding: 0.6rem 1rem;
-      border-radius: 12px; color: var(--purple);
-      font-weight: 500; transition: background 0.2s;
-    }
-    .billing a:hover { background: var(--btn-hover); }
   </style>
 </head>
 <body>
 
   <div class="profile-container">
-    <h2>HeartSpeak</h2>
 
-    <!-- Profile picture & upload -->
-    <img id="profilePic" src="img/default-user.png" alt="Profile Picture">
-    <label id="uploadLabel" for="fileInput">Change Profile Photo</label>
-    <input type="file" id="fileInput" accept="image/*">
-
-    <!-- Username -->
-    <div class="info-group">
-      <label for="username">Username</label>
-      <input type="text" id="username">
+    <!-- PROFILE PICTURE -->
+    <div id="header">
+      <img id="profilePic" src="img/default-user.png" alt="Profile Picture" />
+      <label id="uploadBtn">
+        <i class="fas fa-camera"></i>
+        <input type="file" id="fileInput" accept="image/*">
+      </label>
     </div>
 
-    <!-- Email (read-only) -->
-    <div class="info-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" readonly>
+    <!-- TITLE -->
+    <div class="logo-title">HeartSpeak</div>
+
+    <!-- NAME -->
+    <div id="displayName">Aryan</div>
+
+    <!-- EMAIL ROW -->
+    <div class="info-row">
+      <span class="label">Email</span>
+      <span class="value" id="email">aryanxmehta0027@gmail.com</span>
     </div>
 
-    <!-- Change Password -->
-    <div class="info-group password">
-      <label for="password">New Password</label>
-      <input type="password" id="password" placeholder="Enter new password">
-    </div>
-    <button id="savePassBtn" style="margin-bottom:1rem; background:var(--btn-bg); padding:0.6rem 1.2rem; border:none; border-radius:8px; cursor:pointer;">Save Password</button>
-
-    <!-- Help & Support -->
-    <div class="section help">
-      <h3>Help & Support</h3>
-      <p>Email: aryanxmehta0027@gmail.com</p>
+    <!-- PASSWORD ROW -->
+    <div class="pw-row">
+      <input type="password" id="newPassword" placeholder="Enter new password" />
+      <button id="updatePasswordBtn">Update</button>
     </div>
 
-    <!-- Referral & Earn -->
-    <div class="section referral">
-      <h3>Referral & Earn</h3>
-      <p>Coming soon…</p>
+    <!-- SUBSCRIPTION STATUS -->
+    <div class="info-row">
+      <span class="label">Subscription Status</span>
+      <span class="value" id="subStatus">Active</span>
     </div>
 
-    <!-- Connected Accounts -->
-    <div class="section connected">
-      <h3>Connected Accounts</h3>
-      <p>Instagram: Not connected</p>
-      <button id="connectInst" style="background:var(--btn-bg);padding:0.5rem 1rem;border:none;border-radius:8px;cursor:pointer;">Connect Instagram</button>
+    <!-- HELP & SUPPORT -->
+    <div class="info-row">
+      <span class="label">Help & Support</span>
+      <span class="value">aryanxmehta0027@gmail.com</span>
     </div>
 
-    <!-- Payment & Billing -->
-    <div class="section billing">
-      <h3>Payment & Billing</h3>
-      <a href="billing.html">Manage Billing</a>
+    <!-- REFERRAL & EARN -->
+    <div class="info-row">
+      <span class="label">Referral & Earn</span>
+      <span class="value">Coming soon</span>
     </div>
+
+    <!-- CONNECTED ACCOUNTS -->
+    <a class="link-row" onclick="alert('Instagram integration coming soon!')">
+      <div style="display:flex;align-items:center;">
+        <img src="img/icon-instagram.png" alt="Instagram">
+        <span>Connected Accounts</span>
+      </div>
+      <i class="fas fa-arrow-right"></i>
+    </a>
+
+    <!-- PAYMENT & BILLING -->
+    <a href="billing.html" class="link-row">
+      <div style="display:flex;align-items:center;">
+        <i class="fas fa-credit-card"></i>
+        <span>Payment & Billing</span>
+      </div>
+      <i class="fas fa-arrow-right"></i>
+    </a>
+
   </div>
 
-  <!-- ========== Firebase SDKs ========== -->
+  <!-- FIREBASE SDKS -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+
   <script>
-    // ----- Initialize Firebase -----
+    // Initialize Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
       authDomain: "heartspeak-bf703.firebaseapp.com",
@@ -186,22 +248,24 @@
 
     let currentUID = null;
 
-    // Protect page, load user data
+    // Protect page & load data
     auth.onAuthStateChanged(async user => {
-      if (!user) {
-        location.href = 'login.html';
-        return;
-      }
+      if (!user) return location.href = 'login.html';
       currentUID = user.uid;
 
-      // Load Firestore user doc
+      // Firestore user doc
       const doc = await db.collection('users').doc(currentUID).get().catch(()=>null);
       const data = doc?.data() || {};
 
-      // Set fields
-      document.getElementById('username').value = data.username || '';
-      document.getElementById('email').value = user.email;
+      // Display name & email
+      document.getElementById('displayName').textContent = data.username || user.email.split('@')[0];
+      document.getElementById('email').textContent = user.email;
+
+      // Profile picture
       document.getElementById('profilePic').src = data.photoURL || 'img/default-user.png';
+
+      // Subscription status
+      document.getElementById('subStatus').textContent = data.isPremium ? 'Active' : 'Free';
     });
 
     // Upload profile photo
@@ -215,30 +279,19 @@
       document.getElementById('profilePic').src = url;
     });
 
-    // Save username
-    document.getElementById('username').addEventListener('blur', async e => {
-      const username = e.target.value.trim();
-      if (!username) return;
-      await db.collection('users').doc(currentUID).set({ username }, { merge: true });
-    });
-
-    // Change password
-    document.getElementById('savePassBtn').onclick = async () => {
-      const pwd = document.getElementById('password').value;
+    // Update password
+    document.getElementById('updatePasswordBtn').onclick = async () => {
+      const pwd = document.getElementById('newPassword').value;
       if (!pwd) return alert('Enter a new password');
       try {
         await auth.currentUser.updatePassword(pwd);
-        alert('Password updated');
-        document.getElementById('password').value = '';
+        alert('Password updated!');
+        document.getElementById('newPassword').value = '';
       } catch (err) {
         alert('Error: ' + err.message);
       }
     };
-
-    // Connect Instagram (placeholder)
-    document.getElementById('connectInst').onclick = () => {
-      alert('Instagram integration coming soon!');
-    };
   </script>
+
 </body>
 </html>
