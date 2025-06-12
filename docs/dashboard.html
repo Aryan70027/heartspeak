@@ -7,25 +7,33 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ---------- GLOBAL RESET & VARIABLES ---------- */
+    /* RESET & VARIABLES */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    /* ---------- CONTAINER ---------- */
-    <style>
-  :root {
-    --bg-gradient: linear-gradient(135deg,
-      #FFD369 0%,
-      #FFC368 40%,
-      #FF92D0 70%,
-      #FBB5DD 100%
-    );
-    /* rest of your variables… */
-  }
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg-gradient); 
-  }
-  
-
+    :root {
+      --bg-gradient: linear-gradient(135deg,
+        #FFD369 0%,
+        #FFC368 40%,
+        #FF92D0 70%,
+        #FBB5DD 100%
+      );
+      --glass-bg: rgba(255,255,255,0.30);
+      --glass-shadow: 0 8px 32px rgba(31,38,135,0.07);
+      --btn-bg: rgba(255,255,255,0.5);
+      --btn-hover: rgba(255,255,255,0.7);
+      --purple: #4c316a;
+      --gold: #ffd369;
+      --pink: #ff92d0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+    a { text-decoration: none; color: inherit; }
 
     .dashboard-container {
       position: relative;
@@ -41,42 +49,45 @@
       align-items: center;
     }
 
-    /* ---------- PROFILE (TOP-LEFT) ---------- */
+    /* Profile (top-left) */
     #userProfile {
       position: absolute;
       top: 16px; left: 16px;
-      display: flex; align-items: center;
-      color: var(--purple); font-weight: 500;
+      display: flex;
+      align-items: center;
+      color: var(--purple);
+      font-weight: 500;
     }
     #userProfile img {
       width: 40px; height: 40px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     #userProfile span {
       margin-left: 8px;
       font-size: 1rem;
     }
 
-    /* ---------- TITLE (TOP-CENTER) ---------- */
+    /* Logo title */
     .logo-title {
       font-family: 'Pacifico', cursive;
       font-size: 2.2rem;
       color: var(--gold);
-      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
       margin-bottom: 1rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* ---------- UPGRADE BANNER ---------- */
+    /* Upgrade banner */
     .upgrade-banner {
       width: 100%;
       padding: 0.75rem 0;
       background: linear-gradient(90deg, var(--pink) 0%, var(--gold) 100%);
-      color: #fff; font-weight: 600;
+      color: #fff;
+      font-weight: 600;
       text-align: center;
       border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(255,122,147,0.2);
+      box-shadow: 0 6px 18px rgba(255,179,156,0.2);
       margin-bottom: 0.75rem;
       transition: background 0.3s;
     }
@@ -84,7 +95,7 @@
       background: linear-gradient(90deg, var(--gold) 0%, var(--pink) 100%);
     }
 
-    /* ---------- TAGLINE ---------- */
+    /* Tagline */
     .tagline {
       font-size: 1rem;
       color: #fff;
@@ -93,10 +104,10 @@
       text-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
 
-    /* ---------- BUTTON GRID (6 BUTTONS) ---------- */
+    /* Button grid */
     .button-grid {
       display: grid;
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       width: 100%;
       margin-bottom: 2rem;
@@ -115,12 +126,12 @@
       background: var(--btn-hover);
     }
     .button-grid img {
-      width: 28px; height: 28px;
+      width: 32px; height: 32px;
       margin-right: 0.75rem;
       flex-shrink: 0;
     }
 
-    /* ---------- LOGOUT BUTTON ---------- */
+    /* Logout button */
     #logoutBtn {
       background: transparent;
       color: #fff;
@@ -137,7 +148,7 @@
       color: var(--purple);
     }
 
-    /* ---------- RESPONSIVE ---------- */
+    /* Responsive */
     @media (max-width: 480px) {
       .dashboard-container { padding: 2rem 1rem 1.5rem; }
       .logo-title { font-size: 1.8rem; }
@@ -148,22 +159,22 @@
 <body>
 
   <div class="dashboard-container">
-    <!-- 1) PROFILE (click to settings/user page) -->
+    <!-- 1) User profile top-left -->
     <a id="userProfile" href="user.html">
       <img src="img/user-pic.png" alt="User" />
       <span>Aryan</span>
     </a>
 
-    <!-- 2) HEARTSPEAK TITLE -->
+    <!-- 2) Logo title -->
     <div class="logo-title">HeartSpeak</div>
 
-    <!-- 3) UPGRADE BANNER -->
+    <!-- 3) Upgrade banner -->
     <a href="upgrade.html" class="upgrade-banner">Upgrade Premium</a>
 
-    <!-- 4) TAGLINE -->
+    <!-- 4) Tagline -->
     <div class="tagline">Share love and dedication from the heart.</div>
 
-    <!-- 5) 6 ACTION BUTTONS -->
+    <!-- 5) Main action button grid -->
     <div class="button-grid">
       <a href="card-creator.html">
         <img src="img/create-card-icon.png" alt="Create Card" />
@@ -191,37 +202,42 @@
       </a>
     </div>
 
-    <!-- 6) LOGOUT -->
+    <!-- 6) Logout button -->
     <button id="logoutBtn">Logout</button>
   </div>
 
-  <!-- ========== FIREBASE & APP LOGIC (UNCHANGED) ========== -->
+  <!-- FIREBASE SDKs & LOGIC (unchanged) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-  authDomain: "heartspeak-bf703.firebaseapp.com",
-  projectId: "heartspeak-bf703",
-  storageBucket: "heartspeak-bf703.appspot.com",
-  messagingSenderId: "341260618790",
-  appId: "1:341260618790:web:f60536bac144fb815aaae7",
-  measurementId: "G-RGVFVSSPMG"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+      authDomain: "heartspeak-bf703.firebaseapp.com",
+      projectId: "heartspeak-bf703",
+      storageBucket: "heartspeak-bf703.appspot.com",
+      messagingSenderId: "341260618790",
+      appId: "1:341260618790:web:f60536bac144fb815aaae7",
+      measurementId: "G-RGVFVSSPMG"
+    };
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth(), db = firebase.firestore();
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
     let currentUID = null;
     auth.onAuthStateChanged(async user => {
       if (!user) return window.location.href = 'login.html';
       currentUID = user.uid;
       let name = user.email;
       try {
-        const doc = await db.collection('users').doc(user.uid).get();
-        if (doc.exists && doc.data().username) name = doc.data().username;
+        const doc = await db.collection("users").doc(user.uid).get();
+        if (doc.exists && doc.data().username) {
+          name = doc.data().username;
+        }
       } catch {}
       document.querySelector('#userProfile span').textContent = name;
     });
+
     document.getElementById('logoutBtn').onclick = () => {
       auth.signOut().then(() => window.location.href = 'login.html');
     };
