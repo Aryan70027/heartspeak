@@ -3,417 +3,374 @@
 <head>
   <meta charset="UTF-8">
   <title>Send Proposal - HeartSpeak</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Icons (ring) -->
+  <link rel="icon" href="img/logo.png">
   <style>
-    :root {
-      /* Twilight Radiance */
-      --bg-twilight: linear-gradient(135deg, #222350 0%, #9a1d65 100%);
-      --accent-twilight: #eab0ff;
-      /* Rose Marble Luxe */
-      --bg-rose: linear-gradient(135deg, #ffe3ea 0%, #f7c2d3 70%, #ffe5f7 100%);
-      --accent-rose: #c79081;
-      /* Aurora Bliss */
-      --bg-aurora: linear-gradient(135deg, #31b1ba 0%, #b186fc 60%, #ec9bff 100%);
-      --accent-aurora: #90ffe6;
-    }
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-twilight);
-      transition: background 0.6s cubic-bezier(.75,0,.25,1);
-    }
-    .proposal-container {
-      background: rgba(255,255,255,0.15);
-      box-shadow: 0 8px 40px 0 #40235044;
-      border-radius: 28px;
-      padding: 2.3rem 1.5rem 2.5rem;
-      max-width: 410px;
-      width: 96vw;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(ellipse at 60% 20%, #31294f 0%, #652d62 60%, #e34d7b 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
+      justify-content: flex-start;
+      color: #fff;
+    }
+    .proposal-container {
+      margin: 32px 0;
+      background: rgba(34, 25, 56, 0.98);
+      border-radius: 2.2rem;
+      padding: 2.4rem 1.1rem 2rem 1.1rem;
+      box-shadow: 0 0 32px #8a327be6, 0 4px 24px #b250c366;
+      width: 95vw;
+      max-width: 430px;
+      min-width: 270px;
+      text-align: center;
     }
     h1 {
-      color: #fff;
-      margin-bottom: 0.7rem;
-      font-size: 2.1rem;
-      letter-spacing: 0.04em;
-      text-align: center;
-      font-weight: 600;
-      text-shadow: 0 2px 18px #0004;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 2rem;
+      letter-spacing: .03em;
+      font-size: 2.2rem;
+      font-weight: 700;
     }
-    .theme-switcher {
+    /* THEME SELECTION */
+    .theme-row {
       display: flex;
       justify-content: center;
-      gap: 0.75rem;
+      gap: 1.1rem;
       margin-bottom: 1.5rem;
     }
     .theme-btn {
+      padding: 0.65rem 1.2rem;
       border: none;
-      background: #fff5;
-      color: #fff;
-      padding: 0.5rem 1.2rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 1rem;
-      outline: none;
+      border-radius: 1.4rem;
       font-weight: 500;
-      transition: background 0.25s, color 0.2s;
-      opacity: 0.6;
+      background: #2e1f3c;
+      color: #fff;
+      font-size: 1rem;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: background 0.25s, opacity 0.2s;
     }
     .theme-btn.active {
-      background: #fff;
-      color: #9a1d65;
+      background: linear-gradient(90deg, #d18fff 0%, #e758b8 70%, #ffb16d 100%);
       opacity: 1;
-      font-weight: 700;
-      border: 1.5px solid #fff9;
+      color: #fff;
     }
 
-    /* Emoji/ring picker */
-    .emoji-picker {
+    /* ICON SELECTOR */
+    .icon-row {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1.2rem;
-      margin-bottom: 1.4rem;
+      gap: 1.1rem;
+      margin-bottom: 2.2rem;
     }
-    .emoji-option {
-      font-size: 2.9rem;
-      background: rgba(255,255,255,0.20);
+    .icon-choose {
+      width: 90px;
+      height: 90px;
+      background: rgba(60,30,80,0.8);
+      border-radius: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
       border: 2.5px solid transparent;
-      border-radius: 20px;
-      padding: 0.3em 0.45em;
       cursor: pointer;
-      transition: border 0.24s, box-shadow 0.24s;
-      box-shadow: 0 3px 14px #0001;
-      filter: grayscale(0.1) brightness(1.1);
+      box-shadow: 0 4px 16px #bc5ba822;
+      transition: border-color 0.19s, background 0.19s;
     }
-    .emoji-option.selected {
-      border: 2.5px solid #fff;
-      background: rgba(255,255,255,0.30);
-      box-shadow: 0 4px 22px #fff3;
-      filter: none;
+    .icon-choose.selected {
+      border-color: #ffe499;
+      background: linear-gradient(145deg, #ffcf7f 0%, #ed6389 100%);
     }
-
-    .form-group {
-      width: 100%;
-      margin-bottom: 1.1rem;
+    /* FIELDS */
+    .input-row {
+      margin-bottom: 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
     }
-    label {
-      font-weight: 500;
+    .proposal-input, .proposal-msg {
+      background: #fff1;
       color: #fff;
-      margin-bottom: 0.3rem;
-      display: block;
-      font-size: 1.01rem;
-    }
-    input, textarea {
-      width: 100%;
-      border-radius: 14px;
       border: none;
-      font-size: 1.09rem;
-      padding: 0.75rem 1rem;
-      background: rgba(255,255,255,0.17);
-      color: #23253a;
-      margin-bottom: 0.18rem;
+      border-radius: 1.1rem;
+      padding: 1rem 1.3rem;
+      font-size: 1.05rem;
       font-family: inherit;
-      outline: none;
-      box-shadow: 0 2px 7px #fff3;
-      transition: background 0.18s;
+      box-shadow: 0 1px 6px #b250c322;
+      margin-bottom: 0.2rem;
     }
-    input::placeholder, textarea::placeholder {
-      color: #aaa;
-    }
-    textarea {
+    .proposal-msg {
+      min-height: 64px;
       resize: vertical;
-      min-height: 65px;
-      max-height: 160px;
     }
+    /* ACTION BUTTONS */
     .action-row {
       display: flex;
+      justify-content: center;
       gap: 1.1rem;
-      margin-bottom: 1.2rem;
-      width: 100%;
+      margin-bottom: 1.1rem;
+      flex-wrap: wrap;
     }
     .action-btn {
-      flex: 1 1 0;
-      background: rgba(255,255,255,0.22);
-      color: #8e3b9b;
-      border: none;
-      padding: 0.85em 0.3em;
-      border-radius: 13px;
-      font-size: 1.02rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.15s;
-    }
-    .action-btn:hover {
-      background: #fff6;
-    }
-    .switch-row {
-      display: flex;
-      gap: 0.7rem;
-      align-items: center;
-      margin-bottom: 1.4rem;
-      width: 100%;
-    }
-    .switch-row label {
+      background: linear-gradient(90deg,#b485ff,#ffb16d 90%);
       color: #fff;
-      font-size: 1.06rem;
-      font-weight: 500;
-      margin: 0;
-      flex: 1;
+      border: none;
+      border-radius: 1.4rem;
+      font-weight: 600;
+      font-size: 1.01rem;
+      padding: 0.8rem 1.3rem;
+      margin: 0.2rem 0;
+      cursor: pointer;
+      box-shadow: 0 2px 9px #7d2ea04b;
+      transition: background 0.2s, color 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
     }
+    .action-btn i {
+      font-size: 1.1rem;
+    }
+    .action-btn:active {
+      background: linear-gradient(90deg,#ffb16d,#b485ff 90%);
+      color: #fff;
+    }
+    /* Toggle Switch */
     .switch {
-      position: relative;
       display: inline-block;
+      position: relative;
       width: 44px;
-      height: 24px;
+      height: 25px;
+      margin: 0 12px;
     }
-    .switch input { opacity: 0; width: 0; height: 0;}
+    .switch input {display:none;}
     .slider {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background: #fff7;
-      border-radius: 24px;
-      transition: 0.24s;
+      position: absolute;
+      cursor: pointer;
+      background: #eee4;
+      border-radius: 25px;
+      top: 0; left: 0; right: 0; bottom: 0;
+      transition: .3s;
     }
     .slider:before {
-      position: absolute; content: "";
-      height: 18px; width: 18px; left: 3px; bottom: 3px;
-      background: #fff;
+      position: absolute;
+      content: "";
+      height: 19px; width: 19px;
+      left: 3px; bottom: 3px;
+      background: #ffb16d;
       border-radius: 50%;
-      transition: 0.24s;
-      box-shadow: 0 1px 3px #0002;
+      transition: .3s;
     }
-    .switch input:checked + .slider {
-      background: #b186fc;
+    input:checked + .slider {
+      background: #ffb16d77;
     }
-    .switch input:checked + .slider:before {
-      transform: translateX(20px);
-      background: #c79081;
+    input:checked + .slider:before {
+      transform: translateX(19px);
+      background: #b485ff;
     }
-    .btn-row {
+    /* Save/Preview Buttons */
+    .footer-btns {
       display: flex;
-      gap: 1.1rem;
-      width: 100%;
-      margin-top: 1.7rem;
+      gap: 1.3rem;
+      margin-top: 2rem;
       justify-content: center;
     }
-    .main-btn {
-      flex: 1 1 0;
-      padding: 0.9em 0.1em;
-      border: none;
-      border-radius: 16px;
-      font-size: 1.14rem;
-      font-weight: 700;
+    .footer-btn {
+      background: linear-gradient(90deg,#6f3fa0,#ffb16d 90%);
       color: #fff;
-      background: linear-gradient(90deg,#b186fc 0,#eab0ff 80%);
-      box-shadow: 0 3px 22px #9a1d6555;
+      border: none;
+      border-radius: 1.8rem;
+      font-weight: 700;
+      font-size: 1.09rem;
+      padding: 1.1rem 2.3rem;
+      margin: 0.2rem 0;
       cursor: pointer;
-      letter-spacing: 0.03em;
-      transition: background 0.23s;
+      box-shadow: 0 2px 13px #b250c366;
+      transition: background 0.18s, color 0.18s;
     }
-    .main-btn.save {
-      background: linear-gradient(90deg,#eab0ff 0,#b186fc 80%);
-      color: #9a1d65;
-    }
+    .footer-btn:active { color: #ffb16d;}
     /* Responsive */
-    @media (max-width: 540px) {
-      .proposal-container {
-        padding: 1.15rem 0.7rem 1.5rem;
-        max-width: 98vw;
-      }
-      .emoji-picker { gap: 0.7rem; }
-      .main-btn { font-size: 1.03rem; }
+    @media (max-width:600px) {
+      .proposal-container {padding: 1.1rem; margin: 12px 0;}
+      h1 { font-size: 1.3rem;}
+      .footer-btn {font-size: 1rem; padding: 0.7rem 1.2rem;}
+      .icon-choose {width: 68px; height: 68px; font-size: 2.1rem;}
     }
   </style>
 </head>
 <body>
-  <div class="proposal-container" id="theme-bg">
+  <div class="proposal-container">
     <h1>Send Proposal</h1>
-    <div class="theme-switcher">
-      <button class="theme-btn active" data-theme="twilight">Twilight Radiance</button>
-      <button class="theme-btn" data-theme="rose">Rose Marble Luxe</button>
-      <button class="theme-btn" data-theme="aurora">Aurora Bliss</button>
+    <!-- Theme selector row, but disabled for now since only Twilight is used -->
+    <div class="theme-row">
+      <button class="theme-btn active">Twilight Radiance</button>
     </div>
-    <div class="emoji-picker" id="emojiPicker">
-      <span class="emoji-option selected" data-emoji="💍">💍</span>
-      <span class="emoji-option" data-emoji="❤️">❤️</span>
-      <span class="emoji-option" data-emoji="🦋">🦋</span>
-      <span class="emoji-option" data-emoji="🌹">🌹</span>
+    <!-- Emoji/Ring picker -->
+    <div class="icon-row" id="ringChoice">
+      <div class="icon-choose selected" data-value="💍">💍</div>
+      <div class="icon-choose" data-value="🌹">🌹</div>
+      <div class="icon-choose" data-value="❤️">❤️</div>
     </div>
-    <form id="proposalForm">
-      <div class="form-group">
-        <label for="receiver">To</label>
-        <input type="text" id="receiver" placeholder="Receiver's name or username" autocomplete="off" required>
-      </div>
-      <div class="form-group">
-        <label for="message">Your Message</label>
-        <textarea id="message" placeholder="Type your proposal message..." required></textarea>
-      </div>
-      <div class="action-row">
-        <button type="button" class="action-btn" id="addPhotoBtn">Add Photo</button>
-        <button type="button" class="action-btn" id="recordVoiceBtn">Record Voice</button>
-      </div>
-      <div class="action-row">
-        <button type="button" class="action-btn" id="pickMusicBtn">Pick Music</button>
-        <label class="switch-row">
-          <span>Private</span>
-          <span class="switch"><input type="checkbox" id="privateSwitch"><span class="slider"></span></span>
-        </label>
-      </div>
-      <div class="switch-row">
-        <label>Schedule</label>
-        <span class="switch"><input type="checkbox" id="scheduleSwitch"><span class="slider"></span></span>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="main-btn save" id="saveDraftBtn">Save Draft</button>
-        <button type="submit" class="main-btn">Preview</button>
-      </div>
-      <input type="file" id="photoInput" accept="image/*" style="display:none;">
-    </form>
+    <div class="input-row">
+      <input class="proposal-input" id="receiverInput" type="text" placeholder="To (Receiver's name or username)">
+      <textarea class="proposal-msg" id="messageInput" placeholder="Type your proposal message…"></textarea>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-  <script>
-    // 1. --- FIREBASE SETUP (Use your correct .app address for storage) ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
-      authDomain: "heartspeak-bf703.firebaseapp.com",
-      projectId: "heartspeak-bf703",
-      storageBucket: "heartspeak-bf703.firebasestorage.app",
-      messagingSenderId: "341260618790",
-      appId: "1:341260618790:web:f60536bac144fb815aaae7"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+    <div class="action-row">
+      <button class="action-btn" id="addPhotoBtn"><i>📸</i> Add Photo</button>
+      <button class="action-btn" id="recordVoiceBtn"><i>🎤</i> Record Voice</button>
+    </div>
+    <div class="action-row">
+      <button class="action-btn" id="pickMusicBtn"><i>🎵</i> Pick Music</button>
+      <label style="display:flex;align-items:center;gap:.2rem;">
+        <span>Private</span>
+        <span class="switch">
+          <input type="checkbox" id="privateToggle" />
+          <span class="slider"></span>
+        </span>
+      </label>
+      <label style="display:flex;align-items:center;gap:.2rem;">
+        <span>Schedule</span>
+        <span class="switch">
+          <input type="checkbox" id="scheduleToggle" />
+          <span class="slider"></span>
+        </span>
+      </label>
+    </div>
+    <div class="footer-btns">
+      <button class="footer-btn" id="saveDraftBtn">Save Draft</button>
+      <button class="footer-btn" id="previewBtn">Preview</button>
+    </div>
+    <input type="file" id="photoInput" style="display:none;" accept="image/*">
+  </div>
+  <!-- Firebase SDKs (paste your version, matching your project) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+<script>
+  // 1. INIT FIREBASE
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbb31gfBcwXzseGU",
+    authDomain: "heartspeak-bf703.firebaseapp.com",
+    projectId: "heartspeak-bf703",
+    storageBucket: "heartspeak-bf703.firebasestorage.app",
+    messagingSenderId: "341260618790",
+    appId: "1:341260618790:web:f60853b6c144fb815aaae7",
+    measurementId: "G-RGVFVSSPMG"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 
-    // 2. --- THEME SWITCHING ---
-    const bgMap = {
-      twilight: "var(--bg-twilight)",
-      rose: "var(--bg-rose)",
-      aurora: "var(--bg-aurora)"
-    };
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.onclick = () => {
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.body.style.background = bgMap[btn.dataset.theme];
-        document.body.setAttribute('data-theme', btn.dataset.theme);
-      };
-    });
+  // 2. ICON/EMOJI PICKER
+  let chosenIcon = "💍";
+  document.querySelectorAll('.icon-choose').forEach((el) => {
+    el.onclick = () => {
+      document.querySelectorAll('.icon-choose').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      chosenIcon = el.getAttribute('data-value');
+    }
+  });
 
-    // 3. --- EMOJI PICKER ---
-    let selectedEmoji = "💍";
-    document.querySelectorAll('.emoji-option').forEach(el => {
-      el.onclick = () => {
-        document.querySelectorAll('.emoji-option').forEach(e => e.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedEmoji = el.dataset.emoji;
-      };
-    });
+  // 3. ADD PHOTO
+  let uploadedPhotoUrl = '';
+  document.getElementById('addPhotoBtn').onclick = () => {
+    document.getElementById('photoInput').click();
+  };
+  document.getElementById('photoInput').onchange = async function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      // Upload to Firebase Storage
+      const uid = (auth.currentUser ? auth.currentUser.uid : Date.now());
+      const ref = storage.ref('proposals/' + uid + '/' + file.name);
+      await ref.put(file);
+      uploadedPhotoUrl = await ref.getDownloadURL();
+      alert("Photo uploaded!");
+    }
+  };
 
-    // 4. --- FILE/VOICE HANDLERS ---
-    let photoURL = "";
-    document.getElementById('addPhotoBtn').onclick = () => document.getElementById('photoInput').click();
-    document.getElementById('photoInput').onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      document.getElementById('addPhotoBtn').innerText = "Uploading...";
-      const user = auth.currentUser;
-      const fileRef = storage.ref(`proposals/photos/${user.uid}-${Date.now()}-${file.name}`);
-      await fileRef.put(file);
-      photoURL = await fileRef.getDownloadURL();
-      document.getElementById('addPhotoBtn').innerText = "Photo Added ✔️";
-    };
-
-    // (Optional) -- Voice, Music, etc, can be added similarly --
-
-    // 5. --- SAVE PROPOSAL TO FIREBASE ---
-    document.getElementById('proposalForm').onsubmit = async function(e){
-      e.preventDefault();
-      const user = auth.currentUser;
-      if (!user) return alert("Please log in again!");
-      const receiver = document.getElementById('receiver').value.trim();
-      const message = document.getElementById('message').value.trim();
-      if (!receiver || !message) return alert("Please fill out all required fields!");
-
-      const selectedTheme = document.body.getAttribute('data-theme') || "twilight";
-      const isPrivate = document.getElementById('privateSwitch').checked;
-      const isScheduled = document.getElementById('scheduleSwitch').checked;
-
-      // Prepare proposal data
-      const data = {
-        uid: user.uid,
-        receiver,
-        message,
-        emoji: selectedEmoji,
-        theme: selectedTheme,
-        photo: photoURL || "",
-        private: isPrivate,
-        scheduled: isScheduled,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      // Save to Firestore
-      try {
-        await db.collection("proposals").add(data);
-        alert("Proposal Saved! Preview or share it anytime.");
-        window.location = "preview.html";
-      } catch (err) {
-        alert("Error saving proposal: " + err.message);
+  // 4. RECORD VOICE
+  let recordedBlob = null;
+  let mediaRecorder, chunks = [];
+  const recordBtn = document.getElementById('recordVoiceBtn');
+  let isRecording = false;
+  recordBtn.onclick = async () => {
+    if (!isRecording) {
+      // Start recording
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        chunks = [];
+        mediaRecorder.ondataavailable = function(e) { chunks.push(e.data); };
+        mediaRecorder.onstop = function() {
+          recordedBlob = new Blob(chunks, { 'type': 'audio/webm; codecs=opus' });
+          alert('Voice message recorded!');
+        };
+        mediaRecorder.start();
+        isRecording = true;
+        recordBtn.textContent = 'Stop Recording';
       }
-    };
+    } else {
+      // Stop recording
+      mediaRecorder.stop();
+      isRecording = false;
+      recordBtn.textContent = 'Record Voice';
+    }
+  };
 
-    // 6. --- SAVE DRAFT BUTTON ---
-    document.getElementById('saveDraftBtn').onclick = async function(){
-      const user = auth.currentUser;
-      if (!user) return alert("Please log in again!");
-      const receiver = document.getElementById('receiver').value.trim();
-      const message = document.getElementById('message').value.trim();
-      if (!receiver || !message) return alert("Please fill out all required fields!");
+  // 5. PICK MUSIC (DEMO ONLY)
+  document.getElementById('pickMusicBtn').onclick = () => {
+    alert("Music picker is a premium feature! (Demo only)");
+  };
 
-      const selectedTheme = document.body.getAttribute('data-theme') || "twilight";
-      const isPrivate = document.getElementById('privateSwitch').checked;
-      const isScheduled = document.getElementById('scheduleSwitch').checked;
+  // 6. SAVE DRAFT BUTTON
+  document.getElementById('saveDraftBtn').onclick = async () => {
+    const receiver = document.getElementById('receiverInput').value.trim();
+    const message = document.getElementById('messageInput').value.trim();
+    const isPrivate = document.getElementById('privateToggle').checked;
+    const isScheduled = document.getElementById('scheduleToggle').checked;
+    if (!receiver || !message) { alert("Please fill all fields."); return; }
 
-      const data = {
-        uid: user.uid,
-        receiver,
-        message,
-        emoji: selectedEmoji,
-        theme: selectedTheme,
-        photo: photoURL || "",
-        private: isPrivate,
-        scheduled: isScheduled,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        draft: true
-      };
-
-      try {
-        await db.collection("proposals").add(data);
-        alert("Draft Saved!");
-      } catch (err) {
-        alert("Error saving draft: " + err.message);
-      }
-    };
-
-    // --- AUTH GUARD (protect page) ---
-    auth.onAuthStateChanged(user => {
-      if (!user) window.location = "login.html";
+    let voiceUrl = '';
+    if (recordedBlob) {
+      // Upload voice to Firebase Storage
+      const uid = (auth.currentUser ? auth.currentUser.uid : Date.now());
+      const voiceRef = storage.ref('proposals/' + uid + '/voice.webm');
+      await voiceRef.put(recordedBlob);
+      voiceUrl = await voiceRef.getDownloadURL();
+    }
+    // Save to Firestore
+    const uid = (auth.currentUser ? auth.currentUser.uid : "guest_" + Date.now());
+    await db.collection('proposals').add({
+      sender: uid,
+      receiver,
+      message,
+      emoji: chosenIcon,
+      photo: uploadedPhotoUrl,
+      voice: voiceUrl,
+      private: isPrivate,
+      scheduled: isScheduled,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+    alert("Draft saved!");
+  };
 
-    // --- Default set Twilight as selected ---
-    document.body.setAttribute('data-theme', 'twilight');
-    document.body.style.background = bgMap['twilight'];
-  </script>
+  // 7. PREVIEW BUTTON
+  document.getElementById('previewBtn').onclick = () => {
+    alert('Preview coming soon!');
+  };
+
+  // 8. Auth (Optional: only if you want to restrict sending to logged-in users)
+  // auth.onAuthStateChanged(user => {
+  //   if (!user) location.href = 'login.html';
+  // });
+
+</script>
 </body>
 </html>
