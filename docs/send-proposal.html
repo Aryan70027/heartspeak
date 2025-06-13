@@ -1,268 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Send Proposal – HeartSpeak</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at bottom right, #5b1b47 0%, #322c63 60%, #e97b6c 120%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-attachment: fixed;
-      transition: background 0.5s;
-    }
-    #mainContent {
-      display: none;
-      width: 98vw;
-      max-width: 410px;
-      background: rgba(24, 16, 43, 0.97);
-      border-radius: 2.3rem;
-      box-shadow: 0 8px 36px 0 #2a133a70;
-      padding: 2.2rem 1.4rem 2rem 1.4rem;
-      margin: 24px auto;
-      box-sizing: border-box;
-      position: relative;
-    }
-    .title {
-      font-size: 2rem;
-      color: #fff3;
-      font-weight: 700;
-      text-align: center;
-      letter-spacing: .06em;
-      margin-bottom: 1.2rem;
-      background: linear-gradient(90deg,#ffe3b1 10%,#ffe9b8 40%,#ffe6bc 60%,#fff6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
-    .btn {
-      background: linear-gradient(90deg,#b96fc8 0,#fc7d7b 80%);
-      color: #fff;
-      border: none;
-      border-radius: 1.2em;
-      padding: 0.85em 2em;
-      font-size: 1.14em;
-      font-weight: 600;
-      box-shadow: 0 1px 8px #fc7d7b30;
-      cursor: pointer;
-      margin-top: 0.9em;
-      display: block;
-      width: 100%;
-      transition: 0.2s;
-    }
-    .btn:active { opacity: 0.8; }
-    #voicePreview {
-      margin-top: 1rem;
-      text-align: center;
-    }
-    #voicePreview audio {
-      width: 100%;
-      margin-top: 0.5rem;
-      outline: none;
-      border-radius: 8px;
-      background: #fff4;
-    }
-    #voicePreview .delete-btn {
-      background: #af2b3f;
-      color: #fff;
-      border: none;
-      padding: 0.32em 1em;
-      border-radius: 8px;
-      margin-top: 0.6em;
-      cursor: pointer;
-      font-size: 1em;
-      margin-left: 8px;
-    }
-    .icon-row {
-      display: flex;
-      justify-content: center;
-      gap: 1.3rem;
-      margin-bottom: 1.1rem;
-    }
-    .icon-choose {
-      background: #211e35;
-      border: 2.5px solid #a977fd90;
-      border-radius: 1.1em;
-      padding: 0.82em 1.5em;
-      font-size: 2em;
-      color: #ffe3c8;
-      cursor: pointer;
-      box-shadow: 0 2px 10px #2c133040;
-      transition: border 0.22s, background 0.22s;
-    }
-    .icon-choose.selected {
-      border: 3.5px solid #ffe8a3;
-      background: #ffe3c870;
-      color: #d58fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Send Proposal | HeartSpeak</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: radial-gradient(ellipse at 70% 10%, #38295f 0%, #e44c7e 80%);
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0; padding: 0; min-height: 100vh;
+        }
+        .container {
+            max-width: 410px;
+            margin: 38px auto;
+            padding: 32px 20px;
+            background: #fff;
+            border-radius: 26px;
+            box-shadow: 0 12px 32px #e68fda22, 0 2px 10px #a07bfa16;
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 2.1em;
+            color: #d2378b;
+            margin-bottom: 22px;
+        }
+        .icon-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.1rem;
+            margin-bottom: 1.3rem;
+        }
+        .icon-choose {
+            background: #f5e5f4;
+            border: 2.5px solid #d2378b44;
+            border-radius: 1em;
+            padding: 0.7em 1.2em;
+            font-size: 2em;
+            color: #d2378b;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #e44c7e20;
+            transition: border 0.22s, background 0.22s;
+        }
+        .icon-choose.selected {
+            border: 3.5px solid #ffb16d;
+            background: #ffe3c870;
+            color: #bc4bb6;
+        }
+        .input-group { margin-bottom: 18px; text-align: left; }
+        label { display: block; font-weight: 500; margin-bottom: 7px; color: #555;}
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 9px 12px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 6px;
+            box-sizing: border-box;
+        }
+        textarea { min-height: 65px; resize: vertical; }
+        #recordVoiceBtn.recording {
+            background: #b32e73 !important;
+            color: #fff;
+        }
+        #audioPlayer { margin-top: 10px;}
+        #sendBtn {
+            background: linear-gradient(90deg, #e979c7, #95c8ff);
+            color: white;
+            font-size: 1.15em;
+            padding: 12px 0;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+            transition: background 0.2s;
+        }
+        #sendBtn:hover {
+            background: linear-gradient(90deg, #c678b4, #6fa8dc);
+        }
+        #voicePreview .delete-btn {
+            background: #af2b3f;
+            color: #fff;
+            border: none;
+            padding: 0.28em 1em;
+            border-radius: 8px;
+            margin-top: 0.6em;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 8px;
+        }
+    </style>
 </head>
 <body>
-  <div id="mainContent">
-    <div class="title">Send Proposal</div>
-    <div class="icon-row">
-      <div class="icon-choose selected" data-value="💍">💍</div>
-      <div class="icon-choose" data-value="🌹">🌹</div>
-      <div class="icon-choose" data-value="❤️">❤️</div>
-      <div class="icon-choose" data-value="🦋">🦋</div>
+    <div id="mainContent" style="display:none;">
+        <div class="container">
+            <img src="img/logo.png" style="width:54px; border-radius:15px; margin-bottom:10px;" alt="HeartSpeak Logo">
+            <h1>Send Proposal</h1>
+            <div class="icon-row">
+                <div class="icon-choose selected" data-value="💍">💍</div>
+                <div class="icon-choose" data-value="🌹">🌹</div>
+                <div class="icon-choose" data-value="❤️">❤️</div>
+                <div class="icon-choose" data-value="🦋">🦋</div>
+            </div>
+            <form id="proposalForm">
+                <div class="input-group">
+                    <label for="receiver">To (Receiver's Name or Username)</label>
+                    <input type="text" id="receiver" required>
+                </div>
+                <div class="input-group">
+                    <label for="message">Proposal Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Record a Voice Message</label>
+                    <button id="recordVoiceBtn" type="button">🎤 Record Voice</button>
+                    <div id="voicePreview"></div>
+                </div>
+                <button type="button" id="sendBtn">Send Proposal</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-      <input type="text" id="receiver" placeholder="To (Receiver's name or username)" style="width:100%;padding:0.9em;border-radius:0.8em;border:none;margin-bottom:0.8em;font-size:1em;">
-      <textarea id="message" rows="3" placeholder="Your message..." style="width:100%;padding:0.9em;border-radius:0.8em;border:none;font-size:1em;"></textarea>
-    </div>
-    <button class="btn" id="recordVoiceBtn">🎤 Record Voice</button>
-    <div id="voicePreview"></div>
-    <button class="btn" id="sendBtn">Send Proposal</button>
-  </div>
-  <!-- Firebase SDKs (version 9.23.0) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-<script>
-  // --- 1. INIT FIREBASE ---
-  const firebaseConfig = {
-    apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbb31gfBcwXzseGU",
-    authDomain: "heartspeak-bf703.firebaseapp.com",
-    projectId: "heartspeak-bf703",
-    storageBucket: "heartspeak-bf703.firebasestorage.app",
-    messagingSenderId: "341260618790",
-    appId: "1:341260618790:web:f60853b6c144fb815aaa e7",
-    measurementId: "G-RGVFVSSPMG"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+    <!-- Firebase scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script>
+        // Your Firebase config (keep as is!)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbbw31gFbcwXzseGU",
+            authDomain: "heartspeak-bf703.firebaseapp.com",
+            projectId: "heartspeak-bf703",
+            storageBucket: "heartspeak-bf703.firebasestorage.app",
+            messagingSenderId: "341260618790",
+            appId: "1:341260618790:web:f60536bac144fb815aaae7",
+            measurementId: "G-RGVFVSSPMG"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
-  // --- 2. LOGIN RULE: Must be logged in! ---
-  auth.onAuthStateChanged(function(user) {
-    if (!user) {
-      window.location.href = "login.html";
-      return;
-    }
-    document.getElementById('mainContent').style.display = "block";
-  });
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            document.getElementById('mainContent').style.display = "block";
 
-  // --- 3. EMOJI/RING PICKER LOGIC ---
-  let chosenIcon = "💍";
-  document.querySelectorAll('.icon-choose').forEach((el) => {
-    el.onclick = () => {
-      document.querySelectorAll('.icon-choose').forEach(e => e.classList.remove('selected'));
-      el.classList.add('selected');
-      chosenIcon = el.getAttribute('data-value');
-    }
-  });
+            // Emoji/ring selector logic
+            let chosenIcon = "💍";
+            document.querySelectorAll('.icon-choose').forEach(btn => {
+                btn.onclick = function() {
+                    document.querySelectorAll('.icon-choose').forEach(e => e.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    chosenIcon = btn.getAttribute('data-value');
+                };
+            });
 
-  // --- 4. VOICE RECORDING (with preview) ---
-  let recordedBlob = null;
-  let mediaRecorder = null;
-  let audioChunks = [];
-  const recordBtn = document.getElementById('recordVoiceBtn');
-  const voicePreview = document.getElementById('voicePreview');
+            // Voice recording logic
+            let recorder, audioStream, audioChunks = [];
+            let isRecording = false;
+            let recordedAudioBlob = null;
+            const recordBtn = document.getElementById('recordVoiceBtn');
+            const voicePreview = document.getElementById('voicePreview');
 
-  recordBtn.onclick = async function() {
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-      // Already recording, stop!
-      mediaRecorder.stop();
-      recordBtn.textContent = "🎤 Record Voice";
-      return;
-    }
+            recordBtn.onclick = async function() {
+                if (!isRecording) {
+                    if (navigator.mediaDevices && window.MediaRecorder) {
+                        audioStream = await navigator.mediaDevices.getUserMedia({audio: true});
+                        recorder = new MediaRecorder(audioStream);
+                        audioChunks = [];
+                        recorder.ondataavailable = e => audioChunks.push(e.data);
+                        recorder.onstop = e => {
+                            recordedAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                            showVoicePreview(recordedAudioBlob);
+                            recordBtn.textContent = "Record Again";
+                            recordBtn.classList.remove("recording");
+                            isRecording = false;
+                            audioStream.getTracks().forEach(track => track.stop());
+                        };
+                        recorder.start();
+                        recordBtn.textContent = "Stop Recording";
+                        recordBtn.classList.add("recording");
+                        isRecording = true;
+                    } else {
+                        alert('Voice recording not supported!');
+                    }
+                } else {
+                    recorder.stop();
+                }
+            };
 
-    // Start recording
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      alert("Microphone not supported.");
-      return;
-    }
+            function showVoicePreview(blob) {
+                voicePreview.innerHTML = "";
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    voicePreview.innerHTML = `
+                        <audio controls src="${url}" style="width:100%;margin-top:0.5em;"></audio>
+                        <button class="delete-btn" type="button" id="deleteVoiceBtn">Delete</button>
+                    `;
+                    document.getElementById('deleteVoiceBtn').onclick = () => {
+                        recordedAudioBlob = null;
+                        voicePreview.innerHTML = "";
+                        recordBtn.textContent = "🎤 Record Voice";
+                    };
+                }
+            }
 
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioChunks = [];
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
-
-      mediaRecorder.onstop = () => {
-        recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
-        showVoicePreview(recordedBlob);
-      };
-
-      mediaRecorder.start();
-      recordBtn.textContent = "■ Stop Recording";
-    } catch (e) {
-      alert("Could not access microphone!");
-    }
-  };
-
-  function showVoicePreview(blob) {
-    voicePreview.innerHTML = "";
-    if (blob) {
-      const url = URL.createObjectURL(blob);
-      voicePreview.innerHTML = `
-        <audio controls src="${url}"></audio>
-        <button class="delete-btn" onclick="removeVoice()">Delete</button>
-      `;
-      window.removeVoice = function() {
-        recordedBlob = null;
-        voicePreview.innerHTML = "";
-      }
-    }
-  }
-
-  // --- 5. SUBMIT ("Send Proposal" button) ---
-  document.getElementById('sendBtn').onclick = async function() {
-    const user = auth.currentUser;
-    if (!user) { alert("Please login again."); return; }
-    const receiver = document.getElementById('receiver').value.trim();
-    const message = document.getElementById('message').value.trim();
-
-    if (!receiver || !message) {
-      alert("Please enter both receiver and message!");
-      return;
-    }
-
-    // Step 1: Save proposal data
-    let proposalData = {
-      fromUID: user.uid,
-      to: receiver,
-      message: message,
-      icon: chosenIcon,
-      timestamp: Date.now()
-    };
-
-    // Step 2: If voice recorded, upload to Storage
-    if (recordedBlob) {
-      try {
-        const storageRef = storage.ref().child(`proposals/${user.uid}/${Date.now()}.webm`);
-        const snapshot = await storageRef.put(recordedBlob);
-        proposalData.voiceURL = await snapshot.ref.getDownloadURL();
-      } catch (err) {
-        alert("Failed to upload voice message!");
-        return;
-      }
-    }
-
-    // Step 3: Save proposal in Firestore
-    try {
-      await db.collection("proposals").add(proposalData);
-      alert("Proposal sent!");
-      document.getElementById('receiver').value = '';
-      document.getElementById('message').value = '';
-      voicePreview.innerHTML = '';
-      recordedBlob = null;
-    } catch (err) {
-      alert("Failed to save proposal. Try again.");
-    }
-  };
-</script>
+            // Send Proposal logic
+            document.getElementById('sendBtn').onclick = async function(e) {
+                e.preventDefault();
+                const receiver = document.getElementById('receiver').value.trim();
+                const message = document.getElementById('message').value.trim();
+                if (!receiver || !message) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+                let voiceURL = "";
+                if (recordedAudioBlob) {
+                    const audioRef = storage.ref().child(`cards/${user.uid}/proposal_voice_${Date.now()}.webm`);
+                    await audioRef.put(recordedAudioBlob);
+                    voiceURL = await audioRef.getDownloadURL();
+                }
+                await db.collection("proposals").add({
+                    uid: user.uid,
+                    receiver,
+                    message,
+                    emoji: chosenIcon,
+                    voiceURL,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Proposal sent!");
+                document.getElementById('proposalForm').reset();
+                voicePreview.innerHTML = "";
+                recordedAudioBlob = null;
+                recordBtn.textContent = "🎤 Record Voice";
+            };
+        });
+    </script>
 </body>
 </html>
