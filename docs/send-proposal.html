@@ -267,6 +267,16 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
   const storage = firebase.storage();
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+  // Main page logic here
+  document.getElementById('mainContent').style.display = "block";
+  });
+
+
 
   // 2. ICON/EMOJI PICKER
   let chosenIcon = "💍";
