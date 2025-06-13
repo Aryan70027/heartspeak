@@ -1,284 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Send Proposal - HeartSpeak</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Icons (ring) -->
-  <link rel="icon" href="img/logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Send Proposal – HeartSpeak</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(ellipse at 60% 20%, #31294f 0%, #652d62 60%, #e34d7b 100%);
+      background: radial-gradient(ellipse at bottom right, #5b1b47 0%, #322c63 60%, #e97b6c 120%);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      color: #fff;
+      justify-content: center;
+      background-attachment: fixed;
+      transition: background 0.5s;
     }
-    .proposal-container {
-      margin: 32px 0;
-      background: rgba(34, 25, 56, 0.98);
-      border-radius: 2.2rem;
-      padding: 2.4rem 1.1rem 2rem 1.1rem;
-      box-shadow: 0 0 32px #8a327be6, 0 4px 24px #b250c366;
-      width: 95vw;
-      max-width: 430px;
-      min-width: 270px;
+    #mainContent {
+      display: none;
+      width: 98vw;
+      max-width: 410px;
+      background: rgba(24, 16, 43, 0.97);
+      border-radius: 2.3rem;
+      box-shadow: 0 8px 36px 0 #2a133a70;
+      padding: 2.2rem 1.4rem 2rem 1.4rem;
+      margin: 24px auto;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .title {
+      font-size: 2rem;
+      color: #fff3;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: .06em;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(90deg,#ffe3b1 10%,#ffe9b8 40%,#ffe6bc 60%,#fff6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .btn {
+      background: linear-gradient(90deg,#b96fc8 0,#fc7d7b 80%);
+      color: #fff;
+      border: none;
+      border-radius: 1.2em;
+      padding: 0.85em 2em;
+      font-size: 1.14em;
+      font-weight: 600;
+      box-shadow: 0 1px 8px #fc7d7b30;
+      cursor: pointer;
+      margin-top: 0.9em;
+      display: block;
+      width: 100%;
+      transition: 0.2s;
+    }
+    .btn:active { opacity: 0.8; }
+    #voicePreview {
+      margin-top: 1rem;
       text-align: center;
     }
-    h1 {
-      font-family: 'Poppins', sans-serif;
-      margin-bottom: 2rem;
-      letter-spacing: .03em;
-      font-size: 2.2rem;
-      font-weight: 700;
+    #voicePreview audio {
+      width: 100%;
+      margin-top: 0.5rem;
+      outline: none;
+      border-radius: 8px;
+      background: #fff4;
     }
-    /* THEME SELECTION */
-    .theme-row {
-      display: flex;
-      justify-content: center;
-      gap: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-    .theme-btn {
-      padding: 0.65rem 1.2rem;
+    #voicePreview .delete-btn {
+      background: #af2b3f;
+      color: #fff;
       border: none;
-      border-radius: 1.4rem;
-      font-weight: 500;
-      background: #2e1f3c;
-      color: #fff;
-      font-size: 1rem;
-      opacity: 0.5;
+      padding: 0.32em 1em;
+      border-radius: 8px;
+      margin-top: 0.6em;
       cursor: pointer;
-      transition: background 0.25s, opacity 0.2s;
+      font-size: 1em;
+      margin-left: 8px;
     }
-    .theme-btn.active {
-      background: linear-gradient(90deg, #d18fff 0%, #e758b8 70%, #ffb16d 100%);
-      opacity: 1;
-      color: #fff;
-    }
-
-    /* ICON SELECTOR */
     .icon-row {
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 1.1rem;
-      margin-bottom: 2.2rem;
+      gap: 1.3rem;
+      margin-bottom: 1.1rem;
     }
     .icon-choose {
-      width: 90px;
-      height: 90px;
-      background: rgba(60,30,80,0.8);
-      border-radius: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.8rem;
-      border: 2.5px solid transparent;
+      background: #211e35;
+      border: 2.5px solid #a977fd90;
+      border-radius: 1.1em;
+      padding: 0.82em 1.5em;
+      font-size: 2em;
+      color: #ffe3c8;
       cursor: pointer;
-      box-shadow: 0 4px 16px #bc5ba822;
-      transition: border-color 0.19s, background 0.19s;
+      box-shadow: 0 2px 10px #2c133040;
+      transition: border 0.22s, background 0.22s;
     }
     .icon-choose.selected {
-      border-color: #ffe499;
-      background: linear-gradient(145deg, #ffcf7f 0%, #ed6389 100%);
-    }
-    /* FIELDS */
-    .input-row {
-      margin-bottom: 1.3rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-    }
-    .proposal-input, .proposal-msg {
-      background: #fff1;
-      color: #fff;
-      border: none;
-      border-radius: 1.1rem;
-      padding: 1rem 1.3rem;
-      font-size: 1.05rem;
-      font-family: inherit;
-      box-shadow: 0 1px 6px #b250c322;
-      margin-bottom: 0.2rem;
-    }
-    .proposal-msg {
-      min-height: 64px;
-      resize: vertical;
-    }
-    /* ACTION BUTTONS */
-    .action-row {
-      display: flex;
-      justify-content: center;
-      gap: 1.1rem;
-      margin-bottom: 1.1rem;
-      flex-wrap: wrap;
-    }
-    .action-btn {
-      background: linear-gradient(90deg,#b485ff,#ffb16d 90%);
-      color: #fff;
-      border: none;
-      border-radius: 1.4rem;
-      font-weight: 600;
-      font-size: 1.01rem;
-      padding: 0.8rem 1.3rem;
-      margin: 0.2rem 0;
-      cursor: pointer;
-      box-shadow: 0 2px 9px #7d2ea04b;
-      transition: background 0.2s, color 0.18s;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .action-btn i {
-      font-size: 1.1rem;
-    }
-    .action-btn:active {
-      background: linear-gradient(90deg,#ffb16d,#b485ff 90%);
-      color: #fff;
-    }
-    /* Toggle Switch */
-    .switch {
-      display: inline-block;
-      position: relative;
-      width: 44px;
-      height: 25px;
-      margin: 0 12px;
-    }
-    .switch input {display:none;}
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      background: #eee4;
-      border-radius: 25px;
-      top: 0; left: 0; right: 0; bottom: 0;
-      transition: .3s;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 19px; width: 19px;
-      left: 3px; bottom: 3px;
-      background: #ffb16d;
-      border-radius: 50%;
-      transition: .3s;
-    }
-    input:checked + .slider {
-      background: #ffb16d77;
-    }
-    input:checked + .slider:before {
-      transform: translateX(19px);
-      background: #b485ff;
-    }
-    /* Save/Preview Buttons */
-    .footer-btns {
-      display: flex;
-      gap: 1.3rem;
-      margin-top: 2rem;
-      justify-content: center;
-    }
-    .footer-btn {
-      background: linear-gradient(90deg,#6f3fa0,#ffb16d 90%);
-      color: #fff;
-      border: none;
-      border-radius: 1.8rem;
-      font-weight: 700;
-      font-size: 1.09rem;
-      padding: 1.1rem 2.3rem;
-      margin: 0.2rem 0;
-      cursor: pointer;
-      box-shadow: 0 2px 13px #b250c366;
-      transition: background 0.18s, color 0.18s;
-    }
-    .footer-btn:active { color: #ffb16d;}
-    /* Responsive */
-    @media (max-width:600px) {
-      .proposal-container {padding: 1.1rem; margin: 12px 0;}
-      h1 { font-size: 1.3rem;}
-      .footer-btn {font-size: 1rem; padding: 0.7rem 1.2rem;}
-      .icon-choose {width: 68px; height: 68px; font-size: 2.1rem;}
+      border: 3.5px solid #ffe8a3;
+      background: #ffe3c870;
+      color: #d58fff;
     }
   </style>
 </head>
 <body>
-  <div class="proposal-container">
-    <h1>Send Proposal</h1>
-    <!-- Theme selector row, but disabled for now since only Twilight is used -->
-    <div class="theme-row">
-      <button class="theme-btn active">Twilight Radiance</button>
-    </div>
-    <!-- Emoji/Ring picker -->
-    <div class="icon-row" id="ringChoice">
+  <div id="mainContent">
+    <div class="title">Send Proposal</div>
+    <div class="icon-row">
       <div class="icon-choose selected" data-value="💍">💍</div>
       <div class="icon-choose" data-value="🌹">🌹</div>
       <div class="icon-choose" data-value="❤️">❤️</div>
+      <div class="icon-choose" data-value="🦋">🦋</div>
     </div>
-    <div class="input-row">
-      <input class="proposal-input" id="receiverInput" type="text" placeholder="To (Receiver's name or username)">
-      <textarea class="proposal-msg" id="messageInput" placeholder="Type your proposal message…"></textarea>
+    <div class="form-group">
+      <input type="text" id="receiver" placeholder="To (Receiver's name or username)" style="width:100%;padding:0.9em;border-radius:0.8em;border:none;margin-bottom:0.8em;font-size:1em;">
+      <textarea id="message" rows="3" placeholder="Your message..." style="width:100%;padding:0.9em;border-radius:0.8em;border:none;font-size:1em;"></textarea>
     </div>
-    <div class="action-row">
-      <button class="action-btn" id="addPhotoBtn"><i>📸</i> Add Photo</button>
-      <button class="action-btn" id="recordVoiceBtn"><i>🎤</i> Record Voice</button>
-    </div>
-    <div class="action-row">
-      <button class="action-btn" id="pickMusicBtn"><i>🎵</i> Pick Music</button>
-      <label style="display:flex;align-items:center;gap:.2rem;">
-        <span>Private</span>
-        <span class="switch">
-          <input type="checkbox" id="privateToggle" />
-          <span class="slider"></span>
-        </span>
-      </label>
-      <label style="display:flex;align-items:center;gap:.2rem;">
-        <span>Schedule</span>
-        <span class="switch">
-          <input type="checkbox" id="scheduleToggle" />
-          <span class="slider"></span>
-        </span>
-      </label>
-    </div>
-    <div class="footer-btns">
-      <button class="footer-btn" id="saveDraftBtn">Save Draft</button>
-      <button class="footer-btn" id="previewBtn">Preview</button>
-    </div>
-    <input type="file" id="photoInput" style="display:none;" accept="image/*">
+    <button class="btn" id="recordVoiceBtn">🎤 Record Voice</button>
+    <div id="voicePreview"></div>
+    <button class="btn" id="sendBtn">Send Proposal</button>
   </div>
-  <!-- Firebase SDKs (paste your version, matching your project) -->
+  <!-- Firebase SDKs (version 9.23.0) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 <script>
-  // 1. INIT FIREBASE
+  // --- 1. INIT FIREBASE ---
   const firebaseConfig = {
     apiKey: "AIzaSyAZAgVaMTM5BMUMSoNbb31gfBcwXzseGU",
     authDomain: "heartspeak-bf703.firebaseapp.com",
     projectId: "heartspeak-bf703",
     storageBucket: "heartspeak-bf703.firebasestorage.app",
     messagingSenderId: "341260618790",
-    appId: "1:341260618790:web:f60853b6c144fb815aaae7",
+    appId: "1:341260618790:web:f60853b6c144fb815aaa e7",
     measurementId: "G-RGVFVSSPMG"
   };
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
   const storage = firebase.storage();
-  firebase.auth().onAuthStateChanged(function(user) {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-  // Main page logic here
-  document.getElementById('mainContent').style.display = "block";
+
+  // --- 2. LOGIN RULE: Must be logged in! ---
+  auth.onAuthStateChanged(function(user) {
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+    document.getElementById('mainContent').style.display = "block";
   });
 
-
-
-  // 2. ICON/EMOJI PICKER
+  // --- 3. EMOJI/RING PICKER LOGIC ---
   let chosenIcon = "💍";
   document.querySelectorAll('.icon-choose').forEach((el) => {
     el.onclick = () => {
@@ -288,99 +164,105 @@
     }
   });
 
-  // 3. ADD PHOTO
-  let uploadedPhotoUrl = '';
-  document.getElementById('addPhotoBtn').onclick = () => {
-    document.getElementById('photoInput').click();
-  };
-  document.getElementById('photoInput').onchange = async function(e) {
-    const file = e.target.files[0];
-    if (file) {
-      // Upload to Firebase Storage
-      const uid = (auth.currentUser ? auth.currentUser.uid : Date.now());
-      const ref = storage.ref('proposals/' + uid + '/' + file.name);
-      await ref.put(file);
-      uploadedPhotoUrl = await ref.getDownloadURL();
-      alert("Photo uploaded!");
-    }
-  };
-
-  // 4. RECORD VOICE
+  // --- 4. VOICE RECORDING (with preview) ---
   let recordedBlob = null;
-  let mediaRecorder, chunks = [];
+  let mediaRecorder = null;
+  let audioChunks = [];
   const recordBtn = document.getElementById('recordVoiceBtn');
-  let isRecording = false;
-  recordBtn.onclick = async () => {
-    if (!isRecording) {
-      // Start recording
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        chunks = [];
-        mediaRecorder.ondataavailable = function(e) { chunks.push(e.data); };
-        mediaRecorder.onstop = function() {
-          recordedBlob = new Blob(chunks, { 'type': 'audio/webm; codecs=opus' });
-          alert('Voice message recorded!');
-        };
-        mediaRecorder.start();
-        isRecording = true;
-        recordBtn.textContent = 'Stop Recording';
-      }
-    } else {
-      // Stop recording
+  const voicePreview = document.getElementById('voicePreview');
+
+  recordBtn.onclick = async function() {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      // Already recording, stop!
       mediaRecorder.stop();
-      isRecording = false;
-      recordBtn.textContent = 'Record Voice';
+      recordBtn.textContent = "🎤 Record Voice";
+      return;
+    }
+
+    // Start recording
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Microphone not supported.");
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = () => {
+        recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        showVoicePreview(recordedBlob);
+      };
+
+      mediaRecorder.start();
+      recordBtn.textContent = "■ Stop Recording";
+    } catch (e) {
+      alert("Could not access microphone!");
     }
   };
 
-  // 5. PICK MUSIC (DEMO ONLY)
-  document.getElementById('pickMusicBtn').onclick = () => {
-    alert("Music picker is a premium feature! (Demo only)");
-  };
+  function showVoicePreview(blob) {
+    voicePreview.innerHTML = "";
+    if (blob) {
+      const url = URL.createObjectURL(blob);
+      voicePreview.innerHTML = `
+        <audio controls src="${url}"></audio>
+        <button class="delete-btn" onclick="removeVoice()">Delete</button>
+      `;
+      window.removeVoice = function() {
+        recordedBlob = null;
+        voicePreview.innerHTML = "";
+      }
+    }
+  }
 
-  // 6. SAVE DRAFT BUTTON
-  document.getElementById('saveDraftBtn').onclick = async () => {
-    const receiver = document.getElementById('receiverInput').value.trim();
-    const message = document.getElementById('messageInput').value.trim();
-    const isPrivate = document.getElementById('privateToggle').checked;
-    const isScheduled = document.getElementById('scheduleToggle').checked;
-    if (!receiver || !message) { alert("Please fill all fields."); return; }
+  // --- 5. SUBMIT ("Send Proposal" button) ---
+  document.getElementById('sendBtn').onclick = async function() {
+    const user = auth.currentUser;
+    if (!user) { alert("Please login again."); return; }
+    const receiver = document.getElementById('receiver').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-    let voiceUrl = '';
+    if (!receiver || !message) {
+      alert("Please enter both receiver and message!");
+      return;
+    }
+
+    // Step 1: Save proposal data
+    let proposalData = {
+      fromUID: user.uid,
+      to: receiver,
+      message: message,
+      icon: chosenIcon,
+      timestamp: Date.now()
+    };
+
+    // Step 2: If voice recorded, upload to Storage
     if (recordedBlob) {
-      // Upload voice to Firebase Storage
-      const uid = (auth.currentUser ? auth.currentUser.uid : Date.now());
-      const voiceRef = storage.ref('proposals/' + uid + '/voice.webm');
-      await voiceRef.put(recordedBlob);
-      voiceUrl = await voiceRef.getDownloadURL();
+      try {
+        const storageRef = storage.ref().child(`proposals/${user.uid}/${Date.now()}.webm`);
+        const snapshot = await storageRef.put(recordedBlob);
+        proposalData.voiceURL = await snapshot.ref.getDownloadURL();
+      } catch (err) {
+        alert("Failed to upload voice message!");
+        return;
+      }
     }
-    // Save to Firestore
-    const uid = (auth.currentUser ? auth.currentUser.uid : "guest_" + Date.now());
-    await db.collection('proposals').add({
-      sender: uid,
-      receiver,
-      message,
-      emoji: chosenIcon,
-      photo: uploadedPhotoUrl,
-      voice: voiceUrl,
-      private: isPrivate,
-      scheduled: isScheduled,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    alert("Draft saved!");
+
+    // Step 3: Save proposal in Firestore
+    try {
+      await db.collection("proposals").add(proposalData);
+      alert("Proposal sent!");
+      document.getElementById('receiver').value = '';
+      document.getElementById('message').value = '';
+      voicePreview.innerHTML = '';
+      recordedBlob = null;
+    } catch (err) {
+      alert("Failed to save proposal. Try again.");
+    }
   };
-
-  // 7. PREVIEW BUTTON
-  document.getElementById('previewBtn').onclick = () => {
-    alert('Preview coming soon!');
-  };
-
-  // 8. Auth (Optional: only if you want to restrict sending to logged-in users)
-  // auth.onAuthStateChanged(user => {
-  //   if (!user) location.href = 'login.html';
-  // });
-
 </script>
 </body>
 </html>
