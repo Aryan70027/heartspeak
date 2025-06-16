@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Surprise! 🎂</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* RESET & BASE */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh; background: linear-gradient(135deg, #fbeaff, #ffe0f1, #e0ffe6);
+      font-family: 'Comic Sans MS', 'Poppins', cursive, sans-serif;
+      color: #711b47;
+      overflow: hidden;
+    }
+    .center {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; text-align: center; position: relative; z-index: 1;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      0% {opacity:0;transform:scale(0.95);}
+      100% {opacity:1;transform:scale(1);}
+    }
+    .hidden { display: none; }
+    .main-btn {
+      background: linear-gradient(90deg,#ff7eb3,#ff758c,#42e695); color: #fff;
+      padding: 16px 40px; border-radius: 30px; border: none; margin-top: 32px; 
+      font-size: 1.2rem; box-shadow: 0 2px 24px #ffb5ec99;
+      cursor: pointer; transition: .2s; font-weight: bold;
+      outline: none;
+    }
+    .main-btn:hover { transform: scale(1.05);}
+    .birthday-cake {
+      width: 170px; margin: 24px auto; display: block;
+      animation: popCake 1s;
+    }
+    @keyframes popCake {
+      0% { transform: scale(0.7) translateY(60px); opacity: 0;}
+      100% { transform: scale(1) translateY(0); opacity: 1;}
+    }
+    .giftbox {
+      width: 150px; margin: 32px auto; display: block;
+      cursor: pointer; transition: .2s;
+      animation: popGift 1s;
+    }
+    .giftbox:hover { transform: scale(1.08) rotate(-3deg);}
+    @keyframes popGift {
+      0% { transform: scale(0.5) rotate(-10deg); opacity: 0;}
+      100% { transform: scale(1) rotate(0deg); opacity: 1;}
+    }
+    .confetti {
+      position: absolute; width: 100vw; height: 100vh; pointer-events: none; z-index: 10;
+      left: 0; top: 0;
+    }
+    .photo-frame {
+      background: #fff8fd; border-radius: 18px; box-shadow: 0 0 24px #ffdefc66;
+      padding: 16px 16px 10px; margin: 20px auto 14px; display: inline-block;
+      border: 2.5px solid #ffb5ec;
+      position: relative;
+      animation: fadeIn 1s;
+    }
+    .photo-frame img {
+      max-width: 170px; border-radius: 12px;
+      box-shadow: 0 2px 12px #ffd9fa80;
+      display: block; margin: 0 auto 6px;
+    }
+    .caption {
+      font-size: 1.1rem; color: #d857a5; margin-top: 7px;
+    }
+    /* Floating decorations */
+    .emoji-float {
+      position: absolute; font-size: 2rem; animation: floaty 3s infinite alternate;
+      pointer-events: none;
+    }
+    .emoji1 { top: 12%; left: 10%; animation-delay: .3s;}
+    .emoji2 { top: 8%; right: 11%; animation-delay: 1s;}
+    .emoji3 { bottom: 9%; left: 13%; animation-delay: .9s;}
+    .emoji4 { bottom: 13%; right: 16%; animation-delay: 1.5s;}
+    @keyframes floaty {
+      0% {transform: translateY(0);}
+      100% {transform: translateY(-16px);}
+    }
+    /* For reply box */
+    .reply-box {
+      background: #fff7fc; border-radius: 20px; box-shadow: 0 0 20px #ffb5ec33;
+      padding: 18px 16px; margin: 22px auto 0; width: 90%; max-width: 370px; text-align: left;
+    }
+    .reply-box input, .reply-box textarea {
+      border: none; outline: none; width: 100%; font-size: 1rem; margin-top: 9px;
+      border-radius: 9px; padding: 8px 10px; background: #f7f7fa; color: #a0406e;
+      box-shadow: 0 1px 4px #efc4e440;
+      margin-bottom: 11px;
+    }
+    .reply-box button {
+      background: linear-gradient(90deg,#d557ff,#ff758c,#42e695);
+      color: #fff; font-weight: bold; border: none;
+      border-radius: 30px; padding: 10px 32px; font-size: 1rem;
+      box-shadow: 0 2px 16px #ffb5ec55; cursor: pointer;
+      margin-top: 10px;
+    }
+    .small-text { font-size: 0.92em; color: #b36e93;}
+  </style>
+</head>
+<body>
+  <!-- Level Containers -->
+  <div id="level1" class="center">
+    <!-- Floating emojis -->
+    <span class="emoji-float emoji1">🎈</span>
+    <span class="emoji-float emoji2">🩷</span>
+    <span class="emoji-float emoji3">🎉</span>
+    <span class="emoji-float emoji4">💚</span>
+    <img src="https://cdn.pixabay.com/photo/2017/01/31/13/14/birthday-2021587_1280.png" alt="Cake" class="birthday-cake">
+    <h1>It’s your special day!</h1>
+    <p class="small-text" style="margin-top:14px;">Wishing you a magical birthday full of surprises.</p>
+    <button class="main-btn" onclick="nextLevel(2)">Open Your Surprise</button>
+  </div>
+  <div id="level2" class="center hidden">
+    <canvas class="confetti"></canvas>
+    <img src="https://cdn-icons-png.flaticon.com/512/3532/3532699.png" alt="Gift" class="giftbox" id="giftbox" onclick="openGift()">
+    <h2 id="gift-text">Tap the gift to open!</h2>
+  </div>
+  <div id="level3" class="center hidden">
+    <img src="https://cdn.pixabay.com/photo/2017/01/31/13/14/birthday-2021587_1280.png" alt="Cake" class="birthday-cake">
+    <h2>🎂 Happy Birthday! 🎂</h2>
+    <p id="mainMsg" style="margin-top:20px;">Happy Birthday to an amazing soul! Wishing you laughter, love, and all your dreams coming true.</p>
+    <button class="main-btn" onclick="nextLevel(4)">See a Memory</button>
+  </div>
+  <div id="level4" class="center hidden">
+    <div class="photo-frame">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=400&q=80" alt="Memory Photo" id="memoryImg">
+      <div class="caption" id="memoryCaption">Here’s a memory I cherish with you…</div>
+    </div>
+    <button class="main-btn" onclick="nextLevel(5)">Read My Wish</button>
+  </div>
+  <div id="level5" class="center hidden">
+    <h2>🌟 My Special Birthday Wish 🌟</h2>
+    <p id="longMsg" style="margin:18px 0 14px;">
+      I hope your day sparkles as much as you do. Thank you for being in my life.<br>
+      May this year bring endless happiness, beautiful moments, and everything your heart desires. You deserve it all!
+    </p>
+    <button class="main-btn" onclick="nextLevel(6)">Reply & Say Thanks</button>
+  </div>
+  <div id="level6" class="center hidden">
+    <div class="reply-box">
+      <div style="font-weight:600; font-size:1.08em; margin-bottom:6px;">Send a thank you or reply 🎉</div>
+      <input type="text" placeholder="Your Name (optional)">
+      <textarea rows="3" placeholder="Write your message..."></textarea>
+      <input type="file" accept="image/*,audio/*">
+      <button onclick="submitReply()">Send Reply</button>
+      <div id="replySent" style="margin-top:10px;display:none;">🎉 Your reply is sent! <br><span style="font-size:0.98em;color:#be5e92;">Want to create your own card? <a href='#' style="color:#be5e92;text-decoration:underline;">Login here</a></span></div>
+    </div>
+  </div>
+  <!-- Optional: Birthday background music (auto-play on mute) -->
+  <audio id="bdayMusic" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124b3fae60.mp3" loop preload="auto"></audio>
+<script>
+/* JS for Level Logic */
+let currentLevel = 1;
+function nextLevel(n) {
+  document.getElementById('level'+currentLevel).classList.add('hidden');
+  document.getElementById('level'+n).classList.remove('hidden');
+  currentLevel = n;
+  if(n===2) startConfetti();
+  if(n===3) stopConfetti();
+  if(n===6) stopConfetti();
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  // Autoplay music after first user interaction
+  let music = document.getElementById('bdayMusic');
+  document.body.addEventListener('click', function startMusic(){
+    music.volume = 0.35; music.play().catch(()=>{});
+    document.body.removeEventListener('click',startMusic);
+  });
+});
+/* GIFT ANIMATION (Level 2) */
+function openGift(){
+  document.getElementById('giftbox').src='https://cdn-icons-png.flaticon.com/512/4682/4682056.png';
+  document.getElementById('gift-text').innerHTML='Surprise! 🎂';
+  setTimeout(()=>nextLevel(3),1200);
+}
+/* Confetti Canvas (simple) */
+let confettiInt;
+function startConfetti() {
+  let canvas = document.querySelector('.confetti');
+  let ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  let confs = [];
+  for(let i=0;i<70;i++){
+    confs.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height/2,
+      r:Math.random()*7+5,
+      d:Math.random()*10+5,
+      color:["#f08080","#ffe066","#b2f7ef","#c299fc","#fff","#e0ffe6","#ff758c"][Math.floor(Math.random()*7)],
+      tilt:Math.random()*10-5
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confs.forEach(function(c){
+      ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,2*Math.PI);
+      ctx.fillStyle=c.color;ctx.fill();
+    });
+    update();
+  }
+  function update(){
+    confs.forEach(function(c){
+      c.y+=c.d*0.18;
+      c.x+=Math.sin(c.y*0.03)*2;
+      if(c.y>canvas.height+10) c.y=-10;
+    });
+  }
+  confettiInt = setInterval(draw,24);
+}
+function stopConfetti(){ clearInterval(confettiInt); }
+function submitReply(){
+  document.querySelector('#replySent').style.display='block';
+}
+</script>
+</body>
+</html>
