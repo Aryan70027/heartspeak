@@ -303,3 +303,71 @@ function blowCandles() {
   // Animate name/age reveal
   let n = document.getElementById('name-age');
   n.style.display = "block";
+n.style.animation = "fadeIn 1s";
+}
+
+// --- TYPEWRITER LETTER (LEVEL 5) ---
+function showLetter() {
+  let msg = `Dear Friend,\n\nWishing you joy, laughter, and love on your special day.\nMay this year bring you unforgettable moments and endless happiness.\n\nHappy Birthday once again!\n`;
+  let el = document.getElementById('letterScroll');
+  el.innerHTML = "";
+  el.style.display = "block";
+  let i=0;
+  let typing = setInterval(()=>{
+    if(i<msg.length) {
+      el.innerHTML += msg[i]==='\n' ? '<br>' : msg[i];
+      i++;
+    } else {
+      clearInterval(typing);
+      document.getElementById('showReplyBtn').style.display = 'inline-block';
+    }
+  }, 32);
+}
+
+// --- BALLOONS (background) ---
+function drawBalloons() {
+  let canvas = document.getElementById('balloon-bg');
+  if (!canvas.getContext) return;
+  let ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  let balloons = [];
+  for(let i=0;i<12;i++){
+    balloons.push({
+      x:Math.random()*canvas.width,
+      y:canvas.height+Math.random()*100,
+      r:16+Math.random()*8,
+      color:["#ff8ec9","#b2f7ef","#ffe066","#ff758c","#e0ffe6"][Math.floor(Math.random()*5)],
+      s:1+Math.random()*0.4,
+      sp:1.5+Math.random()*0.8
+    });
+  }
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    balloons.forEach(function(b){
+      ctx.beginPath();
+      ctx.ellipse(b.x,b.y,b.r,b.r*1.3,0,0,2*Math.PI);
+      ctx.fillStyle=b.color;ctx.globalAlpha=0.8;ctx.fill();ctx.globalAlpha=1;
+      ctx.beginPath();
+      ctx.moveTo(b.x,b.y+b.r*1.3);
+      ctx.lineTo(b.x,b.y+b.r*1.8);
+      ctx.strokeStyle="#b173a7";ctx.lineWidth=2;ctx.stroke();
+    });
+    update();
+  }
+  function update(){
+    balloons.forEach(function(b){
+      b.y-=b.sp;
+      b.x+=Math.sin(b.y*0.03)*1.4;
+      if(b.y<-70) { b.y=canvas.height+40; b.x=Math.random()*canvas.width;}
+    });
+  }
+  setInterval(draw,30);
+}
+
+// --- REPLY ---
+function submitReply(){
+  document.querySelector('#replySent').style.display='block';
+}
+</script>
+</body>
+</html>
